@@ -1,11 +1,10 @@
 {
-    "id": "obsidian-book-of-mormon",
-    "name": "Book of Mormon Plugin",
+    "id": "lds-scriptures-reference",
+    "name": "LDS Scriptures Reference Plugin",
     "version": "1.0.0",
     "minAppVersion": "0.15.0",
-    "description": "This is a sample plugin for Obsidian. This plugin demonstrates some of the capabilities of the Obsidian API.",
-    "author": "Obsidian",
-    "authorUrl": "https://obsidian.md",
-    "fundingUrl": "https://obsidian.md/pricing",
+    "description": "This is a plugin for inserting refernces to LDS scriptures",
+    "author": "pacokwon",
+    "authorUrl": "https://github.com/pacokwon",
     "isDesktopOnly": false
 }
