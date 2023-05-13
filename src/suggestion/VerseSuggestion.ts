@@ -25,8 +25,7 @@ export class VerseSuggestion {
             `${getScripturesPath(this.lang)}/${this.book}.json`
         );
         const book: Book = JSON.parse(fileContent.toString());
-
-        const chapter = book.chapters[this.chapter];
+        const chapter = book.chapters[this.chapter - 1];
         if (this.verseEnd === null)
             return [chapter.verses[this.verseStart - 1]];
 
