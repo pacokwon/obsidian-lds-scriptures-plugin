@@ -1,0 +1,3 @@
+[submodule "lds-scripture-translations"]
+	path = lds-scripture-translations
+	url = https://github.com/pacokwon/lds-scripture-translations
