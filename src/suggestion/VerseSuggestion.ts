@@ -1,5 +1,6 @@
 import * as fs from "fs/promises";
-import { PLUGIN_BASE_PATH } from "src/metadata";
+import { getScripturesPath } from "src/metadata";
+import { AvailableLanguage } from "src/settings";
 import { Book, Verse } from "src/types";
 
 export class VerseSuggestion {
@@ -9,7 +10,8 @@ export class VerseSuggestion {
         public book: string,
         public chapter: number,
         public verseStart: number,
-        public verseEnd: number | null
+        public verseEnd: number | null,
+        public lang: AvailableLanguage
     ) {}
 
     public getReplacement(): string {
@@ -20,7 +22,7 @@ export class VerseSuggestion {
 
     private async fetchVerses(): Promise<Verse[]> {
         const fileContent = await fs.readFile(
-            `${PLUGIN_BASE_PATH}/scriptures/${this.book}.json`
+            `${getScripturesPath(this.lang)}/${this.book}.json`
         );
         const book: Book = JSON.parse(fileContent.toString());
 

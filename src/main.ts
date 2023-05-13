@@ -1,23 +1,16 @@
 import { Plugin } from "obsidian";
+import { BookOfMormonSettings, DEFAULT_SETTINGS } from "./settings";
 
 import { Suggester } from './suggestion/suggester';
-
-// Remember to rename these classes and interfaces!
-
-interface MyPluginSettings {
-    mySetting: string;
-}
-
-const DEFAULT_SETTINGS: MyPluginSettings = {
-    mySetting: "default",
-};
+import { BookOfMormonSettingTab } from './ui/BookOfMormonSettingTab';
 
 export default class BookOfMormonPlugin extends Plugin {
-    settings: MyPluginSettings;
+    settings: BookOfMormonSettings;
 
     async onload() {
         await this.loadSettings();
 
+        this.addSettingTab(new BookOfMormonSettingTab(this.app, this));
         this.registerEditorSuggest(new Suggester(this));
     }
 

@@ -9,7 +9,7 @@ import {
 import BookOfMormonPlugin from "src/main";
 import { VerseSuggestion } from "./VerseSuggestion";
 import * as fs from "fs/promises";
-import { PLUGIN_BASE_PATH } from "src/metadata";
+import { getScripturesPath } from "src/metadata";
 
 const SHORT_REG = /\^{2}([123])*[A-z ]{3,}\d{1,3}:\d{1,3}(-\d{1,3})*/;
 const FULL_REG = /\^{2}([123]*[A-z ]{3,}) (\d{1,3}):(\d{1,3}(?:-\d{1,3})*)/i;
@@ -44,7 +44,8 @@ export class Suggester extends EditorSuggest<VerseSuggestion> {
     async getSuggestions(
         context: EditorSuggestContext
     ): Promise<VerseSuggestion[]> {
-        const scripturePath = `${PLUGIN_BASE_PATH}/scriptures`;
+        const { language } = this.plugin.settings;
+        const scripturePath = getScripturesPath(language);
         const { query } = context;
 
         const fullMatch = query.match(FULL_REG);
@@ -64,7 +65,7 @@ export class Suggester extends EditorSuggest<VerseSuggestion> {
         if (!candidate)
             return [];
 
-        const suggestion = new VerseSuggestion(book, chapter, start, end);
+        const suggestion = new VerseSuggestion(book, chapter, start, end, language);
         await suggestion.loadVerse();
         return [suggestion];
     }
