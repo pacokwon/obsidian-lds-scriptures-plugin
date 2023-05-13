@@ -5,6 +5,7 @@ import { Book, Verse } from "../types";
 
 export class VerseSuggestion {
     public text: string;
+    public previewText: string;
 
     constructor(
         public book: string,
@@ -16,8 +17,11 @@ export class VerseSuggestion {
 
     public getReplacement(): string {
         const head = `> [!Mormon] ${this.book} ${this.chapter}:`;
-        const range = this.verseEnd === null ? `${this.verseStart}` : `${this.verseStart}-${this.verseEnd}`;
-        return head + range + '\n' + this.text + '\n';
+        const range =
+            this.verseEnd === null
+                ? `${this.verseStart}`
+                : `${this.verseStart}-${this.verseEnd}`;
+        return head + range + "\n" + this.text + "\n";
     }
 
     private async fetchVerses(): Promise<Verse[]> {
@@ -33,19 +37,35 @@ export class VerseSuggestion {
     }
 
     private toText(verses: Verse[]): string {
-        return verses.map(
-            ({ verse_number, scripture_text }) =>
-                `> ${verse_number}. ${scripture_text}`
-        ).join('\n');
+        return (
+            `> <ol start="${verses[0].verse_number}">` +
+            `${verses
+                .map(
+                    ({ scripture_text }) =>
+                        `<li>${scripture_text}</li>`
+                )
+                .join(" ")}` +
+            "</ol>"
+        );
+    }
+
+    private toPreviewText(verses: Verse[]): string {
+        return verses
+            .map(
+                ({ verse_number, scripture_text }) =>
+                    `${verse_number}. ${scripture_text}`
+            )
+            .join("\n");
     }
 
     public async loadVerse(): Promise<void> {
         const verses = await this.fetchVerses();
         this.text = this.toText(verses);
+        this.previewText = this.toPreviewText(verses);
     }
 
     public render(el: HTMLElement): void {
         const outer = el.createDiv({ cls: "obr-suggester-container" });
-        outer.createDiv({ cls: "obr-shortcode" }).setText(this.text);
+        outer.createDiv({ cls: "obr-shortcode" }).setText(this.previewText);
     }
 }
