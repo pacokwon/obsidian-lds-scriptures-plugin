@@ -1,5 +1,5 @@
 import { FileSystemAdapter } from "obsidian";
-import { AvailableLanguage } from "./settings";
+import { AvailableLanguage } from "./lang";
 
 export const PLUGIN_NAME = "lds-scriptures-reference";
 

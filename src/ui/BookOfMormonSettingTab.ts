@@ -1,10 +1,6 @@
 import { App, Notice, PluginSettingTab, Setting } from "obsidian";
 import BookOfMormonPlugin from "../main";
-import {
-    AvailableLanguage,
-    AVAILABLE_LANGUAGES,
-    LANGUAGE_MAPPING,
-} from "../settings";
+import { AVAILABLE_LANGUAGES, LANGUAGE_MAPPING, AvailableLanguage } from "../lang";
 
 export class BookOfMormonSettingTab extends PluginSettingTab {
     constructor(app: App, public plugin: BookOfMormonPlugin) {

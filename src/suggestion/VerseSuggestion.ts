@@ -1,7 +1,7 @@
 import * as fs from "fs/promises";
-import { getScripturesPath } from "src/metadata";
-import { AvailableLanguage } from "src/settings";
-import { Book, Verse } from "src/types";
+import { getScripturesPath } from "../metadata";
+import { AvailableLanguage } from "../lang";
+import { Book, Verse } from "../types";
 
 export class VerseSuggestion {
     public text: string;
