@@ -1,6 +1,6 @@
 {
     "id": "lds-scriptures-reference",
-    "name": "LDS Scriptures Reference Plugin",
+    "name": "LDS Scriptures Reference",
     "version": "1.0.0",
     "minAppVersion": "0.15.0",
     "description": "This is a plugin for inserting refernces to LDS scriptures",
