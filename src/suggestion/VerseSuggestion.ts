@@ -6,6 +6,7 @@ import { Book, Verse } from "../types";
 export class VerseSuggestion {
     public text: string;
     public previewText: string;
+    public verses: Verse[];
 
     constructor(
         public book: string,
@@ -16,12 +17,22 @@ export class VerseSuggestion {
     ) {}
 
     public getReplacement(): string {
-        const head = `> [!Mormon] ${this.book} ${this.chapter}:`;
+        const url = this.getUrl();
+        const headerFront = `${this.book} ${this.chapter}:`;
         const range =
             this.verseEnd === null
                 ? `${this.verseStart}`
                 : `${this.verseStart}-${this.verseEnd}`;
-        return head + range + "\n" + this.text + "\n";
+
+        const head = `> [!Mormon] [${headerFront}${range}](${url})`;
+        return head + "\n" + this.text + "\n";
+    }
+
+    private getUrl(): string {
+        const { volume_title_short, book_title_short, chapter_number } =
+            this.verses[0];
+        const { lang } = this;
+        return `https://www.churchofjesuschrist.org/study/scriptures/${volume_title_short}/${book_title_short}/${chapter_number}?lang=${lang}`;
     }
 
     private async fetchVerses(): Promise<Verse[]> {
@@ -40,10 +51,7 @@ export class VerseSuggestion {
         return (
             `> <ol start="${verses[0].verse_number}">` +
             `${verses
-                .map(
-                    ({ scripture_text }) =>
-                        `<li>${scripture_text}</li>`
-                )
+                .map(({ scripture_text }) => `<li>${scripture_text}</li>`)
                 .join(" ")}` +
             "</ol>"
         );
@@ -60,6 +68,7 @@ export class VerseSuggestion {
 
     public async loadVerse(): Promise<void> {
         const verses = await this.fetchVerses();
+        this.verses = verses;
         this.text = this.toText(verses);
         this.previewText = this.toPreviewText(verses);
     }
