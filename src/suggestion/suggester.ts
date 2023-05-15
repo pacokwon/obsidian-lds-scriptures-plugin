@@ -11,8 +11,8 @@ import { VerseSuggestion } from "./VerseSuggestion";
 import * as fs from "fs/promises";
 import { getScripturesPath } from "src/metadata";
 
-const SHORT_REG = /\^{2}([123])*[A-z ]{3,}\d{1,3}:\d{1,3}(-\d{1,3})*/;
-const FULL_REG = /\^{2}([123]*[A-z ]{3,}) (\d{1,3}):(\d{1,3}(?:-\d{1,3})*)/i;
+const SHORT_REG = /\+([123])*[A-z ]{3,}\d{1,3}:\d{1,3}(-\d{1,3})*/;
+const FULL_REG = /\+([123]*[A-z ]{3,}) (\d{1,3}):(\d{1,3}(?:-\d{1,3})*)/i;
 
 export class Suggester extends EditorSuggest<VerseSuggestion> {
     constructor(public plugin: BookOfMormonPlugin) {
