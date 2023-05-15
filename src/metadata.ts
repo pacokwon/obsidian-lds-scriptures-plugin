@@ -8,5 +8,5 @@ export const OBSIDIAN_BASE_PATH = (app.vault.adapter as FileSystemAdapter).getBa
 export const PLUGIN_BASE_PATH = `${OBSIDIAN_BASE_PATH}/.obsidian/plugins/${PLUGIN_NAME}`;
 
 export function getScripturesPath(lang: AvailableLanguage): string {
-    return `${PLUGIN_BASE_PATH}/lds-scripture-translations/${lang}`;
+    return `${PLUGIN_BASE_PATH}/translations/${lang}`;
 }
