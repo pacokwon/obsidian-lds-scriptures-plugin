@@ -3,7 +3,7 @@
     "name": "LDS Scriptures Reference",
     "version": "1.0.0",
     "minAppVersion": "0.15.0",
-    "description": "This is a plugin for inserting refernces to LDS scriptures",
+    "description": "Easily insert refernces to LDS scriptures",
     "author": "pacokwon",
     "authorUrl": "https://github.com/pacokwon",
     "isDesktopOnly": false

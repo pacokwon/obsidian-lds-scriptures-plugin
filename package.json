@@ -1,7 +1,7 @@
 {
     "name": "lds-scriptures-reference",
     "version": "1.0.0",
-    "description": "This is a plugin for inserting refernces to LDS scriptures",
+    "description": "Easily insert refernces to LDS scriptures",
     "main": "main.js",
     "scripts": {
         "dev": "node esbuild.config.mjs",
