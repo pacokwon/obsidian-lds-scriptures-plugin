@@ -1,9 +1,8 @@
-name: Release Obsidian plugin
+name: LDS Scriptures Reference Plugin
 
 on:
-  push:
-    tags:
-      - "*"
+    release:
+        types: [ created ]
 
 env:
     PLUGIN_NAME: lds-scriptures-reference
