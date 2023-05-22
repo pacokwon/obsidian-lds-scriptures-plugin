@@ -1,6 +1,9 @@
 name: LDS Scriptures Reference Plugin
 
-on: push
+on:
+  push:
+    tags:
+      - '*'
 
 env:
   PLUGIN_NAME: lds-scriptures-reference
