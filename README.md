@@ -8,6 +8,7 @@ Easily insert your favorite scripture verses in Obsidian!
 - [Features](#features)
 - [Quickstart](#quickstart)
 - [Book Names Reference](#book-names-reference)
+- [Local Book Installation](#local-book-installation)
 
 ---
 
@@ -65,3 +66,13 @@ TODO
 # Book Names Reference
 The list of book names, used in this plugin can be referenced on [this page](docs/BOOKS.md)
 
+# Local Book Installation
+Currently, there are no solid options for retrieving verses from LDS scriptures using an API, except the Holy Bible. Therefore this plugin stores scripture data locally. The English translation is 14MB in size, but please note that size may vary between translations.
+
+This plugin utilizes [env-paths](https://github.com/sindresorhus/env-paths) under the hood to resolve the translation data directory. Depending on your platform, the translations will be stored in a different location.
+
+* For Windows: `C:\Users\<USERNAME>\AppData\Roaming\lds-scriptures-reference\Config\translations`
+* For macos: `~/Library/Preferences/lds-scriptures-reference/translations`
+* For linux: `$XDG_CONFIG_HOME/lds-scriptures-reference/translations`
+
+Also note that translations will be automatically installed as you select your language in the plugin preferences tab.

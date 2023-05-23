@@ -9,6 +9,7 @@ export class VerseSuggestion {
     public verses: Verse[];
 
     constructor(
+        public pluginName: string,
         public book: string,
         public chapter: number,
         public verseStart: number,
@@ -41,7 +42,7 @@ export class VerseSuggestion {
 
     private async fetchVerses(): Promise<Verse[]> {
         const fileContent = await fs.readFile(
-            `${getScripturesPath(this.lang)}/${this.book}.json`
+            `${getScripturesPath(this.pluginName, this.lang)}/${this.book}.json`
         );
         const book: Book = JSON.parse(fileContent.toString());
         const chapter = book.chapters[this.chapter - 1];

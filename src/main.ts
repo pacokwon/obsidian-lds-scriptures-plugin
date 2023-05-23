@@ -11,7 +11,7 @@ export default class BookOfMormonPlugin extends Plugin {
     async onload() {
         await this.loadSettings();
 
-        await installTranslation(this.settings.language);
+        await installTranslation(this.manifest.id, this.settings.language);
 
         this.addSettingTab(new BookOfMormonSettingTab(this.app, this));
         this.registerEditorSuggest(new Suggester(this));
@@ -29,6 +29,6 @@ export default class BookOfMormonPlugin extends Plugin {
 
     async saveSettings() {
         await this.saveData(this.settings);
-        await installTranslation(this.settings.language);
+        await installTranslation(this.manifest.id, this.settings.language);
     }
 }
