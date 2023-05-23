@@ -75,4 +75,4 @@ This plugin utilizes [env-paths](https://github.com/sindresorhus/env-paths) unde
 * For macos: `~/Library/Preferences/lds-scriptures-reference/translations`
 * For linux: `$XDG_CONFIG_HOME/lds-scriptures-reference/translations`
 
-Also note that translations will be automatically installed as you select your language in the plugin preferences tab.
+Also note that since there are 100+ official translations of these scriptures, the scriptures data are NOT included in the plugin itself, but lazily installed as you select your language in the plugin preferences tab.
