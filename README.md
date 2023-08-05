@@ -37,14 +37,14 @@ Inserted Callout Example:
 
 ![range-insertion](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/assets/31656049/095bbbf0-ca70-4380-98e4-2988175b6bd4)
 
-
 ## Multiple Language Support
 Currently, the following translations are available:
 
+* `deu` - German,
 * `eng` - English,
-* `spa` - Español,
-* `kor` - 한국어,
 * `jpn` - 日本語,
+* `kor` - 한국어,
+* `spa` - Español,
 
 If you would like to use other translations, please feel free to submit an issue to the [translations repository](https://github.com/pacokwon/lds-scripture-translations/).
 
