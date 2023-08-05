@@ -1,6 +1,6 @@
 {
     "name": "lds-scriptures-reference",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "description": "Easily insert refernces to LDS scriptures",
     "main": "main.js",
     "scripts": {
