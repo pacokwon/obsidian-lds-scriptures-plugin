@@ -9,6 +9,7 @@ Easily insert your favorite scripture verses in Obsidian!
 - [Quickstart](#quickstart)
 - [Book Names Reference](#book-names-reference)
 - [Local Book Installation](#local-book-installation)
+- [Development](#development)
 
 ---
 
@@ -61,7 +62,14 @@ The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-top
 You only need Obsidian installed!
 
 ## Installation
-TODO
+### Community Plugin
+This plugin can be found from the list of community plugins for Obsidian. Open Obsidian's Settings > Community Plugins, and click `Browse` to search this plugin's name and install.
+
+### Manual Installation
+The plugin can also be manually installed by:
+1. Creating a directory called `lds-scriptures-reference` under `.obsidian/plugins` of your vault
+2. From this plugin's [Releases Page](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/releases), download and put `main.js`, `manifest.json`, `styles.css` into `.obsidian/plugins/lds-scriptures-reference`
+3. Reload Obsidian and navigate to the `Community Plugins` tab to see that installation is successful
 
 # Book Names Reference
 The list of book names, used in this plugin can be referenced on [this page](docs/BOOKS.md)
@@ -76,3 +84,23 @@ This plugin utilizes [env-paths](https://github.com/sindresorhus/env-paths) unde
 * For linux: `$XDG_CONFIG_HOME/lds-scriptures-reference/translations`
 
 Also note that since there are 100+ official translations of these scriptures, the scriptures data are NOT included in the plugin itself, but lazily installed as you select your language in the plugin preferences tab.
+
+# Development
+
+## Build
+Install dependencies:
+```bash
+$ yarn
+```
+
+Run build script:
+```bash
+$ yarn build
+```
+
+3 files will be created in the root directory: `main.js`, `manifest.json`, `styles.css`
+
+## Versioning
+This plugin follows [semver](https://semver.org/).
+
+To publish a new release, tag it with `git tag -a <major.minor.patch> -m <message>`
