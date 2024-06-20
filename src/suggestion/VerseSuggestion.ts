@@ -19,14 +19,15 @@ export class VerseSuggestion {
 
     public getReplacement(): string {
         const url = this.getUrl();
-        const headerFront = `${this.book} ${this.chapter}:`;
+        
         const range =
             this.verseEnd === null
                 ? `${this.verseStart}`
                 : `${this.verseStart}-${this.verseEnd}`;
+        const headerFront = `[[${this.book} ${this.chapter}|${this.book} ${this.chapter}:${range}]]`;
 
-        const head = `> [!Mormon] [${headerFront}${range}](${url})`;
-        return head + "\n" + this.text + "\n";
+        const head = `> [!Mormon] ${headerFront} \n [churchofjesuschrist.org](${url})`;
+        return head + "\n" +  this.text + "\n";
     }
 
     private getUrl(): string {
