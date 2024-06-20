@@ -1,6 +1,5 @@
 import { Plugin } from "obsidian";
 import { BookOfMormonSettings, DEFAULT_SETTINGS } from "./settings";
-
 import { Suggester } from './suggestion/suggester';
 import { installTranslation } from "./translation";
 import { BookOfMormonSettingTab } from './ui/BookOfMormonSettingTab';
@@ -32,3 +31,4 @@ export default class BookOfMormonPlugin extends Plugin {
         await installTranslation(this.manifest.id, this.settings.language);
     }
 }
+

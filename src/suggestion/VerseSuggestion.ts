@@ -14,21 +14,42 @@ export class VerseSuggestion {
         public chapter: number,
         public verseStart: number,
         public verseEnd: number | null,
-        public lang: AvailableLanguage
+        public lang: AvailableLanguage,
+        public linkType:  'wiki' | 'markdown',
+        public createChapterLink: boolean
     ) {}
+
+
 
     public getReplacement(): string {
         const url = this.getUrl();
-        
+
         const range =
             this.verseEnd === null
                 ? `${this.verseStart}`
                 : `${this.verseStart}-${this.verseEnd}`;
-        const headerFront = `[[${this.book} ${this.chapter}|${this.book} ${this.chapter}:${range}]]`;
-
-        const head = `> [!Mormon] ${headerFront} \n [churchofjesuschrist.org](${url})`;
-        return head + "\n" +  this.text + "\n";
+    
+        if (this.createChapterLink) {
+            if (this.linkType == 'wiki') {
+                // Wiki style link to chapter document and outside URL
+                const headerFront = `[[${this.book} ${this.chapter}|${this.book} ${this.chapter}:${range}]]`;
+                const head = `> [!Mormon] ${headerFront} \n [churchofjesuschrist.org](${url})`;
+                return head + "\n" + this.text + "\n";
+            } else if (this.linkType == 'markdown') {
+                // Markdown style link with spaces encoded as %20
+                const encodedBookChapter = encodeURIComponent(`${this.book} ${this.chapter}`);
+                const headerFront = `[${this.book} ${this.chapter}:${range}](${encodedBookChapter})`;
+                const head = `> [!Mormon] ${headerFront} \n [churchofjesuschrist.org](${url})`;
+                return head + "\n" + this.text + "\n";
+            }
+        }
+    
+        // Normal function
+        const headerFront = `${this.book} ${this.chapter}:`;
+        const head = `> [!Mormon] [${headerFront}${range}](${url})`;
+        return head + "\n" + this.text + "\n";
     }
+    
 
     private getUrl(): string {
         const { volume_title_short, book_title_short, chapter_number } =

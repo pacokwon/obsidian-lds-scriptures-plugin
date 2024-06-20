@@ -44,7 +44,7 @@ export class Suggester extends EditorSuggest<VerseSuggestion> {
     async getSuggestions(
         context: EditorSuggestContext
     ): Promise<VerseSuggestion[]> {
-        const { language } = this.plugin.settings;
+        const { language, linkType, createChapterLink } = this.plugin.settings;
         const scripturePath = getScripturesPath(this.plugin.manifest.id, language);
         const { query } = context;
 
@@ -65,7 +65,7 @@ export class Suggester extends EditorSuggest<VerseSuggestion> {
         if (!candidate)
             return [];
 
-        const suggestion = new VerseSuggestion(this.plugin.manifest.id, book, chapter, start, end, language);
+        const suggestion = new VerseSuggestion(this.plugin.manifest.id, book, chapter, start, end, language, linkType, createChapterLink);
         await suggestion.loadVerse();
         return [suggestion];
     }
