@@ -2,6 +2,7 @@ import * as fs from "fs/promises";
 import { getScripturesPath } from "../metadata";
 import { AvailableLanguage } from "../lang";
 import { Book, Verse } from "../types";
+// import {App} from "obsidian"
 
 export class VerseSuggestion {
     public text: string;
@@ -15,41 +16,41 @@ export class VerseSuggestion {
         public verseStart: number,
         public verseEnd: number | null,
         public lang: AvailableLanguage,
-        public linkType:  'wiki' | 'markdown',
-        public createChapterLink: boolean
+        public linkType: "wiki" | "markdown",
+        public createChapterLink: boolean,
     ) {}
-
-
 
     public getReplacement(): string {
         const url = this.getUrl();
+        let linktype = this.linkType;
 
         const range =
             this.verseEnd === null
                 ? `${this.verseStart}`
                 : `${this.verseStart}-${this.verseEnd}`;
-    
+
         if (this.createChapterLink) {
-            if (this.linkType == 'wiki') {
+            if (linktype == "wiki") {
                 // Wiki style link to chapter document and outside URL
                 const headerFront = `[[${this.book} ${this.chapter}|${this.book} ${this.chapter}:${range}]]`;
                 const head = `> [!Mormon] ${headerFront} \n [churchofjesuschrist.org](${url})`;
                 return head + "\n" + this.text + "\n";
-            } else if (this.linkType == 'markdown') {
+            } else if (linktype == "markdown") {
                 // Markdown style link with spaces encoded as %20
-                const encodedBookChapter = encodeURIComponent(`${this.book} ${this.chapter}`);
+                const encodedBookChapter = encodeURIComponent(
+                    `${this.book} ${this.chapter}`,
+                );
                 const headerFront = `[${this.book} ${this.chapter}:${range}](${encodedBookChapter})`;
                 const head = `> [!Mormon] ${headerFront} \n [churchofjesuschrist.org](${url})`;
                 return head + "\n" + this.text + "\n";
             }
         }
-    
+
         // Normal function
         const headerFront = `${this.book} ${this.chapter}:`;
         const head = `> [!Mormon] [${headerFront}${range}](${url})`;
         return head + "\n" + this.text + "\n";
     }
-    
 
     private getUrl(): string {
         const { volume_title_short, book_title_short, chapter_number } =
@@ -57,14 +58,15 @@ export class VerseSuggestion {
         const { lang } = this;
 
         const start = `p${this.verseStart}`;
-        const range = this.verseEnd === null ? start : `${start}-p${this.verseEnd}`;
+        const range =
+            this.verseEnd === null ? start : `${start}-p${this.verseEnd}`;
 
         return `https://www.churchofjesuschrist.org/study/scriptures/${volume_title_short}/${book_title_short}/${chapter_number}?lang=${lang}&id=${range}#${start}`;
     }
 
     private async fetchVerses(): Promise<Verse[]> {
         const fileContent = await fs.readFile(
-            `${getScripturesPath(this.pluginName, this.lang)}/${this.book}.json`
+            `${getScripturesPath(this.pluginName, this.lang)}/${this.book}.json`,
         );
         const book: Book = JSON.parse(fileContent.toString());
         const chapter = book.chapters[this.chapter - 1];
@@ -88,7 +90,7 @@ export class VerseSuggestion {
         return verses
             .map(
                 ({ verse_number, scripture_text }) =>
-                    `${verse_number}. ${scripture_text}`
+                    `${verse_number}. ${scripture_text}`,
             )
             .join("\n");
     }

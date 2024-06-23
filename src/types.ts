@@ -25,3 +25,12 @@ export interface Book {
     book_title_short: string;
     chapters: Chapter[];
 }
+
+export interface GenConTalkData {
+    title: string;
+    author: string[];
+    content: string[];
+    year: string;
+    month: string;
+    setting: string;
+  }
