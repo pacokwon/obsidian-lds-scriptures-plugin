@@ -12,7 +12,7 @@ export default class BookOfMormonPlugin extends Plugin {
         await this.loadSettings();
         await installTranslation(this.manifest.id, this.settings.language);
         this.addSettingTab(new BookOfMormonSettingTab(this.app, this));
-        // this.registerEditorSuggest(new VerseSuggester(this));
+        this.registerEditorSuggest(new VerseSuggester(this));
         // console.log("VerseSuggester Loaded");
         this.registerEditorSuggest(new GenConSuggester(this))
         console.log("GenConSuggester Loaded");

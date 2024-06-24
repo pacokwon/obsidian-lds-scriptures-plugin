@@ -59,9 +59,11 @@ The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-top
 
 ## General Conference Quotes
 
-This works best while using Google Chrome. When at the Church website, you can highlight the paragraphs of a talk you want to include in your note. There will appear near your cursor a link button, and then a copy url option will appear. Once that URL is copied, you can then automatically include the quote into your note. For example if you were taking a quote from President Holland's April 2024 talk, you could use the following:
+This works best while using Google Chrome. When at the Church website, you can highlight the paragraphs of a talk you want to include in your note. There will appear near your cursor a link button. Once pressed the button array will change and a copy url option will appear. Once that URL is copied, you can then automatically include the quote into your note. For example if you were taking a quote from President Holland's April 2024 talk, you could use the following:
 
 > `+https://www.churchofjesuschrist.org/study/general-conference/2024/04/13holland?lang=eng&id=p6#p6`
+
+This would include the 6th paragraph of his talk in your note, formatted with the talk title, the quoted text, and the speaker. 
 
 
 # Quickstart

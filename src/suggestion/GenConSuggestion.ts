@@ -1,27 +1,38 @@
 import { link } from "fs";
 import { GenConTalkData } from "src/types";
 import { fetchGenConTalk } from "src/utils/generalconference";
+import { format, parse } from 'date-fns';
 
 export class GenConSuggestion {
     public text: string;
     public previewText: string;//this is what's loaded by the preview thing.
     public content: GenConTalkData; //should this be an array of item? probably not.
+    public date: string;
 
     constructor(
         public pluginName: string,
         public url: string,
-        public linkType: "wiki" | "markdown"
+        public linkType: "wiki" | "markdown",
     ) {}
 
     private async getParagraphs(): Promise<GenConTalkData> {
         return await(fetchGenConTalk(this.url, "GET"));
     }
 
+    private convertDate = (dateString: string): string => {
+        // Parse the date string
+        const parsedDate = parse(dateString, 'MM-yyyy', new Date());
+        // Format the parsed date to the desired format
+        return format(parsedDate, 'MMMM yyyy');
+    };
+
+
+
     public getReplacement(): string {
         let linktype = this.linkType;
         this.text = this.toText();
         let headerFront = `>[!gencon] [${this.content.title}](${this.url})`;
-        const attribution = (`>> [!genconcitation]\n>> ${this.content.author[0]}\n>> ${this.content.author[1]}`)
+        const attribution = (`>> [!genconcitation]\n>> ${this.content.author[0]}\n>> ${this.content.author[1]}\n>>${this.date}`)
         return headerFront + "\n" + this.text + attribution + "\n"
     }
 
@@ -44,9 +55,9 @@ export class GenConSuggestion {
     }
 
     public async loadTalk(): Promise<void> {
-
         this.content = await(this.getParagraphs());
         this.previewText = this.toPreviewText(this.content);
+        this.date = this.convertDate(`${this.content.month}-${this.content.year}`)
     }
 
     public render(el: HTMLElement): void { //run by the program, note i've defined it to use preview text...

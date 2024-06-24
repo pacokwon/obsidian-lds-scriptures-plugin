@@ -5,7 +5,6 @@ import { parseURL } from './urlparsing';
 import { GenConTalkData } from '../types';
 import {NAME_QUERIES, AUTHOR_QUERIES, AUTHOR_TITLE, PARAGRAPHS_IN_BODY_QUERY} from './config';
 
-
 // Some of the following code is adapted from @epeters3 in his repository https://github.com/epeters3/gospel-search
 function cheerioFind($: cheerio.Root, queries: any[]): cheerio.Cheerio | null {
   for (const query of queries) {
