@@ -15,16 +15,13 @@ export class GenConSuggestion {
 
     private async getParagraphs(): Promise<GenConTalkData> {
         return await(fetchGenConTalk(this.url, "GET"));
-
     }
 
     public getReplacement(): string {
         let linktype = this.linkType;
         this.text = this.toText();
         let headerFront = `>[!gencon] [${this.content.title}](${this.url})`;
-
         const attribution = (`>> [!genconcitation]\n>> ${this.content.author[0]}\n>> ${this.content.author[1]}`)
-        
         return headerFront + "\n" + this.text + attribution + "\n"
     }
 
@@ -41,7 +38,6 @@ export class GenConSuggestion {
         
         this.content.content.forEach((element) =>{
             outstring = outstring + `> ${element} \n>\n `;
-
         }
         )
         return outstring

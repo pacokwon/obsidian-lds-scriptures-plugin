@@ -9,6 +9,7 @@ Easily insert your favorite scripture verses in Obsidian!
 - [Quickstart](#quickstart)
 - [Book Names Reference](#book-names-reference)
 - [Local Book Installation](#local-book-installation)
+- [General Conference Support](#general-conference-support)
 - [Development](#development)
 
 ---
@@ -56,6 +57,13 @@ The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-top
 * Doctrine and Covenants
 * Pearl of Great Price
 
+## General Conference Quotes
+
+This works best while using Google Chrome. When at the Church website, you can highlight the paragraphs of a talk you want to include in your note. There will appear near your cursor a link button, and then a copy url option will appear. Once that URL is copied, you can then automatically include the quote into your note. For example if you were taking a quote from President Holland's April 2024 talk, you could use the following:
+
+> `+https://www.churchofjesuschrist.org/study/general-conference/2024/04/13holland?lang=eng&id=p6#p6`
+
+
 # Quickstart
 
 ## Requirements
@@ -84,6 +92,10 @@ This plugin utilizes [env-paths](https://github.com/sindresorhus/env-paths) unde
 * For linux: `$XDG_CONFIG_HOME/lds-scriptures-reference/translations`
 
 Also note that since there are 100+ official translations of these scriptures, the scriptures data are NOT included in the plugin itself, but lazily installed as you select your language in the plugin preferences tab.
+
+# General Conference Support
+
+General Conference support essentially scrapes the given webpage for the talk title, the author information, and then the paragraph's selected. This is highly dependent on programmers keeping consistent IDs for the different HTML elements. Even between 2023 and 2023 conferences there were differences. 
 
 # Development
 

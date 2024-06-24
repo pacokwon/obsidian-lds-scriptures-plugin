@@ -14,8 +14,8 @@ import { GenConSuggestion } from "./GenConSuggestion";
 
 const VERSE_SHORT_REG = /\+([123])*[A-z ]{3,}\d{1,3}:\d{1,3}(-\d{1,3})*/;
 const VERSE_FULL_REG = /\+([123]*[A-z ]{3,}) (\d{1,3}):(\d{1,3}(?:-\d{1,3})*)/i;
-const GEN_CON_CITE_REG = /\+https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,2}\/\w+\?lang=\w+/;
-const GEN_CON_REG = /\+https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/\d{1,3}[a-zA-Z]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9-]+#[a-zA-Z0-9-]+)?/;
+const GEN_CON_CITE_REG = /\+https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,2}\/[\w-]+\?lang=\w+/;
+const GEN_CON_REG = /\+https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9-]+#[a-zA-Z0-9-]+)?/;
 
 // const GEN_CON_REG = /\+1234/;
 
@@ -148,10 +148,10 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion>{
             // console.log("getSuggestion didn't match");
             return [];
         }
-        console.log("getSuggestion matched");
+        console.log(`getSuggestion matched: ${fullMatch}`);
 
         const talk = fullMatch[0].replace(/^\+/, '');;
-        console.log(talk)
+
         const suggestion = new GenConSuggestion(this.plugin.manifest.id,talk,linkType)
         await suggestion.loadTalk()
         console.log(`Suggestion: ${suggestion}`)
