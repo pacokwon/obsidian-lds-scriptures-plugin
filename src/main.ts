@@ -3,6 +3,7 @@ import { BookOfMormonSettings, DEFAULT_SETTINGS } from "./settings";
 import { GenConSuggester, VerseSuggester } from './suggestion/suggester';
 import { installTranslation } from "./translation";
 import { BookOfMormonSettingTab } from './ui/BookOfMormonSettingTab';
+import { fetchScripture } from "./utils/scripture";
 // import {fetchGenConTalk} from './utils/generalconference'
 
 export default class BookOfMormonPlugin extends Plugin {
@@ -16,7 +17,7 @@ export default class BookOfMormonPlugin extends Plugin {
         // console.log("VerseSuggester Loaded");
         this.registerEditorSuggest(new GenConSuggester(this))
         console.log("GenConSuggester Loaded");
-        // fetchGenConTalk('https://www.churchofjesuschrist.org/study/general-conference/2023/10/11bednar?lang=eng&id=p3-p6#p3','GET');
+        fetchScripture('https://www.churchofjesuschrist.org/study/scriptures/bofm/1-ne/10?lang=eng&id=p1-p3#p1','GET');
     }
 
     onunload() {}

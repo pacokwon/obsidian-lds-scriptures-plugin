@@ -7,7 +7,7 @@ import {
     TFile,
 } from "obsidian";
 import BookOfMormonPlugin from "src/main";
-import { VerseSuggestion } from "./VerseSuggestion";
+import { VerseSuggestion } from "./VerseSuggestionv2";
 import * as fs from "fs/promises";
 import { getScripturesPath } from "src/metadata";
 import { GenConSuggestion } from "./GenConSuggestion";
@@ -50,7 +50,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         context: EditorSuggestContext
     ): Promise<VerseSuggestion[]> {
         const { language, linkType, createChapterLink } = this.plugin.settings;
-        const scripturePath = getScripturesPath(this.plugin.manifest.id, language);
+        // const scripturePath = getScripturesPath(this.plugin.manifest.id, language);
         const { query } = context;
 
         const fullMatch = query.match(VERSE_FULL_REG);
@@ -65,10 +65,10 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
             return [];
 
         // bail out if there is no matching book
-        const filenames = await fs.readdir(scripturePath);
-        const candidate = filenames.find(name => name.startsWith(book));
-        if (!candidate)
-            return [];
+        // const filenames = await fs.readdir(scripturePath);
+        // const candidate = filenames.find(name => name.startsWith(book));
+        // if (!candidate)
+        //     return [];
 
         const suggestion = new VerseSuggestion(this.plugin.manifest.id, book, chapter, start, end, language, linkType, createChapterLink);
         await suggestion.loadVerse();

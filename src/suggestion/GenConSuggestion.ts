@@ -26,8 +26,6 @@ export class GenConSuggestion {
         return format(parsedDate, 'MMMM yyyy');
     };
 
-
-
     public getReplacement(): string {
         let linktype = this.linkType;
         this.text = this.toText();
