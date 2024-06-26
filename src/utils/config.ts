@@ -25,6 +25,8 @@ export const AUTHOR_TITLE = [
 
 export const PARAGRAPHS_IN_BODY_QUERY = { name: 'p' };
 
+
+// from @epeters3
 export const book_data:BookData = {
     "1-ne": { "volume": "bofm", "n_ch": 22, "names": ["1 Nephi", "1 Ne."] },
     "2-ne": { "volume": "bofm", "n_ch": 33, "names": ["2 Nephi", "2 Ne."] },
