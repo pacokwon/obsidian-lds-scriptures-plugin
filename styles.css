@@ -1,6 +1,49 @@
-.callout[data-callout='mormon'] {
+/* .callout[data-callout='mormon'] {
   --callout-icon: book-plus;
+} */
+
+
+
+.callout[data-callout='mormon']{
+  --callout-icon: quote;
+  --link-external-color:#007da5;
+  border-color: #ffffff !important;
+  border-radius: 5px 5px 5px 5px;
+  border-left-color: #007da5 !important;
+  border-left-width: 2px !important;
+  background-color: #ffffff;
+  
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 125, 165, 0.1),
+    rgba(0, 125, 165, 0)
+  );
+  font-size: 1em;
+  line-height: 1.5em;
+  margin: auto;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 15px;
+  
+  & > .callout-title > .callout-title-inner {
+    color: #007da5;
+    font-size: 1.25em;
+    line-height: 1.75em;
+  }
+  & > .callout-title > .callout-icon {
+    color: #000000;
+    display: none;
+  }
+
 }
+
+.callout[data-callout="mormon"] .callout-content p {
+  font-style: italic;
+  /* text-align: center; */
+}
+
+
 
 /* .callout[data-callout='gencon']{ */
   /* --callout-icon: '<svg viewBox="8 8 20 15" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient x1="0%" y1="50%" y2="50%" id="a"><stop stop-color="var(--theme-page-header-nav-bg, var(--blue25))" stop-opacity=".6" offset="0%"></stop><stop stop-color="var(--theme-page-header-nav-bg, var(--blue25))" stop-opacity=".25" offset="100%"></stop></linearGradient><linearGradient x1="0%" y1="50%" y2="50%" id="b"><stop stop-color="var(--theme-page-header-nav-bg, var(--blue25))" stop-opacity=".35" offset="0%"></stop><stop stop-color="var(--theme-page-header-nav-bg, var(--blue25))" stop-opacity=".15" offset="100%"></stop></linearGradient><linearGradient x1="0%" y1="50%" x2="98.607%" y2="50%" id="c"><stop stop-color="var(--theme-page-header-nav-bg, var(--blue25))" stop-opacity=".6" offset="0%"></stop><stop stop-color="var(--theme-page-header-nav-bg, var(--blue25))" stop-opacity=".35" offset="100%"></stop></linearGradient></defs><g fill-rule="nonzero" fill="none"><path fill="url(#a)" d="M6 40V0h10.34l-7.755 40z"></path><path fill="url(#b)" d="M8 40V3.93L33.984 40z"></path><path fill="url(#a)" d="M8 40V0l15.64 40z"></path><path fill="url(#c)" d="M10.598 40H7V0h3.598z"></path><path fill="var(--theme-page-header-nav-bg, var(--blue25))" d="M0 0h8v40H0z"></path></g></svg>'; */

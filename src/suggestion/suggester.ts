@@ -14,8 +14,10 @@ import { GenConSuggestion } from "./GenConSuggestion";
 
 const VERSE_SHORT_REG = /\+([123])*[A-z ]{3,}\d{1,3}:\d{1,3}(-\d{1,3})*/;
 const VERSE_FULL_REG = /\+([123]*[A-z ]{3,}) (\d{1,3}):(\d{1,3}(?:-\d{1,3})*)/i;
-const GEN_CON_CITE_REG = /\+https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,2}\/[\w-]+\?lang=\w+/;
-const GEN_CON_REG = /\+https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9-]+#[a-zA-Z0-9-]+)?/;
+const GEN_CON_CITE_REG =
+    /\+https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,2}\/[\w-]+\?lang=\w+/;
+const GEN_CON_REG =
+    /\+https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9-]+#[a-zA-Z0-9-]+)?/;
 
 // const GEN_CON_REG = /\+1234/;
 
@@ -27,7 +29,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     onTrigger(
         cursor: EditorPosition,
         editor: Editor,
-        _file: TFile | null
+        _file: TFile | null,
     ): EditorSuggestTriggerInfo | null {
         const currentContent = editor
             .getLine(cursor.line)
@@ -47,22 +49,20 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     }
 
     async getSuggestions(
-        context: EditorSuggestContext
+        context: EditorSuggestContext,
     ): Promise<VerseSuggestion[]> {
         const { language, linkType, createChapterLink } = this.plugin.settings;
         // const scripturePath = getScripturesPath(this.plugin.manifest.id, language);
         const { query } = context;
 
         const fullMatch = query.match(VERSE_FULL_REG);
-        if (fullMatch === null)
-            return [];
+        if (fullMatch === null) return [];
 
         const book = fullMatch[1];
         const chapter = Number(fullMatch[2]);
         const { start, end } = this.parseRange(fullMatch[3]);
 
-        if (end !== null && start > end)
-            return [];
+        if (end !== null && start > end) return [];
 
         // bail out if there is no matching book
         // const filenames = await fs.readdir(scripturePath);
@@ -70,7 +70,16 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         // if (!candidate)
         //     return [];
 
-        const suggestion = new VerseSuggestion(this.plugin.manifest.id, book, chapter, start, end, language, linkType, createChapterLink);
+        const suggestion = new VerseSuggestion(
+            this.plugin.manifest.id,
+            book,
+            chapter,
+            start,
+            end,
+            language,
+            linkType,
+            createChapterLink,
+        );
         await suggestion.loadVerse();
         return [suggestion];
     }
@@ -81,19 +90,18 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
 
     selectSuggestion(
         suggestion: VerseSuggestion,
-        _evt: MouseEvent | KeyboardEvent
+        _evt: MouseEvent | KeyboardEvent,
     ): void {
-        if (!this.context)
-            return;
+        if (!this.context) return;
 
         this.context.editor.replaceRange(
             suggestion.getReplacement(),
             this.context.start,
-            this.context.end
-        )
+            this.context.end,
+        );
     }
 
-    parseRange(range: string): { start: number, end: number | null } {
+    parseRange(range: string): { start: number; end: number | null } {
         const splitted = range.split("-");
 
         if (splitted.length === 1)
@@ -106,8 +114,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     }
 }
 
-
-export class GenConSuggester extends EditorSuggest<GenConSuggestion>{
+export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
     constructor(public plugin: BookOfMormonPlugin) {
         super(plugin.app);
     }
@@ -115,7 +122,7 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion>{
     onTrigger(
         cursor: EditorPosition,
         editor: Editor,
-        _file: TFile | null
+        _file: TFile | null,
     ): EditorSuggestTriggerInfo | null {
         const currentContent = editor
             .getLine(cursor.line)
@@ -127,7 +134,6 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion>{
         }
         // console.log("Found GenCon Match");
         return {
-            
             start: {
                 line: cursor.line,
                 ch: currentContent.lastIndexOf(match),
@@ -138,24 +144,28 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion>{
     }
 
     async getSuggestions(
-        context: EditorSuggestContext
+        context: EditorSuggestContext,
     ): Promise<GenConSuggestion[]> {
         const { query } = context;
-        const fullMatch = query.match(GEN_CON_REG)
+        const fullMatch = query.match(GEN_CON_REG);
         const { language, linkType, createChapterLink } = this.plugin.settings;
 
-        if (fullMatch === null){
+        if (fullMatch === null) {
             // console.log("getSuggestion didn't match");
             return [];
         }
         console.log(`getSuggestion matched: ${fullMatch}`);
 
-        const talk = fullMatch[0].replace(/^\+/, '');;
+        const talk = fullMatch[0].replace(/^\+/, "");
 
-        const suggestion = new GenConSuggestion(this.plugin.manifest.id,talk,linkType)
-        await suggestion.loadTalk()
-        console.log(`Suggestion: ${suggestion}`)
-        return [suggestion]
+        const suggestion = new GenConSuggestion(
+            this.plugin.manifest.id,
+            talk,
+            linkType,
+        );
+        await suggestion.loadTalk();
+        console.log(`Suggestion: ${suggestion}`);
+        return [suggestion];
     }
 
     renderSuggestion(suggestion: GenConSuggestion, el: HTMLElement): void {
@@ -164,17 +174,14 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion>{
 
     selectSuggestion(
         suggestion: GenConSuggestion,
-        _evt: MouseEvent | KeyboardEvent
+        _evt: MouseEvent | KeyboardEvent,
     ): void {
-        if (!this.context)
-            return;
+        if (!this.context) return;
 
         this.context.editor.replaceRange(
             suggestion.getReplacement(),
             this.context.start,
-            this.context.end
-        )
+            this.context.end,
+        );
     }
-
-
 }

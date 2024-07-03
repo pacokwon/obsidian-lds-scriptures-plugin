@@ -25,7 +25,7 @@ export class VerseSuggestion {
         public lang: AvailableLanguage,
         public linkType: "wiki" | "markdown",
         public createChapterLink: boolean,
-    ) { }
+    ) {}
 
     public getReplacement(): string {
         // const url = this.getUrl();
@@ -71,8 +71,8 @@ export class VerseSuggestion {
         this.verses = [];
         let start = this.verseStart;
         let end = this.verseEnd ? this.verseEnd : this.verseStart;
-        for (let i = start; i <= start; i++) {
-            let verse_text = this.chapter_data[0].verses.get(`p${i}`)
+        for (let i = start; i <= end; i++) {
+            let verse_text = this.chapter_data[0].verses.get(`p${i}`);
             let verse: Verse = {
                 volume_title: "", // Assuming you have these properties in your class
                 volume_title_short: this.volume_title_short, // Assuming you have these properties in your class
@@ -81,11 +81,12 @@ export class VerseSuggestion {
                 chapter_number: this.chapter, // Assuming you have these properties in your class
                 verse_number: i,
                 verse_title: "", // Set as needed
-                scripture_text: verse_text ? verse_text.trim().replace(/^\d{1,3}\s*/, '') : "" // Handle possible undefined value
+                scripture_text: verse_text
+                    ? verse_text.trim().replace(/^\d{1,3}\s*/, "")
+                    : "", // Handle possible undefined value
             };
             this.verses.push(verse);
         }
-
     }
 
     private toText(verses: Verse[]): string {
@@ -119,12 +120,13 @@ export class VerseSuggestion {
 
     public async loadVerse(): Promise<void> {
         this.chapter_data = [];
-        [this.book_title_short, this.volume_title_short] = this.getShortenedName(this.book);
+        [this.book_title_short, this.volume_title_short] =
+            this.getShortenedName(this.book);
         this.url = this.getUrl();
-        console.log(`Scripture URL: ${this.url}`)
-        let scriptdata: ScriptureData = await fetchScripture(this.url, "GET")
-        this.chapter_data.push(scriptdata)
-        this.getVerses()
+        console.log(`Scripture URL: ${this.url}`);
+        let scriptdata: ScriptureData = await fetchScripture(this.url, "GET");
+        this.chapter_data.push(scriptdata);
+        this.getVerses();
         this.text = this.toText(this.verses);
         this.previewText = this.toPreviewText(this.verses);
     }
