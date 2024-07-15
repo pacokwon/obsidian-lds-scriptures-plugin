@@ -41,6 +41,7 @@ export interface ScriptureData{
     book:string;
     chapter:number;
     verses:Map<string,string>;
+    in_language_book:string;
 
 }
 

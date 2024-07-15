@@ -11,6 +11,7 @@ export class VerseSuggestion {
     public chapter_data: ScriptureData[];
     private bookdata: BookData = book_data;
     private book_title_short: string;
+    private book_title_in_language: string;
     private volume_title_short: string;
     private verses: Verse[];
     private url: string;
@@ -34,22 +35,23 @@ export class VerseSuggestion {
         if (this.createChapterLink) {
             if (linktype == "wiki") {
                 // Wiki style link to chapter document and outside URL
-                const headerFront = `[[${this.book} ${this.chapter}|${this.book} ${this.chapter}:${range}]]`;
+                // const headerFront = `[[${this.book_title_in_language} ${this.chapter}|${this.book_title_in_language} ${this.chapter}:${range}]]`;
+                const headerFront = `[[${this.book_title_in_language}|${this.book_title_in_language}:${range}]]`;
                 const head = `> [!Mormon] ${headerFront} \n [churchofjesuschrist.org](${this.url})`;
                 return head + "\n" + this.text + "\n";
             } else if (linktype == "markdown") {
                 // Markdown style link with spaces encoded as %20
                 const encodedBookChapter = encodeURIComponent(
-                    `${this.book} ${this.chapter}`,
+                    `${this.book_title_in_language}`,
                 );
-                const headerFront = `[${this.book} ${this.chapter}:${range}](${encodedBookChapter})`;
+                const headerFront = `[${this.book_title_in_language}:${range}](${encodedBookChapter})`;
                 const head = `> [!Mormon] ${headerFront} \n [churchofjesuschrist.org](${this.url})`;
                 return head + "\n" + this.text + "\n";
             }
         }
 
         // Normal function
-        const headerFront = `${this.book} ${this.chapter}:`;
+        const headerFront = `${this.book_title_in_language}:`;
         const head = `> [!Mormon] [${headerFront}${range}](${this.url})`;
         return head + "\n" + this.text + "\n";
     }
@@ -114,6 +116,7 @@ export class VerseSuggestion {
         this.url = this.getUrl();
         console.log(`Scripture URL: ${this.url}`);
         let scriptdata: ScriptureData = await fetchScripture(this.url, "GET");
+        this.book_title_in_language = scriptdata.in_language_book
         this.chapter_data.push(scriptdata);
         this.getVerses();
         this.text = this.toText(this.verses);

@@ -8,6 +8,7 @@ import { PARAGRAPHS_IN_BODY_QUERY } from './config';
 
 export async function fetchScripture(url:string, method: 'GET' | 'POST' | 'PATCH'): Promise<ScriptureData>{
     let book= "";
+    let in_language_book = "";
     let chapter = 0;
     let verses:Map<string,string> = new Map();
 
@@ -33,13 +34,15 @@ export async function fetchScripture(url:string, method: 'GET' | 'POST' | 'PATCH
         return {      
             book,
             chapter,
-            verses
+            verses,
+            in_language_book
         };
       }
 
 try {
     const $ = cheerio.load(response.json["content"]["body"]);
-    const [book, chapter] = response.json["meta"]["title"].split(" ");
+    [book, chapter] = response.json["meta"]["title"].split(" ");
+    in_language_book = response.json["meta"]["title"];
     console.log(`Book: ${book}, Chapter: ${chapter}`);
     $(PARAGRAPHS_IN_BODY_QUERY.name).each((_, el) => {
         const id = $(el).attr('id');
@@ -75,6 +78,7 @@ catch (error){
     return {
         book,
         chapter,
-        verses
+        verses,
+        in_language_book
     }
 }

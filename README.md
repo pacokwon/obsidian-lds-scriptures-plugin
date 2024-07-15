@@ -1,7 +1,7 @@
 # LDS Scriptures Reference Plugin for Obsidian
 
 Easily insert your favorite scripture verses in Obsidian!
-This code is an adaptation of the wonderful @pacokwon. I've updated and expanded it while he's on his mission in New York. 
+This code is an adaptation of the wonderful @pacokwon. I've updated and expanded it while he's on his mission in New York. When he returns I plan to merge this repository with his. 
 
 ---
 
@@ -16,39 +16,36 @@ This code is an adaptation of the wonderful @pacokwon. I've updated and expanded
 ---
 
 # Features
-## Reference Verse
-Insert a callout to a verse using this syntax: `+<Book Name> <Chapter Number>:<Verse Number>`
+## Reference Verses
+Insert a callout to a verse using this syntax: `:MC <Book Name> <Chapter Number>:<Verse Numbers>;` 
+
+You can referece any range, selection, or series of verses from a given chapter using the above syntax. Obsidian won't recognize your desired reference until you add the ';' at the end.
+
+Only the English book titles are recognized. For example `:MC 1 Nephi 1:1;` is recognized, but `:MC 1 Нефи 1:1;` wouldn't.
 
 Example:
 
-![verse-completion](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/assets/31656049/a4d0397d-deb1-4e3b-bbce-cd6661742572)
+![verse-completion](assets/images/Screenshot%202024-07-14%20at%209.27.59 PM.png)
 
 Inserted Callout Example:
 
-![verse-insertion](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/assets/31656049/8fc59255-f845-4b99-86be-edaee94c16a7)
+![verse-insertion](assets/images/Screenshot%202024-07-14%20at%209.28.08 PM.png)
 
-
-## Reference Range
-You can also insert a callout to a range of verses using this syntax: `+<Book Name> <Chapter Number>:<Verse Start>-<Verse End>`
-
-Example:
-
-![range-completion](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/assets/31656049/655004bc-1a11-4ad2-a887-7983cfb4f82f)
-
-Inserted Callout Example:
-
-![range-insertion](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/assets/31656049/095bbbf0-ca70-4380-98e4-2988175b6bd4)
 
 ## Multiple Language Support
-Currently, the following translations are available:
+As all verses and conference quotations are dynamically drawn from the official churchofjesuschrist.org website, any language supported on their website is supported with this plug-in. 
 
-* `deu` - German,
-* `eng` - English,
-* `jpn` - 日本語,
-* `kor` - 한국어,
-* `spa` - Español,
+You must first change the desired language in the settings panel for the plug-in:
 
-If you would like to use other translations, please feel free to submit an issue to the [translations repository](https://github.com/pacokwon/lds-scripture-translations/).
+![language-choice](assets/images/Screenshot%202024-07-14%20at%209.36.15 PM.png)
+
+For example if Bulgarian is selected:
+
+![bulgarian-completion](assets/images/Screenshot%202024-07-14%20at%209.34.48 PM.png)
+
+![bulgarian-insertion](assets/images/Screenshot%202024-07-14%20at%209.54.57 PM.png)
+
+
 
 ## Multiple Scriptures Support
 The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-topics/standard-works?lang=eng), or the volumes of scripture officially accepted by the Church of Jesus Christ, Latter Day Saints, are available.
@@ -60,11 +57,31 @@ The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-top
 
 ## General Conference Quotes
 
-This works best while using Google Chrome. When at the Church website, you can highlight the paragraphs of a talk you want to include in your note. There will appear near your cursor a link button. Once pressed the button array will change and a copy url option will appear. Once that URL is copied, you can then automatically include the quote into your note. For example if you were taking a quote from President Holland's April 2024 talk, you could use the following:
+This works best while using Google Chrome. When at the Church website, you can highlight the paragraphs of a talk you want to include in your note:
 
-> `+https://www.churchofjesuschrist.org/study/general-conference/2024/04/13holland?lang=eng&id=p6#p6`
+![gen-con-highlight](assets/images/Screenshot%202024-07-14%20at%2010.00.49 PM.png)
 
-This would include the 6th paragraph of his talk in your note, formatted with the talk title, the quoted text, and the speaker. 
+ There will appear near your cursor a link button. Once pressed the button array will change and a copy url option will appear.
+ 
+ ![gen-con-link](assets/images/Screenshot%202024-07-14%20at%2010.00.51 PM.png)
+  
+  Once that URL is copied, paste the link into Obsidian with the syntax `:MC <LINKED URL>`.
+  
+  This will automatically bring the highlighted paragraph(s) into your document.
+  
+   For example if you were taking a quote from President Holland's April 2024 talk, you could use the following:
+
+![holland-suggestion](assets/images/Screenshot%202024-07-14%20at%2010.08.01 PM.png)
+
+This would include the 4th paragraph of his talk in your note, formatted with the talk title, the quoted text, and the speaker. 
+
+![holland-quote](assets/images/Screenshot%202024-07-14%20at%2010.08.09 PM.png)
+
+Language support for conferenct talks comes directly from the language the talk quote was selected from, or you can manually change the "lang=eng" section of the URL to the corresponding value for your desired language.
+
+![holland-bul-suggestion](assets/images/Screenshot%202024-07-14%20at%2010.11.02 PM.png)
+
+![holland-bul-quote](assets/images/Screenshot%202024-07-14%20at%2010.11.09 PM.png)
 
 
 # Quickstart
@@ -86,19 +103,11 @@ The plugin can also be manually installed by:
 The list of book names, used in this plugin can be referenced on [this page](docs/BOOKS.md)
 
 # Local Book Installation
-Currently, there are no solid options for retrieving verses from LDS scriptures using an API, except the Holy Bible. Therefore this plugin stores scripture data locally. The English translation is 14MB in size, but please note that size may vary between translations.
-
-This plugin utilizes [env-paths](https://github.com/sindresorhus/env-paths) under the hood to resolve the translation data directory. Depending on your platform, the translations will be stored in a different location.
-
-* For Windows: `C:\Users\<USERNAME>\AppData\Roaming\lds-scriptures-reference\Config\translations`
-* For macos: `~/Library/Preferences/lds-scriptures-reference/translations`
-* For linux: `$XDG_CONFIG_HOME/lds-scriptures-reference/translations`
-
-Also note that since there are 100+ official translations of these scriptures, the scriptures data are NOT included in the plugin itself, but lazily installed as you select your language in the plugin preferences tab.
+The original plug-in by @pacokwon required local installation of the scriptures, and was limited to a few languages that had been scraped from the Church's website. This version does NOT download any external files to your computer. As a result this plug-in only works when you have and internet connection.
 
 # General Conference Support
 
-General Conference support essentially scrapes the given webpage for the talk title, the author information, and then the paragraph's selected. This is highly dependent on programmers keeping consistent IDs for the different HTML elements. Even between 2023 and 2023 conferences there were differences. 
+General Conference support essentially scrapes the given webpage for the talk title, the author information, and then the paragraph's selected. This is highly dependent on programmers keeping consistent IDs for the different HTML elements. Even between 2023 and 2023 conferences there were differences. I believe I was able to account for the differences between the different years, thanks in large part to other in the LDS GitHub community. I cannot remember whose code had solved this problem, but I'm grateful. 
 
 # Development
 

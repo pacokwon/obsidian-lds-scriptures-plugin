@@ -169,7 +169,7 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
         }
         console.log(`getSuggestion matched: ${fullMatch}`);
 
-        const talk = fullMatch[0].replace(/^\+/, "");
+        const talk = fullMatch[0].replace(/^\:MC /, "");
 
         const suggestion = new GenConSuggestion(
             this.plugin.manifest.id,
