@@ -1,8 +1,6 @@
 /* .callout[data-callout='mormon'] {
   --callout-icon: book-plus;
-} */
-
-
+} */  
 
 .callout[data-callout='mormon']{
   --callout-icon: quote;

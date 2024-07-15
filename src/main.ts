@@ -19,7 +19,7 @@ export default class BookOfMormonPlugin extends Plugin {
         console.log("GenConSuggester Loaded");
         // fetchScripture('https://www.churchofjesuschrist.org/study/scriptures/bofm/1-ne/10?lang=eng&id=p1-p3#p1','GET');
     }
-
+ 
     onunload() {}
 
     async loadSettings() {

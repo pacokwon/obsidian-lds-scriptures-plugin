@@ -1,6 +1,7 @@
 # LDS Scriptures Reference Plugin for Obsidian
 
 Easily insert your favorite scripture verses in Obsidian!
+This code is an adaptation of the wonderful @pacokwon. I've updated and expanded it while he's on his mission in New York. 
 
 ---
 

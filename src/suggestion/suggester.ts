@@ -7,13 +7,11 @@ import {
     TFile,
 } from "obsidian";
 import BookOfMormonPlugin from "src/main";
-import { VerseSuggestion } from "./VerseSuggestionv2";
-import * as fs from "fs/promises";
-import { getScripturesPath } from "src/metadata";
+import { VerseSuggestion } from "./VerseSuggestion";
 import { GenConSuggestion } from "./GenConSuggestion";
 
-const VERSE_SHORT_REG = /\+([123])*[A-z ]{3,}\d{1,3}:\d{1,3}(-\d{1,3})*/;
-const VERSE_FULL_REG = /\+([123]*[A-z ]{3,}) (\d{1,3}):(\d{1,3}(?:-\d{1,3})*)/i;
+const VERSE_REG = /\:MC.*;/i;
+const FULL_VERSE_REG = /\:MC ([123]*[A-z ]{3,}) (\d{1,3}):(.*);/i;
 const GEN_CON_CITE_REG =
     /\+https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,2}\/[\w-]+\?lang=\w+/;
 const GEN_CON_REG =
@@ -34,7 +32,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         const currentContent = editor
             .getLine(cursor.line)
             .substring(0, cursor.ch);
-        const match = currentContent.match(VERSE_SHORT_REG)?.first() ?? "";
+        const match = currentContent.match(VERSE_REG)?.[0] ?? "";
 
         if (!match) return null;
 
@@ -52,30 +50,24 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         context: EditorSuggestContext,
     ): Promise<VerseSuggestion[]> {
         const { language, linkType, createChapterLink } = this.plugin.settings;
-        // const scripturePath = getScripturesPath(this.plugin.manifest.id, language);
         const { query } = context;
 
-        const fullMatch = query.match(VERSE_FULL_REG);
+        const fullMatch = query.match(FULL_VERSE_REG);
+        
         if (fullMatch === null) return [];
+        
+        console.log("Got Match: ", fullMatch)
 
         const book = fullMatch[1];
         const chapter = Number(fullMatch[2]);
-        const { start, end } = this.parseRange(fullMatch[3]);
-
-        if (end !== null && start > end) return [];
-
-        // bail out if there is no matching book
-        // const filenames = await fs.readdir(scripturePath);
-        // const candidate = filenames.find(name => name.startsWith(book));
-        // if (!candidate)
-        //     return [];
+        const verses:number[] = this.parseVerses(fullMatch[3]);
+        console.log("Book: %s\nChapter: %s\nVerses: %s",book,chapter,verses.join(','))
 
         const suggestion = new VerseSuggestion(
             this.plugin.manifest.id,
             book,
             chapter,
-            start,
-            end,
+            verses,
             language,
             linkType,
             createChapterLink,
@@ -101,17 +93,38 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         );
     }
 
-    parseRange(range: string): { start: number; end: number | null } {
-        const splitted = range.split("-");
+    expandRange(range: string): number[] {
+        const [s, e] = range.split('-');
+        console.log("Expand range strings: %s, %s",s,e);
+        let start = Number(s.trim());
+        let end = Number(e.trim());
+        console.log("Expand range ints: %s, %s",start,end);
+        const result = [];
 
-        if (splitted.length === 1)
-            return { start: Number(splitted[0]), end: null };
-
-        return {
-            start: Number(splitted[0]),
-            end: Number(splitted[1]),
-        };
+        for (let i = start; i <= end; i++) {
+          result.push(i);
+          console.log("integer: %s", i);
+        }
+        return result;
     }
+
+    parseVerses(input: string):number[] {
+        const items = input.split(',');
+        let result: number[] = [];
+      
+        for (const item of items) {
+          if (item.includes('-')) {
+            result = result.concat(this.expandRange(item));
+            console.log("Result from range concat: ", result)
+          } else {
+            result.push(Number(item));
+          }
+        }
+        const uniqueArray = Array.from(new Set(result));
+        return uniqueArray;
+      }
+
+    
 }
 
 export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
@@ -127,7 +140,7 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
         const currentContent = editor
             .getLine(cursor.line)
             .substring(0, cursor.ch);
-        const match = currentContent.match(GEN_CON_REG)?.first() ?? "";
+        const match = currentContent.match(GEN_CON_REG)?.[0] ?? "";
 
         if (!match) {
             return null;
