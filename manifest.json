@@ -6,5 +6,5 @@
     "description": "Easily insert references to LDS scriptures",
     "author": "ingiestein",
     "authorUrl": "https://github.com/ingiestein",
-    "isDesktopOnly": false
+    "isDesktopOnly": true
 }
