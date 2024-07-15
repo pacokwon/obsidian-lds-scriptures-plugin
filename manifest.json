@@ -1,10 +1,10 @@
 {
-    "id": "lds-scriptures-reference",
-    "name": "LDS Scriptures Reference",
-    "version": "1.2.0",
+    "id": "lds-scriptures-reference-2",
+    "name": "LDS Scriptures Reference 2.0",
+    "version": "1.0.0",
     "minAppVersion": "0.15.0",
     "description": "Easily insert references to LDS scriptures",
-    "author": "pacokwon",
-    "authorUrl": "https://github.com/pacokwon",
+    "author": "ingiestein",
+    "authorUrl": "https://github.com/ingiestein",
     "isDesktopOnly": false
 }
