@@ -56,12 +56,12 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         
         if (fullMatch === null) return [];
         
-        console.log("Got Match: ", fullMatch)
+        // console.log("Got Match: ", fullMatch)
 
         const book = fullMatch[1];
         const chapter = Number(fullMatch[2]);
         const verses:number[] = this.parseVerses(fullMatch[3]);
-        console.log("Book: %s\nChapter: %s\nVerses: %s",book,chapter,verses.join(','))
+        // console.log("Book: %s\nChapter: %s\nVerses: %s",book,chapter,verses.join(','))
 
         const suggestion = new VerseSuggestion(
             this.plugin.manifest.id,
@@ -95,15 +95,15 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
 
     expandRange(range: string): number[] {
         const [s, e] = range.split('-');
-        console.log("Expand range strings: %s, %s",s,e);
+        // console.log("Expand range strings: %s, %s",s,e);
         let start = Number(s.trim());
         let end = Number(e.trim());
-        console.log("Expand range ints: %s, %s",start,end);
+        // console.log("Expand range ints: %s, %s",start,end);
         const result = [];
 
         for (let i = start; i <= end; i++) {
           result.push(i);
-          console.log("integer: %s", i);
+        //   console.log("integer: %s", i);
         }
         return result;
     }
@@ -115,7 +115,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         for (const item of items) {
           if (item.includes('-')) {
             result = result.concat(this.expandRange(item));
-            console.log("Result from range concat: ", result)
+            // console.log("Result from range concat: ", result)
           } else {
             result.push(Number(item));
           }
@@ -167,7 +167,7 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
             // console.log("getSuggestion didn't match");
             return [];
         }
-        console.log(`getSuggestion matched: ${fullMatch}`);
+        // console.log(`getSuggestion matched: ${fullMatch}`);
 
         const talk = fullMatch[0].replace(/^\:MC /, "");
 
@@ -177,7 +177,7 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
             linkType,
         );
         await suggestion.loadTalk();
-        console.log(`Suggestion: ${suggestion}`);
+        // console.log(`Suggestion: ${suggestion}`);
         return [suggestion];
     }
 

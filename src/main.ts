@@ -14,7 +14,7 @@ export default class BookOfMormonPlugin extends Plugin {
         this.addSettingTab(new BookOfMormonSettingTab(this.app, this));
         this.registerEditorSuggest(new VerseSuggester(this));
         this.registerEditorSuggest(new GenConSuggester(this))
-        console.log("GenConSuggester Loaded");
+        // console.log("GenConSuggester Loaded");
     }
  
     onunload() {}

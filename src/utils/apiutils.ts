@@ -18,7 +18,7 @@ export function cheerioFind($: cheerio.Root, queries: any[]): cheerio.Cheerio | 
     const genconregex = /https:\/\/www\.churchofjesuschrist\.org\/study(\/[\w-]+\/\d{4}\/\d{2}\/[\w-]+)/;
     const scriptureregex = /https:\/\/www\.churchofjesuschrist\.org\/study(\/[\w-]+\/[\w-]+\/[\w-]+\/[\w-]+)/;
     const match = url.match(genconregex) ? url.match(genconregex): url.match(scriptureregex)?url.match(scriptureregex):null ;
-    console.log(`REGEX MATCH: ${match}`)
+    // console.log(`REGEX MATCH: ${match}`)
     return match ? match[1] : null;
   }
 
@@ -31,7 +31,7 @@ export function cheerioFind($: cheerio.Root, queries: any[]): cheerio.Cheerio | 
   
   export function buildAPIURL(lang:string,url:string){
     let path = extractURLPath(url)
-    console.log(`Path extracted: ${path}`)
+    // console.log(`Path extracted: ${path}`)
     return `https://www.churchofjesuschrist.org/study/api/v3/language-pages/type/content?lang=${lang}&uri=` + path;
   }
 

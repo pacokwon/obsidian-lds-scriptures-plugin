@@ -114,7 +114,7 @@ export class VerseSuggestion {
         [this.book_title_short, this.volume_title_short] =
             this.getShortenedName(this.book);
         this.url = this.getUrl();
-        console.log(`Scripture URL: ${this.url}`);
+        // console.log(`Scripture URL: ${this.url}`);
         let scriptdata: ScriptureData = await fetchScripture(this.url, "GET");
         this.book_title_in_language = scriptdata.in_language_book
         this.chapter_data.push(scriptdata);
