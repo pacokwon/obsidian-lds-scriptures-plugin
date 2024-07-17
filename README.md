@@ -1,7 +1,7 @@
 # LDS Scriptures Reference Plugin for Obsidian
 
-Easily insert your favorite scripture verses in Obsidian!
-This code is an adaptation of plug-in written by the wonderful @pacokwon. I've updated and expanded it while he's on his mission in New York. When he returns I plan to merge this repository with his.
+Easily insert your favorite scripture verses and selections from General Conference talks into Obsidian!
+This code is an adaptation of a plug-in written by the wonderful [@pacokwon](https://github.com/pacokwon/obsidian-lds-scriptures-plugin). I've updated and expanded it while he's on his mission in New York. When he returns I plan to merge this repository with his.
 
 ---
 
@@ -25,7 +25,7 @@ Insert a callout to a verse using this syntax: `:MC <Book Name> <Chapter Number>
 
 You can referece any range, selection, or series of verses from a given chapter using the above syntax. Obsidian won't recognize your desired reference until you add the ';' at the end.
 
-Only the English book titles are recognized. For example `:MC 1 Nephi 1:1;` is recognized, but `:MC 1 Нефи 1:1;` wouldn't.
+Only English book titles are recognized. For example `:MC 1 Nephi 1:1;` is recognized, but `:MC 1 Нефи 1:1;` isn't.
 
 Example:
 
@@ -64,13 +64,13 @@ This works best while using Google Chrome. When at the Church website, you can h
 
 ![gen-con-highlight](assets/images/Screenshot%202024-07-14%20at%2010.00.49 PM.png)
 
-There will appear near your cursor a link button. Once pressed the button array will change and a copy url option will appear.
+There will appear near your cursor a link button. Once pressed the button array will change and a "Copy URL" option will appear.
 
 ![gen-con-link](assets/images/Screenshot%202024-07-14%20at%2010.00.51 PM.png)
 
-Once that URL is copied, paste the link into Obsidian with the syntax `:MC <LINKED URL>`.
+Once that URL is copied, paste the link into Obsidian with the syntax: `:MC <LINKED URL>`
 
-This will automatically bring the highlighted paragraph(s) into your document.
+This will automatically bring the highlighted paragraph(s) into your document. Note that the command for General Conference Talks do NOT end in ';'.
 
 For example if you were taking a quote from President Holland's April 2024 talk, you could use the following:
 
@@ -80,7 +80,7 @@ This would include the 4th paragraph of his talk in your note, formatted with th
 
 ![holland-quote](assets/images/Screenshot%202024-07-14%20at%2010.08.09 PM.png)
 
-Language support for conferenct talks comes directly from the language the talk quote was selected from, or you can manually change the "lang=eng" section of the URL to the corresponding value for your desired language.
+Language support for conference talks comes directly from the language the talk quote was selected from, or you can manually change the "lang=eng" section of the URL to the corresponding value for your desired language. The language is not affected by the language selected under the plug-in settings.
 
 ![holland-bul-suggestion](assets/images/Screenshot%202024-07-14%20at%2010.11.02 PM.png)
 
@@ -96,14 +96,14 @@ You only need Obsidian installed!
 
 ### Community Plugin
 
-This plugin can be found from the list of community plugins for Obsidian. Open Obsidian's Settings > Community Plugins, and click `Browse` to search this plugin's name and install.
+This plugin can be found from the list of community plugins for Obsidian. Open Obsidian's Settings -> Community Plugins, and click `Browse` to search this plugin's name and install.
 
 ### Manual Installation
 
 The plugin can also be manually installed by:
 
-1. Creating a directory called `lds-scriptures-reference` under `.obsidian/plugins` of your vault
-2. From this plugin's [Releases Page](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/releases), download and put `main.js`, `manifest.json`, `styles.css` into `.obsidian/plugins/lds-scriptures-reference`
+1. Creating a directory called `lds-scripture-reference` under `.obsidian/plugins/` of your vault
+2. From this plugin's [Releases Page](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/releases), download and put `main.js`, `manifest.json`, `styles.css` into `.obsidian/plugins/lds-scriptures-reference/`
 3. Reload Obsidian and navigate to the `Community Plugins` tab to see that installation is successful
 
 # Book Names Reference
@@ -112,7 +112,7 @@ The list of book names, used in this plugin can be referenced on [this page](doc
 
 # Local Book Installation
 
-The original plug-in by @pacokwon required local installation of the scriptures, and was limited to a few languages that had been scraped from the Church's website. This version does NOT download any external files to your computer. As a result this plug-in only works when you have and internet connection.
+The original plug-in by @pacokwon required local installation of the scriptures, and was limited to a few languages that had been scraped from the Church's website. This version does NOT download any external files to your computer. As a result this plug-in only works when you have an internet connection.
 
 # General Conference Support
 
