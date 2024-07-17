@@ -21,11 +21,7 @@ export async function fetchGenConTalk(url:string,method: 'GET' | 'POST' | 'PATCH
         throw new Error('This can only refernce talks from General Conference.');
     }
 
-    var talkurl = buildAPIURL(lang,url)
-
-    console.log(`Parsed Data from URL: `, parsedData);
-    console.log(`Starting AXIOS request of ${talkurl}`)
-    // const response = await axios.get(talkurl);
+    let talkurl = buildAPIURL(lang,url)
 
     const response = await requestUrl({
         url: talkurl,
@@ -34,7 +30,7 @@ export async function fetchGenConTalk(url:string,method: 'GET' | 'POST' | 'PATCH
         }
     });
     if (response.status === 401 || response.status === 402) {
-        console.log(response.status);
+
         return {      
           title,
           author,
@@ -55,32 +51,7 @@ export async function fetchGenConTalk(url:string,method: 'GET' | 'POST' | 'PATCH
         let authorrole = authorRoleElement ? authorRoleElement.text().trim() : "Author role not found";
         author.push(authorname);
         author.push(authorrole);
-        console.log(`Athor array: ${author}`)
-        // let body = $(PARAGRAPHS_IN_BODY_QUERY.name).map((_, el) => $(el).text().trim()).get();
-        // console.log(`Body?: ${body}`)
-
-        // if (parsedData.paragraphs){
-        //   const {start,end} = parsedData.paragraphs;
-        //   const paragraphEnd = end !== undefined ? end : start;
-        //   content = body.slice(start-1, end);
-        // }
-
-
-        // title = $('#title1').text().trim();
         
-        // if (title.length === 0){
-        //   title = $('h1').first().text().trim();
-            
-          
-        //   // title = $('#p1').text().trim();
-        // }
-        // // author = [$('#author1').text().trim(), $('#author2').text().trim()].filter(Boolean);
-        // // author = [$('#author-name').text().trim(), $('#author-role').text().trim()].filter(Boolean);
-        // author = [$('.author-name').text().trim(), $('.author-role').text().trim()].filter(Boolean);
-        
-        // if (author.length === 0) {
-        //   let author = [$('#author1').text().trim(), $('#author2').text().trim()].filter(Boolean);
-        // }
         if (parsedData.paragraphs) {
             const { start, end } = parsedData.paragraphs;
             const paragraphEnd = end !== undefined ? end : start;
@@ -99,18 +70,10 @@ export async function fetchGenConTalk(url:string,method: 'GET' | 'POST' | 'PATCH
         month = parsedData.pathParts[3];
         setting = "General Conference";
 
-        console.log( 
-            title,
-            author,
-            content,
-            year,
-            month,
-            setting
-        )
+      
   
         if (!title || !content) {
-          console.log(`title error: ${title}`);
-          console.log(`content error: ${content}`);
+        
           throw new Error('Unable to extract the necessary data from the webpage.');
         }
 

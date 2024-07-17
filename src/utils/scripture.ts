@@ -13,14 +13,14 @@ export async function fetchScripture(url:string, method: 'GET' | 'POST' | 'PATCH
     let verses:Map<string,string> = new Map();
 
     let parsedData = parseURL(url);
-    console.log(`parsed scripture URL: ${parsedData.pathParts}, ${parsedData.queryParams.id}, ${parsedData.paragraphs?.start}, ${parsedData.paragraphs?.end}`);
+
     let lang = parsedData.queryParams.lang ? parsedData.queryParams.lang : 'eng';
 
     if (parsedData.pathParts[1] !== "scriptures"){
         throw new Error('This can only refernce scripture verses.');
     }
-    var apiurl = buildAPIURL(lang,url)
-    console.log(`Scripture api ulr: ${apiurl}`)
+    let apiurl = buildAPIURL(lang,url)
+
 
     // request to API
     const response = await requestUrl({
@@ -30,7 +30,7 @@ export async function fetchScripture(url:string, method: 'GET' | 'POST' | 'PATCH
     });
 
     if (response.status === 401 || response.status === 402) {
-        console.log(response.status);
+
         return {      
             book,
             chapter,
@@ -43,7 +43,7 @@ try {
     const $ = cheerio.load(response.json["content"]["body"]);
     [book, chapter] = response.json["meta"]["title"].split(" ");
     in_language_book = response.json["meta"]["title"];
-    console.log(`Book: ${book}, Chapter: ${chapter}`);
+
     $(PARAGRAPHS_IN_BODY_QUERY.name).each((_, el) => {
         const id = $(el).attr('id');
         if (id) { // Only include elements that have an ID
@@ -51,23 +51,6 @@ try {
 
         }
     });
-    
-    console.log(verses);
-
-
-    // if (parsedData.paragraphs) {
-    //     const { start, end } = parsedData.paragraphs;
-    //     const paragraphEnd = end !== undefined ? end : start;
-  
-    //     for (let i = start; i <= paragraphEnd; i++) {
-    //       const paragraph = $(`#p${i}`).text()?.trim();
-    //       if (paragraph) {
-    //         content.push(paragraph);
-    //       } else {
-    //         console.warn(`Paragraph #${i} not found.`);
-    //       }
-    //     }
-    //   }
 
 }
 

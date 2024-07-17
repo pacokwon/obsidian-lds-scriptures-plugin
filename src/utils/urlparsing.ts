@@ -18,7 +18,7 @@ interface ParsedURL {
 export function parseURL(url: string): ParsedURL {
     const parsedUrl = new URL(url);
     const pathParts = parsedUrl.pathname.split('/').filter(part => part);
-    console.log(pathParts);
+
     const queryParams = queryString.parse(parsedUrl.search);
     
     let paragraphs;

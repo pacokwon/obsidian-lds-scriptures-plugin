@@ -1,10 +1,7 @@
 import { Plugin } from "obsidian";
 import { BookOfMormonSettings, DEFAULT_SETTINGS } from "./settings";
 import { GenConSuggester, VerseSuggester } from './suggestion/suggester';
-import { installTranslation } from "./translation";
 import { BookOfMormonSettingTab } from './ui/BookOfMormonSettingTab';
-
-// import {fetchGenConTalk} from './utils/generalconference'
 
 export default class BookOfMormonPlugin extends Plugin {
     settings: BookOfMormonSettings;
@@ -14,7 +11,7 @@ export default class BookOfMormonPlugin extends Plugin {
         this.addSettingTab(new BookOfMormonSettingTab(this.app, this));
         this.registerEditorSuggest(new VerseSuggester(this));
         this.registerEditorSuggest(new GenConSuggester(this))
-        // console.log("GenConSuggester Loaded");
+
     }
  
     onunload() {}
@@ -29,7 +26,6 @@ export default class BookOfMormonPlugin extends Plugin {
 
     async saveSettings() {
         await this.saveData(this.settings);
-        await installTranslation(this.manifest.id, this.settings.language);
     }
 }
 

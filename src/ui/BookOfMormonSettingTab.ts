@@ -66,7 +66,11 @@ export class BookOfMormonSettingTab extends PluginSettingTab {
 
         containerEl.createEl("h2", { text: "About" });
         containerEl.createSpan({}, (span) => {
-            span.innerHTML = `<a href="https://github.com/ingiestein/obsidian-lds-scriptures-plugin">Github</a>`;
+
+            span.createEl('a', { 
+                href: 'https://github.com/ingiestein/obsidian-lds-scriptures-plugin', 
+                text: 'Github'});
+             
         });
     }
 }

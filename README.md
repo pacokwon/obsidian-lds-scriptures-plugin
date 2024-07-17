@@ -118,7 +118,7 @@ The original plug-in by @pacokwon required local installation of the scriptures,
 
 General Conference support essentially scrapes the given webpage for the talk title, the author information, and then the paragraph's selected. This is highly dependent on programmers keeping consistent IDs for the different HTML elements. Even between 2023 and 2023 conferences there were differences. I believe I was able to account for the differences between the different years, thanks in large part to other in the LDS GitHub community. I cannot remember whose code had solved this problem, but I'm grateful.
 
-# NeoVim
+# NeoVim Plugin
 
 If you like to use NeoVim and want similar functionality check out [LDSLibrary.nvim](https://github.com/ingiestein/LDSLibrary.nvim), and [obsidian.nvim](https://github.com/epwalsh/obsidian.nvim).
 
