@@ -1,7 +1,7 @@
 {
     "id": "lds-scripture-reference-2",
     "name": "LDS Scripture Reference 2.0",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "minAppVersion": "0.15.0",
     "description": "Easily insert references to LDS scriptures",
     "author": "ingiestein",
