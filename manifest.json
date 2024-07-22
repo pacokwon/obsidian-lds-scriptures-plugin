@@ -1,10 +1,10 @@
 {
-    "id": "lds-scripture-reference-2",
-    "name": "LDS Scripture Reference 2.0",
+    "id": "lds-library-reference",
+    "name": "LDS Library Reference",
     "version": "1.0.1",
     "minAppVersion": "0.15.0",
-    "description": "Easily insert references to LDS scriptures",
-    "author": "ingiestein",
+    "description": "Easily insert references to scripture and conference talks from the Church of Jesus Christ of Latterday Saints",
+    "author": "pacokwon, ingiestein",
     "authorUrl": "https://github.com/ingiestein",
-    "isDesktopOnly": true
+    "isDesktopOnly": false
 }

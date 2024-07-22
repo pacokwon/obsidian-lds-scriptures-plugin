@@ -21,7 +21,6 @@ export class BookOfMormonSettingTab extends PluginSettingTab {
                     .onChange(async (value: AvailableLanguage) => {
                         this.plugin.settings.language = value;
                         await this.plugin.saveSettings();
-                        new Notice("LDS Scriptures Reference Settings Updated");
                     });
             });
     }
@@ -60,7 +59,7 @@ export class BookOfMormonSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl("h2", { text: "Settings" });
+        // containerEl.createEl("h2", { text: "Settings" });
         this.setupLanguageOption(containerEl);
         this.setupLinkOption(containerEl);
 

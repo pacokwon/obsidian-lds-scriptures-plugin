@@ -1,4 +1,4 @@
-# LDS Scriptures Reference Plugin for Obsidian
+# LDS Library Reference Plugin for Obsidian
 
 Easily insert your favorite scripture verses and selections from General Conference talks into Obsidian!
 This code is an adaptation of a plug-in written by the wonderful [@pacokwon](https://github.com/pacokwon/obsidian-lds-scriptures-plugin). I've updated and expanded it while he's on his mission in New York. When he returns I plan to merge this repository with his.
@@ -102,8 +102,8 @@ This plugin can be found from the list of community plugins for Obsidian. Open O
 
 The plugin can also be manually installed by:
 
-1. Creating a directory called `lds-scripture-reference` under `.obsidian/plugins/` of your vault
-2. From this plugin's [Releases Page](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/releases), download and put `main.js`, `manifest.json`, `styles.css` into `.obsidian/plugins/lds-scriptures-reference/`
+1. Creating a directory called `lds-library-reference` under `.obsidian/plugins/` of your vault
+2. From this plugin's [Releases Page](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/releases), download and put `main.js`, `manifest.json`, `styles.css` into `.obsidian/plugins/lds-library-reference/`
 3. Reload Obsidian and navigate to the `Community Plugins` tab to see that installation is successful
 
 # Book Names Reference
