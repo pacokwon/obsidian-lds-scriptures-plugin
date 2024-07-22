@@ -1,7 +1,7 @@
 {
     "id": "lds-library-reference",
     "name": "LDS Library Reference",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "minAppVersion": "0.15.0",
     "description": "Easily insert references to scripture and conference talks from the Church of Jesus Christ of Latterday Saints",
     "author": "pacokwon, ingiestein",

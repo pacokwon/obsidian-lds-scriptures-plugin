@@ -9,7 +9,7 @@ export class BookOfMormonSettingTab extends PluginSettingTab {
 
     setupLanguageOption(containerEl: HTMLElement) {
         new Setting(containerEl)
-            .setName("Scripture Language")
+            .setName("Scripture language")
             .setDesc("Preferred scripture language")
             .addDropdown((dropdown) => {
                 AVAILABLE_LANGUAGES.forEach((lang) => {
@@ -29,7 +29,7 @@ export class BookOfMormonSettingTab extends PluginSettingTab {
         //Adding additional settings which can automatically create back links so you can see which of your documents
         // and how many reference which chapters in the scriptures. 
         new Setting(containerEl)
-        .setName('Chapter Linking')
+        .setName('Chapter linking')
         .setDesc('When adding a scripture reference, create a link to an document named <Book> <Chapter>.')
         .addToggle(toggle => toggle
             .setValue(this.plugin.settings.createChapterLink)
@@ -40,7 +40,7 @@ export class BookOfMormonSettingTab extends PluginSettingTab {
             })
         );
         new Setting(containerEl)
-            .setName('Link Type')
+            .setName('Link type')
             .setDesc("Choose the type of link to create.")
             .addDropdown(dropdown => dropdown
                 // .addOption('default', 'Default')
