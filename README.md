@@ -25,7 +25,7 @@ This code is an adaptation of a plug-in written by the wonderful [@pacokwon](htt
 
 ## Multiple Scripture Support
 
-The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-topics/standard-works?lang=eng), or the volumes of scripture officially accepted by the Church of Jesus Christ, Latter Day Saints, are available.
+The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-topics/standard-works?lang=eng), or the volumes of scripture officially accepted by the Church of Jesus Christ of Latter Day Saints are available.
 
 - Holy Bible (King James Version)
 - Book of Mormon
