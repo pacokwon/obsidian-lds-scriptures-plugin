@@ -29,11 +29,11 @@ Only English book titles are recognized. For example `:MC 1 Nephi 1:1;` is recog
 
 Example:
 
-![verse-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%209.27.59 PM.png)
+![verse-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%209.27.59 PM.png)
 
 Inserted Callout Example:
 
-![verse-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%209.28.08 PM.png)
+![verse-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%209.28.08 PM.png)
 
 ## Multiple Language Support
 
@@ -41,13 +41,13 @@ As all verses and conference quotations are dynamically drawn from the official 
 
 You must first change the desired language in the settings panel for the plug-in:
 
-![language-choice](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%209.36.15 PM.png)
+![language-choice](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%209.36.15 PM.png)
 
 For example if Bulgarian is selected:
 
-![bulgarian-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%209.34.48 PM.png)
+![bulgarian-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%209.34.48 PM.png)
 
-![bulgarian-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%209.54.57 PM.png)
+![bulgarian-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%209.54.57 PM.png)
 
 ## Multiple Scriptures Support
 
@@ -62,11 +62,11 @@ The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-top
 
 This works best while using Google Chrome. When at the Church website, you can highlight the paragraphs of a talk you want to include in your note:
 
-![gen-con-highlight](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%2010.00.49 PM.png)
+![gen-con-highlight](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%2010.00.49 PM.png)
 
 There will appear near your cursor a link button. Once pressed the button array will change and a "Copy URL" option will appear.
 
-![gen-con-link](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%2010.00.51 PM.png)
+![gen-con-link](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%2010.00.51 PM.png)
 
 Once that URL is copied, paste the link into Obsidian with the syntax: `:MC <LINKED URL>`
 
@@ -74,17 +74,17 @@ This will automatically bring the highlighted paragraph(s) into your document. N
 
 For example if you were taking a quote from President Holland's April 2024 talk, you could use the following:
 
-![holland-suggestion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%2010.08.01 PM.png)
+![holland-suggestion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%2010.08.01 PM.png)
 
 This would include the 4th paragraph of his talk in your note, formatted with the talk title, the quoted text, and the speaker.
 
-![holland-quote](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%2010.08.09 PM.png)
+![holland-quote](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%2010.08.09 PM.png)
 
 Language support for conference talks comes directly from the language the talk quote was selected from, or you can manually change the "lang=eng" section of the URL to the corresponding value for your desired language. The language is not affected by the language selected under the plug-in settings.
 
-![holland-bul-suggestion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%2010.11.02 PM.png)
+![holland-bul-suggestion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%2010.11.02 PM.png)
 
-![holland-bul-quote](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%2010.11.09 PM.png)
+![holland-bul-quote](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%2010.11.09 PM.png)
 
 # Quickstart
 
