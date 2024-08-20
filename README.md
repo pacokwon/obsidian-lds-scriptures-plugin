@@ -28,6 +28,10 @@ The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-top
 - Doctrine and Covenants
 - Pearl of Great Price
 
+## General Conference Support
+
+You can also pull in full paragraphs from General Conference talks. General Conference support essentially scrapes the talk's webpage for the talk title, the author information, and then the paragraphs selected. This is highly dependent on programmers keeping consistent IDs for the different HTML elements. Even between the last few conferences there were differences. I believe I was able to account for the differences between the different years, thanks in large part to others in the LDS GitHub community. I cannot remember whose code had solved this problem, but I'm grateful. Please let me know if there is a talk or conference where it doesn't work.
+
 ## Reference Verses
 
 Insert a callout to a verse using this syntax: `:MC <Book Name> <Chapter Number>:<Verse Numbers>;`
@@ -57,7 +61,6 @@ For example, if Bulgarian is selected:
 ![bulgarian-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%20MC%201%20Nephi11.png)
 
 ![bulgarian-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%201%20Nephi11.png)
-
 
 ## General Conference Quotes
 
@@ -103,21 +106,18 @@ This plugin can be found from the list of community plugins for Obsidian. Open O
 
 The plugin can also be manually installed by:
 
-1. Creating a directory called `lds-library-reference` under `.obsidian/plugins/` of your vault
-2. From this plugin's [Releases Page](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/releases), download and put `main.js`, `manifest.json`, `styles.css` into `.obsidian/plugins/lds-library-reference/`
-3. Reload Obsidian and navigate to the `Community Plugins` tab to see that installation is successful
+1. Creating a directory called `lds-library-reference` under `.obsidian/plugins/` within your vault.
+2. From this plugin's [Releases Page](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/releases), download and put `main.js`, `manifest.json`, `styles.css` into `.obsidian/plugins/lds-library-reference/`.
+3. Reload Obsidian and navigate to the `Community Plugins` tab to see that installation is successful.
+4. Ensure the plugin is then enabled.
 
 # Book Names Reference
 
-The list of book names, used in this plugin can be referenced on [this page](docs/BOOKS.md)
+The list of book names used in this plugin can be referenced on [this page](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/2988ddffcfb99dee5828656cef5d55e435b3a526/docs/BOOKS.md).
 
 # Local Book Installation
 
-The original plug-in by @pacokwon required local installation of the scriptures, and was limited to a few languages that had been scraped from the Church's website. This version does NOT download any external files to your computer. As a result this plug-in only works when you have an internet connection.
-
-# General Conference Support
-
-General Conference support essentially scrapes the given webpage for the talk title, the author information, and then the paragraph's selected. This is highly dependent on programmers keeping consistent IDs for the different HTML elements. Even between 2023 and 2023 conferences there were differences. I believe I was able to account for the differences between the different years, thanks in large part to other in the LDS GitHub community. I cannot remember whose code had solved this problem, but I'm grateful.
+The original plug-in by [@pacokwon](https://github.com/pacokwon/obsidian-lds-scriptures-plugin) required local installation of the scriptures, and was limited to a few languages that he had scraped from the Church's website. This version does NOT download any external files to your computer. As a result this plug-in only works when you have an internet connection.
 
 # NeoVim Plugin
 
