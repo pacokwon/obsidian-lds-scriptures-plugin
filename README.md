@@ -7,12 +7,12 @@ This code is an adaptation of a plug-in written by the wonderful [@pacokwon](htt
 
 ### Table of Contents
 
-- [Features](#features)
-- - [Multiple Scripture Support](#multiple-scripture-support)
-- - [How To Reference Verses](#how-to-reference-verses)
-- - [General Conference Support](#general-conference-support)
-- - [How To Quote General Conference](#how-to-quote-general-conference)
-- - [Multiple Language Support](#multiple-language-support)
+- [Features](#features) 
+    - [Multiple Scripture Support](#multiple-scripture-support)
+    - [How To Reference Verses](#how-to-reference-verses)
+    - [General Conference Support](#general-conference-support)
+    - [How To Quote General Conference](#how-to-quote-general-conference)
+    - [Multiple Language Support](#multiple-language-support)
 - [Quickstart](#quickstart)
 - [Book Names](#book-names)
 - [Local Book Installation](#local-book-installation)
