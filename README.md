@@ -8,18 +8,22 @@ This code is an adaptation of a plug-in written by the wonderful [@pacokwon](htt
 ### Table of Contents
 
 - [Features](#features)
+- - [Multiple Scripture Support](#multiple-scripture-support)
+- - [How To Reference Verses](#how-to-reference-verses)
+- - [General Conference Support](#general-conference-support)
+- - [How To Quote General Conference](#how-to-quote-general-conference)
+- - [Multiple Language Support](#multiple-language-support)
 - [Quickstart](#quickstart)
-- [Book Names Reference](#book-names-reference)
+- [Book Names](#book-names)
 - [Local Book Installation](#local-book-installation)
-- [General Conference Support](#general-conference-support)
 - [NeoVim Plugin](#neovim-plugin)
-- [Development](#development)
+- [Versioning](#versioning)
 
 ---
 
 # Features
 
-## Multiple Scriptures Support
+## Multiple Scripture Support
 
 The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-topics/standard-works?lang=eng), or the volumes of scripture officially accepted by the Church of Jesus Christ, Latter Day Saints, are available.
 
@@ -28,11 +32,7 @@ The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-top
 - Doctrine and Covenants
 - Pearl of Great Price
 
-## General Conference Support
-
-You can also pull in full paragraphs from General Conference talks. General Conference support essentially scrapes the talk's webpage for the talk title, the author information, and then the paragraphs selected. This is highly dependent on programmers keeping consistent IDs for the different HTML elements. Even between the last few conferences there were differences. I believe I was able to account for the differences between the different years, thanks in large part to others in the LDS GitHub community. I cannot remember whose code had solved this problem, but I'm grateful. Please let me know if there is a talk or conference where it doesn't work.
-
-## Reference Verses
+## How To Reference Verses
 
 Insert a callout to a verse using this syntax: `:MC <Book Name> <Chapter Number>:<Verse Numbers>;`
 
@@ -48,21 +48,11 @@ Inserted Callout Example:
 
 ![verse-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/1%20Nephi11.png)
 
-## Multiple Language Support
+## General Conference Support
 
-As all verses and conference quotations are dynamically drawn from the official churchofjesuschrist.org website, any language supported on their website is supported with this plug-in.
+You can also pull in full paragraphs from General Conference talks. General Conference support essentially scrapes the talk's webpage for the talk title, the author information, and then the paragraphs selected. This is highly dependent on programmers keeping consistent IDs for the different HTML elements. Even between the last few conferences there were differences. I believe I was able to account for the differences between the different years, thanks in large part to others in the LDS GitHub community. I cannot remember whose code had solved this problem, but I'm grateful. Please let me know if there is a talk or conference where it doesn't work.
 
-You must first change the desired language in the settings panel for the plug-in:
-
-![language-choice](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/settings.png)
-
-For example, if Bulgarian is selected:
-
-![bulgarian-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%20MC%201%20Nephi11.png)
-
-![bulgarian-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%201%20Nephi11.png)
-
-## General Conference Quotes
+## How To Quote General Conference
 
 This works best while using Google Chrome. When at the Church website, you can highlight the paragraphs of a talk you want to include in your note:
 
@@ -90,6 +80,20 @@ Language support for conference talks comes directly from the language the talk 
 
 ![holland-bul-quote](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%20Conference.png)
 
+## Multiple Language Support
+
+As all verses and conference quotations are dynamically drawn from the official churchofjesuschrist.org website, any language supported on their website is supported with this plug-in.
+
+You must first change the desired language in the settings panel for the plug-in:
+
+![language-choice](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/settings.png)
+
+For example, if Bulgarian is selected:
+
+![bulgarian-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%20MC%201%20Nephi11.png)
+
+![bulgarian-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%201%20Nephi11.png)
+
 # Quickstart
 
 ## Requirements
@@ -111,7 +115,7 @@ The plugin can also be manually installed by:
 3. Reload Obsidian and navigate to the `Community Plugins` tab to see that installation is successful.
 4. Ensure the plugin is then enabled.
 
-# Book Names Reference
+# Book Names
 
 The list of book names used in this plugin can be referenced on [this page](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/2988ddffcfb99dee5828656cef5d55e435b3a526/docs/BOOKS.md).
 
@@ -141,7 +145,7 @@ yarn build
 
 3 files will be created in the root directory: `main.js`, `manifest.json`, `styles.css` -->
 
-## Versioning
+# Versioning
 
 This plugin follows [semver](https://semver.org/).
 
