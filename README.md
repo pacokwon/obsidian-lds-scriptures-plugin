@@ -29,7 +29,7 @@ Only English book titles are recognized. For example `:MC 1 Nephi 1:1;` is recog
 
 Example:
 
-![verse-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/tree/main/assets/images/Screenshot%202024-07-14%20at%209.27.59 PM.png)
+![verse-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/assets/images/Screenshot%202024-07-14%20at%209.27.59 PM)
 
 Inserted Callout Example:
 
