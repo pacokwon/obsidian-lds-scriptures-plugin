@@ -9,9 +9,9 @@ This code is an adaptation of a plug-in written by the wonderful [@pacokwon](htt
 
 - [Features](#features) 
     - [Multiple Scripture Support](#multiple-scripture-support)
-    - [How To Reference Verses](#how-to-reference-verses)
+        - [How to Reference Verses](#how-to-reference-verses)
     - [General Conference Support](#general-conference-support)
-    - [How To Quote General Conference](#how-to-quote-general-conference)
+        - [How to Quote General Conference](#how-to-quote-general-conference)
     - [Multiple Language Support](#multiple-language-support)
 - [Quickstart](#quickstart)
 - [Book Names](#book-names)
@@ -32,7 +32,7 @@ The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-top
 - Doctrine and Covenants
 - Pearl of Great Price
 
-## How To Reference Verses
+### How To Reference Verses
 
 Insert a callout to a verse using this syntax: `:MC <Book Name> <Chapter Number>:<Verse Numbers>;`
 
@@ -52,7 +52,7 @@ Inserted Callout Example:
 
 You can also pull in full paragraphs from General Conference talks. General Conference support essentially scrapes the talk's webpage for the talk title, the author information, and then the paragraphs selected. This is highly dependent on programmers keeping consistent IDs for the different HTML elements. Even between the last few conferences there were differences. I believe I was able to account for the differences between the different years, thanks in large part to others in the LDS GitHub community. I cannot remember whose code had solved this problem, but I'm grateful. Please let me know if there is a talk or conference where it doesn't work.
 
-## How To Quote General Conference
+### How To Quote General Conference
 
 This works best while using Google Chrome. When at the Church website, you can highlight the paragraphs of a talk you want to include in your note:
 
