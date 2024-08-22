@@ -3,7 +3,7 @@
     "name": "LDS Library Reference",
     "version": "1.0.3",
     "minAppVersion": "0.15.0",
-    "description": "Easily insert references to scripture and conference talks from the Church of Jesus Christ of Latterday Saints",
+    "description": "Easily insert references to scripture and conference talks from the Church of Jesus Christ of Latter-day Saints",
     "author": "pacokwon, ingiestein",
     "authorUrl": "https://github.com/ingiestein",
     "isDesktopOnly": false
