@@ -1,52 +1,52 @@
 /* CSS Variables */
 /* Common CSS Variables */
 :root {
-  --callout-icon-quote: quote;
-  --callout-font-size: 1em;
-  --callout-line-height: 1.5em;
-  --callout-title-font-size: 1.25em;
-  --callout-title-line-height: 1.75em;
-  --callout-padding: 10px 15px;
-  --callout-border-radius: 5px;
-  --callout-border-left-width: 2px;
+  --lds-callout-icon-quote: quote;
+  --lds-callout-font-size: 1em;
+  --lds-callout-line-height: 1.5em;
+  --lds-callout-title-font-size: 1.25em;
+  --lds-callout-title-line-height: 1.75em;
+  --lds-callout-padding: 10px 15px;
+  --lds-callout-border-radius: 5px;
+  --lds-callout-border-left-width: 2px;
 }
 
 /* Light Theme */
 .theme-light {
-  --callout-color-primary: #007da5;
-  --callout-color-bg: #ffffff;
-  --callout-color-border: #ffffff;
-  --callout-background-gradient: linear-gradient(to right, rgba(0, 125, 165, 0.1), rgba(0, 125, 165, 0));
+  --lds-callout-color-primary: #007da5;
+  --lds-callout-color-bg: #ffffff;
+  --lds-callout-color-border: #ffffff;
+  --lds-callout-background-gradient: linear-gradient(to right, rgba(0, 125, 165, 0.1), rgba(0, 125, 165, 0));
 }
 
 /* Dark Theme */
 .theme-dark {
-  --callout-color-primary: #00c7ff;
-  --callout-color-bg: #333333;
-  --callout-color-border: #444444;
-  --callout-background-gradient: linear-gradient(to right, rgba(0, 199, 255, 0.1), rgba(0, 199, 255, 0));
+  --lds-callout-color-primary: #00c7ff;
+  --lds-callout-color-bg: #333333;
+  --lds-callout-color-border: #444444;
+  --lds-callout-background-gradient: linear-gradient(to right, rgba(0, 199, 255, 0.1), rgba(0, 199, 255, 0));
 }
 
 /* Mormon Callout */
 .callout[data-callout='mormon'] {
-  --callout-icon: var(--callout-icon-quote);
-  --link-external-color: var(--callout-color-primary);
-  border-color: var(--callout-color-border) !important;
-  border-radius: var(--callout-border-radius);
-  border-left-color: var(--callout-color-primary) !important;
-  border-left-width: var(--callout-border-left-width) !important;
-  background-color: var(--callout-color-bg);
-  background-image: var(--callout-background-gradient);
-  font-size: var(--callout-font-size);
-  line-height: var(--callout-line-height);
+  --lds-callout-icon: var(--lds-callout-icon-quote);
+  --link-external-color: var(--lds-callout-color-primary);
+  border-color: var(--lds-callout-color-border) !important;
+  border-radius: var(--lds-callout-border-radius);
+  border-left-color: var(--lds-callout-color-primary) !important;
+  border-left-width: var(--lds-callout-border-left-width) !important;
+  background-color: var(--lds-callout-color-bg);
+  background-image: var(--lds-callout-background-gradient);
+  font-size: var(--lds-callout-font-size);
+  line-height: var(--lds-callout-line-height);
   margin: auto;
   margin-bottom: 10px;
-  padding: var(--callout-padding);
+  padding: var(--lds-callout-padding);
 
   & > .callout-title > .callout-title-inner {
-    color: var(--callout-color-primary);
-    font-size: var(--callout-title-font-size);
-    line-height: var(--callout-title-line-height);
+    color: var(--lds-callout-color-primary);
+    font-size: var(--lds-callout-title-font-size);
+    line-height: var(--lds-callout-title-line-height);
   }
 
   & > .callout-title > .callout-icon {
@@ -62,24 +62,24 @@
 
 /* GenCon Callout */
 .callout[data-callout='gencon'] {
-  --callout-icon: var(--callout-icon-quote);
-  --link-external-color: var(--callout-color-primary);
-  border-color: var(--callout-color-border) !important;
-  border-radius: var(--callout-border-radius);
-  border-left-color: var(--callout-color-primary) !important;
-  border-left-width: var(--callout-border-left-width) !important;
-  background-color: var(--callout-color-bg);
-  background-image: var(--callout-background-gradient);
-  font-size: var(--callout-font-size);
-  line-height: var(--callout-line-height);
+  --lds-callout-icon: var(--lds-callout-icon-quote);
+  --link-external-color: var(--lds-callout-color-primary);
+  border-color: var(--lds-callout-color-border) !important;
+  border-radius: var(--lds-callout-border-radius);
+  border-left-color: var(--lds-callout-color-primary) !important;
+  border-left-width: var(--lds-callout-border-left-width) !important;
+  background-color: var(--lds-callout-color-bg);
+  background-image: var(--lds-callout-background-gradient);
+  font-size: var(--lds-callout-font-size);
+  line-height: var(--lds-callout-line-height);
   margin: auto;
   margin-bottom: 10px;
-  padding: var(--callout-padding);
+  padding: var(--lds-callout-padding);
 
   & > .callout-title > .callout-title-inner {
-    color: var(--callout-color-primary);
-    font-size: var(--callout-title-font-size);
-    line-height: var(--callout-title-line-height);
+    color: var(--lds-callout-color-primary);
+    font-size: var(--lds-callout-title-font-size);
+    line-height: var(--lds-callout-title-line-height);
   }
 
   & > .callout-title > .callout-icon {
@@ -98,9 +98,9 @@
   border-color: transparent !important;
   background-color: transparent !important;
   text-align: right;
-  color: var(--callout-color-primary);
-  font-size: var(--callout-font-size);
-  line-height: var(--callout-line-height);
+  color: var(--lds-callout-color-primary);
+  font-size: var(--lds-callout-font-size);
+  line-height: var(--lds-callout-line-height);
   margin: auto;
 
   & > .callout-title > .callout-icon {
@@ -113,7 +113,7 @@
 }
 
 cite {
-  color: var(--callout-color-primary);
+  color: var(--lds-callout-color-primary);
   text-align: end;
   display: block;
 }
