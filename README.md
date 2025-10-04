@@ -1,11 +1,10 @@
 # LDS Library Reference Plugin for Obsidian
 
 Easily insert your favorite scripture verses and selections from General Conference talks into Obsidian!
-This code is an adaptation of a plug-in written by the wonderful [@pacokwon](https://github.com/pacokwon/obsidian-lds-scriptures-plugin). I've updated and expanded it while he's on his mission in New York. When he returns I plan to merge this repository with his.
 
 ---
 
-### Table of Contents
+## Table of Contents
 
 - [Features](#features) 
     - [Multiple Scripture Support](#multiple-scripture-support)
@@ -110,8 +109,8 @@ This plugin can be found from the list of community plugins for Obsidian. Open O
 
 The plugin can also be manually installed by:
 
-1. Creating a directory called `lds-library-reference` under `.obsidian/plugins/` within your vault.
-2. From this plugin's [Releases Page](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/releases), download and put `main.js`, `manifest.json`, `styles.css` into `.obsidian/plugins/lds-library-reference/`.
+1. Creating a directory called `lds-library-plugin` under `.obsidian/plugins/` within your vault.
+2. From this plugin's [Releases Page](https://github.com/pacokwon/obsidian-lds-library-plugin/releases), download and put `main.js`, `manifest.json`, `styles.css` into `.obsidian/plugins/lds-library-reference/`.
 3. Reload Obsidian and navigate to the `Community Plugins` tab to see that installation is successful.
 4. Ensure the plugin is then enabled.
 
@@ -119,15 +118,11 @@ The plugin can also be manually installed by:
 
 The list of book names used in this plugin can be referenced on [this page](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/2988ddffcfb99dee5828656cef5d55e435b3a526/docs/BOOKS.md).
 
-# Local Book Installation
+# Neovim Plugin
 
-The original plug-in by [@pacokwon](https://github.com/pacokwon/obsidian-lds-scriptures-plugin) required local installation of the scriptures, and was limited to a few languages that he had scraped from the Church's website. This version does NOT download any external files to your computer. As a result this plug-in only works when you have an internet connection.
+If you like to use Neovim and want similar functionality check out [LDSLibrary.nvim](https://github.com/ingiestein/LDSLibrary.nvim), and [obsidian.nvim](https://github.com/epwalsh/obsidian.nvim).
 
-# NeoVim Plugin
-
-If you like to use NeoVim and want similar functionality check out [LDSLibrary.nvim](https://github.com/ingiestein/LDSLibrary.nvim), and [obsidian.nvim](https://github.com/epwalsh/obsidian.nvim).
-
-<!-- # Development
+# Development
 
 ## Build
 
@@ -143,7 +138,7 @@ Run build script:
 yarn build
 ```
 
-3 files will be created in the root directory: `main.js`, `manifest.json`, `styles.css` -->
+3 files will be created in the root directory: `main.js`, `manifest.json`, `styles.css`
 
 # Versioning
 
