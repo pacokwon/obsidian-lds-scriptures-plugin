@@ -1,7 +1,7 @@
 {
-    "name": "lds-scriptures-reference",
-    "version": "1.2.0",
-    "description": "Easily insert refernces to LDS scriptures",
+    "name": "lds-library-reference",
+    "version": "1.0.3",
+    "description": "Easily insert references to scripture and conference talks from the Church of Jesus Christ of Latterday Saints",
     "main": "main.js",
     "scripts": {
         "dev": "node esbuild.config.mjs",
@@ -14,7 +14,7 @@
         "book of mormon",
         "obsidian"
     ],
-    "author": "pacokwon",
+    "author": "pacokwon, ingiestein",
     "license": "MIT",
     "devDependencies": {
         "@types/node": "^16.11.6",
@@ -29,6 +29,9 @@
         "typescript": "4.7.4"
     },
     "dependencies": {
+        "@types/cheerio": "^0.22.35",
+        "cheerio": "^1.0.0-rc.10",
+        "date-fns": "^3.6.0",
         "tar": "^6.1.14"
     }
 }

@@ -1,22 +1,19 @@
 import { Plugin } from "obsidian";
-import { BookOfMormonSettings, DEFAULT_SETTINGS } from "./settings";
+import { LdsLibrarySettings, DEFAULT_SETTINGS } from "./settings";
+import { GenConSuggester, VerseSuggester } from './suggestion/suggester';
+import { LdsLibrarySettingTab } from './ui/SettingTab';
 
-import { Suggester } from './suggestion/suggester';
-import { installTranslation } from "./translation";
-import { BookOfMormonSettingTab } from './ui/BookOfMormonSettingTab';
-
-export default class BookOfMormonPlugin extends Plugin {
-    settings: BookOfMormonSettings;
+export default class LdsLibraryPlugin extends Plugin {
+    settings: LdsLibrarySettings;
 
     async onload() {
         await this.loadSettings();
+        this.addSettingTab(new LdsLibrarySettingTab(this.app, this));
+        this.registerEditorSuggest(new VerseSuggester(this));
+        this.registerEditorSuggest(new GenConSuggester(this))
 
-        await installTranslation(this.manifest.id, this.settings.language);
-
-        this.addSettingTab(new BookOfMormonSettingTab(this.app, this));
-        this.registerEditorSuggest(new Suggester(this));
     }
-
+ 
     onunload() {}
 
     async loadSettings() {
@@ -29,6 +26,6 @@ export default class BookOfMormonPlugin extends Plugin {
 
     async saveSettings() {
         await this.saveData(this.settings);
-        await installTranslation(this.manifest.id, this.settings.language);
     }
 }
+

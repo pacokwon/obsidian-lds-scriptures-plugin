@@ -6,28 +6,33 @@ import {
     EditorSuggestTriggerInfo,
     TFile,
 } from "obsidian";
-import BookOfMormonPlugin from "src/main";
+import LdsLibraryPlugin from "src/main";
 import { VerseSuggestion } from "./VerseSuggestion";
-import * as fs from "fs/promises";
-import { getScripturesPath } from "src/metadata";
+import { GenConSuggestion } from "./GenConSuggestion";
 
-const SHORT_REG = /\+([123])*[A-z ]{3,}\d{1,3}:\d{1,3}(-\d{1,3})*/;
-const FULL_REG = /\+([123]*[A-z ]{3,}) (\d{1,3}):(\d{1,3}(?:-\d{1,3})*)/i;
+const VERSE_REG = /\:MC.*;/i;
+const FULL_VERSE_REG = /\:MC ([123]*[A-z ]{3,}) (\d{1,3}):(.*);/i;
+const GEN_CON_CITE_REG =
+    /\:MC https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,2}\/[\w-]+\?lang=\w+/;
+const GEN_CON_REG =
+    /\:MC https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9-]+#[a-zA-Z0-9-]+)?/;
 
-export class Suggester extends EditorSuggest<VerseSuggestion> {
-    constructor(public plugin: BookOfMormonPlugin) {
+// const GEN_CON_REG = /\+1234/;
+
+export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
+    constructor(public plugin: LdsLibraryPlugin) {
         super(plugin.app);
     }
 
     onTrigger(
         cursor: EditorPosition,
         editor: Editor,
-        _file: TFile | null
+        _file: TFile | null,
     ): EditorSuggestTriggerInfo | null {
         const currentContent = editor
             .getLine(cursor.line)
             .substring(0, cursor.ch);
-        const match = currentContent.match(SHORT_REG)?.first() ?? "";
+        const match = currentContent.match(VERSE_REG)?.[0] ?? "";
 
         if (!match) return null;
 
@@ -42,30 +47,31 @@ export class Suggester extends EditorSuggest<VerseSuggestion> {
     }
 
     async getSuggestions(
-        context: EditorSuggestContext
+        context: EditorSuggestContext,
     ): Promise<VerseSuggestion[]> {
-        const { language } = this.plugin.settings;
-        const scripturePath = getScripturesPath(this.plugin.manifest.id, language);
+        const { language, linkType, createChapterLink } = this.plugin.settings;
         const { query } = context;
 
-        const fullMatch = query.match(FULL_REG);
-        if (fullMatch === null)
-            return [];
+        const fullMatch = query.match(FULL_VERSE_REG);
+        
+        if (fullMatch === null) return [];
+        
+
 
         const book = fullMatch[1];
         const chapter = Number(fullMatch[2]);
-        const { start, end } = this.parseRange(fullMatch[3]);
+        const verses:number[] = this.parseVerses(fullMatch[3]);
 
-        if (end !== null && start > end)
-            return [];
 
-        // bail out if there is no matching book
-        const filenames = await fs.readdir(scripturePath);
-        const candidate = filenames.find(name => name.startsWith(book));
-        if (!candidate)
-            return [];
-
-        const suggestion = new VerseSuggestion(this.plugin.manifest.id, book, chapter, start, end, language);
+        const suggestion = new VerseSuggestion(
+            this.plugin.manifest.id,
+            book,
+            chapter,
+            verses,
+            language,
+            linkType,
+            createChapterLink,
+        );
         await suggestion.loadVerse();
         return [suggestion];
     }
@@ -76,27 +82,119 @@ export class Suggester extends EditorSuggest<VerseSuggestion> {
 
     selectSuggestion(
         suggestion: VerseSuggestion,
-        _evt: MouseEvent | KeyboardEvent
+        _evt: MouseEvent | KeyboardEvent,
     ): void {
-        if (!this.context)
-            return;
+        if (!this.context) return;
 
         this.context.editor.replaceRange(
             suggestion.getReplacement(),
             this.context.start,
-            this.context.end
-        )
+            this.context.end,
+        );
     }
 
-    parseRange(range: string): { start: number, end: number | null } {
-        const splitted = range.split("-");
+    expandRange(range: string): number[] {
+        const [s, e] = range.split('-');
 
-        if (splitted.length === 1)
-            return { start: Number(splitted[0]), end: null };
+        let start = Number(s.trim());
+        let end = Number(e.trim());
+
+        const result = [];
+
+        for (let i = start; i <= end; i++) {
+          result.push(i);
+
+        }
+        return result;
+    }
+
+    parseVerses(input: string):number[] {
+        const items = input.split(',');
+        let result: number[] = [];
+      
+        for (const item of items) {
+          if (item.includes('-')) {
+            result = result.concat(this.expandRange(item));
+
+          } else {
+            result.push(Number(item));
+          }
+        }
+        const uniqueArray = Array.from(new Set(result));
+        return uniqueArray;
+      }
+
+    
+}
+
+export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
+    constructor(public plugin: LdsLibraryPlugin) {
+        super(plugin.app);
+    }
+
+    onTrigger(
+        cursor: EditorPosition,
+        editor: Editor,
+        _file: TFile | null,
+    ): EditorSuggestTriggerInfo | null {
+        const currentContent = editor
+            .getLine(cursor.line)
+            .substring(0, cursor.ch);
+        const match = currentContent.match(GEN_CON_REG)?.[0] ?? "";
+
+        if (!match) {
+            return null;
+        }
 
         return {
-            start: Number(splitted[0]),
-            end: Number(splitted[1]),
+            start: {
+                line: cursor.line,
+                ch: currentContent.lastIndexOf(match),
+            },
+            end: cursor,
+            query: match,
         };
+    }
+
+    async getSuggestions(
+        context: EditorSuggestContext,
+    ): Promise<GenConSuggestion[]> {
+        const { query } = context;
+        const fullMatch = query.match(GEN_CON_REG);
+        const { language, linkType, createChapterLink } = this.plugin.settings;
+
+        if (fullMatch === null) {
+
+            return [];
+        }
+
+
+        const talk = fullMatch[0].replace(/^\:MC /, "");
+
+        const suggestion = new GenConSuggestion(
+            this.plugin.manifest.id,
+            talk,
+            linkType,
+        );
+        await suggestion.loadTalk();
+
+        return [suggestion];
+    }
+
+    renderSuggestion(suggestion: GenConSuggestion, el: HTMLElement): void {
+        suggestion.render(el);
+    }
+
+    selectSuggestion(
+        suggestion: GenConSuggestion,
+        _evt: MouseEvent | KeyboardEvent,
+    ): void {
+        if (!this.context) return;
+
+        this.context.editor.replaceRange(
+            suggestion.getReplacement(),
+            this.context.start,
+            this.context.end,
+        );
     }
 }

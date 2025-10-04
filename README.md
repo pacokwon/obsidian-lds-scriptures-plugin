@@ -1,106 +1,152 @@
-# LDS Scriptures Reference Plugin for Obsidian
+# LDS Library Reference Plugin for Obsidian
 
-Easily insert your favorite scripture verses in Obsidian!
+Easily insert your favorite scripture verses and selections from General Conference talks into Obsidian!
+This code is an adaptation of a plug-in written by the wonderful [@pacokwon](https://github.com/pacokwon/obsidian-lds-scriptures-plugin). I've updated and expanded it while he's on his mission in New York. When he returns I plan to merge this repository with his.
 
 ---
 
 ### Table of Contents
-- [Features](#features)
+
+- [Features](#features) 
+    - [Multiple Scripture Support](#multiple-scripture-support)
+        - [How to Reference Verses](#how-to-reference-verses)
+    - [General Conference Support](#general-conference-support)
+        - [How to Quote General Conference](#how-to-quote-general-conference)
+    - [Multiple Language Support](#multiple-language-support)
 - [Quickstart](#quickstart)
-- [Book Names Reference](#book-names-reference)
+- [Book Names](#book-names)
 - [Local Book Installation](#local-book-installation)
-- [Development](#development)
+- [NeoVim Plugin](#neovim-plugin)
+- [Versioning](#versioning)
 
 ---
 
 # Features
-## Reference Verse
-Insert a callout to a verse using this syntax: `+<Book Name> <Chapter Number>:<Verse Number>`
+
+## Multiple Scripture Support
+
+The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-topics/standard-works?lang=eng), or the volumes of scripture officially accepted by the Church of Jesus Christ of Latter-day Saints are available.
+
+- Holy Bible (King James Version)
+- Book of Mormon
+- Doctrine and Covenants
+- Pearl of Great Price
+
+### How To Reference Verses
+
+Insert a callout to a verse using this syntax: `:MC <Book Name> <Chapter Number>:<Verse Numbers>;`
+
+You can referece any range, selection, or series of verses from a given chapter using the above syntax. Obsidian won't recognize your desired reference until you add the ';' at the end.
+
+Only English book titles are recognized. For example `:MC 1 Nephi 1:1;` is recognized, but `:MC 1 Нефи 1:1;` isn't.
 
 Example:
 
-![verse-completion](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/assets/31656049/a4d0397d-deb1-4e3b-bbce-cd6661742572)
+![verse-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/MC%201%20Nephi11.png)
 
 Inserted Callout Example:
 
-![verse-insertion](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/assets/31656049/8fc59255-f845-4b99-86be-edaee94c16a7)
+![verse-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/1%20Nephi11.png)
 
+## General Conference Support
 
-## Reference Range
-You can also insert a callout to a range of verses using this syntax: `+<Book Name> <Chapter Number>:<Verse Start>-<Verse End>`
+You can also pull in full paragraphs from General Conference talks. General Conference support essentially scrapes the talk's webpage for the talk title, the author information, and then the paragraphs selected. This is highly dependent on programmers keeping consistent IDs for the different HTML elements. Even between the last few conferences there were differences. I believe I was able to account for the differences between the different years, thanks in large part to others in the LDS GitHub community. I cannot remember whose code had solved this problem, but I'm grateful. Please let me know if there is a talk or conference where it doesn't work.
 
-Example:
+### How To Quote General Conference
 
-![range-completion](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/assets/31656049/655004bc-1a11-4ad2-a887-7983cfb4f82f)
+This works best while using Google Chrome. When at the Church website, you can highlight the paragraphs of a talk you want to include in your note:
 
-Inserted Callout Example:
+![gen-con-highlight](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Conference%20Highlight%201.png)
 
-![range-insertion](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/assets/31656049/095bbbf0-ca70-4380-98e4-2988175b6bd4)
+There will appear near your cursor a link button. Once pressed the button array will change and a "Copy URL" option will appear.
+
+![gen-con-link](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Conference%20Highlight%202.png)
+
+Once that URL is copied, paste the link into Obsidian with the syntax: `:MC <LINKED URL>`
+
+This will automatically bring the highlighted paragraph(s) into your document. Note that the command for General Conference Talks do NOT end in ';'.
+
+For example if you were taking a quote from President Holland's April 2024 talk, you could use the following:
+
+![holland-suggestion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/MC%20Conference.png)
+
+This would include the 4th paragraph of his talk in your note, formatted with the talk title, the quoted text, and the speaker.
+
+![holland-quote](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Conference.png)
+
+Language support for conference talks comes directly from the language the talk quote was selected from, or you can manually change the "lang=eng" section of the URL to the corresponding value for your desired language. The language is not affected by the language selected under the plug-in settings.
+
+![holland-bul-suggestion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/MC%20Bulgarian%20Conference.png)
+
+![holland-bul-quote](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%20Conference.png)
 
 ## Multiple Language Support
-Currently, the following translations are available:
 
-* `deu` - German,
-* `eng` - English,
-* `jpn` - 日本語,
-* `kor` - 한국어,
-* `spa` - Español,
+As all verses and conference quotations are dynamically drawn from the official churchofjesuschrist.org website, any language supported on their website is supported with this plug-in.
 
-If you would like to use other translations, please feel free to submit an issue to the [translations repository](https://github.com/pacokwon/lds-scripture-translations/).
+You must first change the desired language in the settings panel for the plug-in:
 
-## Multiple Scriptures Support
-The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-topics/standard-works?lang=eng), or the volumes of scripture officially accepted by the Church of Jesus Christ, Latter Day Saints, are available.
+![language-choice](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/settings.png)
 
-* Holy Bible (King James Version)
-* Book of Mormon
-* Doctrine and Covenants
-* Pearl of Great Price
+For example, if Bulgarian is selected:
+
+![bulgarian-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%20MC%201%20Nephi11.png)
+
+![bulgarian-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%201%20Nephi11.png)
 
 # Quickstart
 
 ## Requirements
+
 You only need Obsidian installed!
 
 ## Installation
+
 ### Community Plugin
-This plugin can be found from the list of community plugins for Obsidian. Open Obsidian's Settings > Community Plugins, and click `Browse` to search this plugin's name and install.
+
+This plugin can be found from the list of community plugins for Obsidian. Open Obsidian's Settings -> Community Plugins, and click `Browse` to search this plugin's name and install.
 
 ### Manual Installation
-The plugin can also be manually installed by:
-1. Creating a directory called `lds-scriptures-reference` under `.obsidian/plugins` of your vault
-2. From this plugin's [Releases Page](https://github.com/pacokwon/obsidian-lds-scriptures-plugin/releases), download and put `main.js`, `manifest.json`, `styles.css` into `.obsidian/plugins/lds-scriptures-reference`
-3. Reload Obsidian and navigate to the `Community Plugins` tab to see that installation is successful
 
-# Book Names Reference
-The list of book names, used in this plugin can be referenced on [this page](docs/BOOKS.md)
+The plugin can also be manually installed by:
+
+1. Creating a directory called `lds-library-reference` under `.obsidian/plugins/` within your vault.
+2. From this plugin's [Releases Page](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/releases), download and put `main.js`, `manifest.json`, `styles.css` into `.obsidian/plugins/lds-library-reference/`.
+3. Reload Obsidian and navigate to the `Community Plugins` tab to see that installation is successful.
+4. Ensure the plugin is then enabled.
+
+# Book Names
+
+The list of book names used in this plugin can be referenced on [this page](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/2988ddffcfb99dee5828656cef5d55e435b3a526/docs/BOOKS.md).
 
 # Local Book Installation
-Currently, there are no solid options for retrieving verses from LDS scriptures using an API, except the Holy Bible. Therefore this plugin stores scripture data locally. The English translation is 14MB in size, but please note that size may vary between translations.
 
-This plugin utilizes [env-paths](https://github.com/sindresorhus/env-paths) under the hood to resolve the translation data directory. Depending on your platform, the translations will be stored in a different location.
+The original plug-in by [@pacokwon](https://github.com/pacokwon/obsidian-lds-scriptures-plugin) required local installation of the scriptures, and was limited to a few languages that he had scraped from the Church's website. This version does NOT download any external files to your computer. As a result this plug-in only works when you have an internet connection.
 
-* For Windows: `C:\Users\<USERNAME>\AppData\Roaming\lds-scriptures-reference\Config\translations`
-* For macos: `~/Library/Preferences/lds-scriptures-reference/translations`
-* For linux: `$XDG_CONFIG_HOME/lds-scriptures-reference/translations`
+# NeoVim Plugin
 
-Also note that since there are 100+ official translations of these scriptures, the scriptures data are NOT included in the plugin itself, but lazily installed as you select your language in the plugin preferences tab.
+If you like to use NeoVim and want similar functionality check out [LDSLibrary.nvim](https://github.com/ingiestein/LDSLibrary.nvim), and [obsidian.nvim](https://github.com/epwalsh/obsidian.nvim).
 
-# Development
+<!-- # Development
 
 ## Build
+
 Install dependencies:
+
 ```bash
-$ yarn
+yarn
 ```
 
 Run build script:
+
 ```bash
-$ yarn build
+yarn build
 ```
 
-3 files will be created in the root directory: `main.js`, `manifest.json`, `styles.css`
+3 files will be created in the root directory: `main.js`, `manifest.json`, `styles.css` -->
 
-## Versioning
+# Versioning
+
 This plugin follows [semver](https://semver.org/).
 
 To publish a new release, tag it with `git tag -a <major.minor.patch> -m <message>`
