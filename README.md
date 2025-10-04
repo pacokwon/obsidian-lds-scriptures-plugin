@@ -14,8 +14,8 @@ Easily insert your favorite scripture verses and selections from General Confere
     - [Multiple Language Support](#multiple-language-support)
 - [Quickstart](#quickstart)
 - [Book Names](#book-names)
-- [Local Book Installation](#local-book-installation)
-- [NeoVim Plugin](#neovim-plugin)
+- [Neovim Plugin](#neovim-plugin)
+- [Development](#development)
 - [Versioning](#versioning)
 
 ---
