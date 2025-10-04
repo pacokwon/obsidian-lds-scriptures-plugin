@@ -21,4 +21,10 @@ data.json
 # Exclude macOS Finder (System Explorer) View States
 .DS_Store
 
-translations/
+# https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
