@@ -6,7 +6,7 @@ import {
     EditorSuggestTriggerInfo,
     TFile,
 } from "obsidian";
-import BookOfMormonPlugin from "src/main";
+import LdsLibraryPlugin from "src/main";
 import { VerseSuggestion } from "./VerseSuggestion";
 import { GenConSuggestion } from "./GenConSuggestion";
 
@@ -20,7 +20,7 @@ const GEN_CON_REG =
 // const GEN_CON_REG = /\+1234/;
 
 export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
-    constructor(public plugin: BookOfMormonPlugin) {
+    constructor(public plugin: LdsLibraryPlugin) {
         super(plugin.app);
     }
 
@@ -128,7 +128,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
 }
 
 export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
-    constructor(public plugin: BookOfMormonPlugin) {
+    constructor(public plugin: LdsLibraryPlugin) {
         super(plugin.app);
     }
 
