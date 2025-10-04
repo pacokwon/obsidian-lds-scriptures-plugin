@@ -45,7 +45,7 @@ export class GenConSuggestion {
         let outstring: string = "";
 
         this.content.content.forEach((element) => {
-            outstring = outstring + `> ${element} \n>\n `;
+            outstring = outstring + `> ${element}\n>\n `;
         }
         )
         return outstring
