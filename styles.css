@@ -27,8 +27,8 @@
   --lds-callout-background-gradient: linear-gradient(to right, rgba(0, 199, 255, 0.1), rgba(0, 199, 255, 0));
 }
 
-/* Mormon Callout */
-.callout[data-callout='mormon'] {
+/* Lds Callout */
+.callout[data-callout='lds'] {
   --lds-callout-icon: var(--lds-callout-icon-quote);
   --link-external-color: var(--lds-callout-color-primary);
   border-color: var(--lds-callout-color-border) !important;
@@ -55,7 +55,7 @@
   }
 }
 
-.callout[data-callout="mormon"] .callout-content p {
+.callout[data-callout="lds"] .callout-content p {
   font-style: italic;
   /* text-align: center; */
 }

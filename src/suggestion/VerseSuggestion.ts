@@ -37,7 +37,7 @@ export class VerseSuggestion {
                 // Wiki style link to chapter document and outside URL
                 // const headerFront = `[[${this.book_title_in_language} ${this.chapter}|${this.book_title_in_language} ${this.chapter}:${range}]]`;
                 const headerFront = `[[${this.book_title_in_language}|${this.book_title_in_language}:${range}]]`;
-                const head = `> [!Mormon] ${headerFront} \n [churchofjesuschrist.org](${this.url})`;
+                const head = `> [!LDS] ${headerFront} \n [churchofjesuschrist.org](${this.url})`;
                 return head + "\n" + this.text + "\n";
             } else if (linktype == "markdown") {
                 // Markdown style link with spaces encoded as %20
@@ -45,14 +45,14 @@ export class VerseSuggestion {
                     `${this.book_title_in_language}`,
                 );
                 const headerFront = `[${this.book_title_in_language}:${range}](${encodedBookChapter})`;
-                const head = `> [!Mormon] ${headerFront} \n [churchofjesuschrist.org](${this.url})`;
+                const head = `> [!LDS] ${headerFront} \n [churchofjesuschrist.org](${this.url})`;
                 return head + "\n" + this.text + "\n";
             }
         }
 
         // Normal function
         const headerFront = `${this.book_title_in_language}:`;
-        const head = `> [!Mormon] [${headerFront}${range}](${this.url})`;
+        const head = `> [!LDS] [${headerFront}${range}](${this.url})`;
         return head + "\n" + this.text + "\n";
     }
 
