@@ -1,14 +1,9 @@
-import { requestUrl } from "obsidian";
 import * as cheerio from "cheerio";
+import { requestUrl } from "obsidian";
+import { GenConTalkData } from "@/types";
+import { buildAPIURL, cheerioFind } from "./api";
+import { AUTHOR_QUERIES, AUTHOR_TITLE, NAME_QUERIES } from "./config";
 import { parseURL } from "./urlparsing";
-import { GenConTalkData } from "../types";
-import {
-    NAME_QUERIES,
-    AUTHOR_QUERIES,
-    AUTHOR_TITLE,
-    PARAGRAPHS_IN_BODY_QUERY,
-} from "./config";
-import { buildAPIURL, cheerioFind } from "./apiutils";
 
 export async function fetchGenConTalk(
     url: string,

@@ -1,9 +1,9 @@
-import { requestUrl } from "obsidian";
 import * as cheerio from "cheerio";
-import { parseURL } from "./urlparsing";
-import { ScriptureData } from "../types";
-import { buildAPIURL, cheerioFind } from "./apiutils";
+import { requestUrl } from "obsidian";
+import { ScriptureData } from "@/types";
+import { buildAPIURL, cheerioFind } from "./api";
 import { PARAGRAPHS_IN_BODY_QUERY } from "./config";
+import { parseURL } from "./urlparsing";
 
 export async function fetchScripture(
     url: string,

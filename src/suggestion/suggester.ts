@@ -6,9 +6,9 @@ import {
     EditorSuggestTriggerInfo,
     TFile,
 } from "obsidian";
-import LdsLibraryPlugin from "src/main";
-import { VerseSuggestion } from "./VerseSuggestion";
+import LdsLibraryPlugin from "@/LdsLibraryPlugin";
 import { GenConSuggestion } from "./GenConSuggestion";
+import { VerseSuggestion } from "./VerseSuggestion";
 
 const VERSE_REG = /:MC.*;/i;
 const FULL_VERSE_REG = /:MC ([123]*[A-z ]{3,}) (\d{1,3}):(.*);/i;

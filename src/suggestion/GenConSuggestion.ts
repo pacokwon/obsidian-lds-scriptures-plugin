@@ -1,6 +1,6 @@
 import { format, parse } from "date-fns";
-import { GenConTalkData } from "src/types";
-import { fetchGenConTalk } from "src/utils/generalconference";
+import { GenConTalkData } from "@/types";
+import { fetchGenConTalk } from "@/utils/general-conference";
 
 export class GenConSuggestion {
     public text: string;
