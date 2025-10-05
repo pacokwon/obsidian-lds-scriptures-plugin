@@ -40,6 +40,14 @@ export function parseURL(url: string): ParsedURL {
                     start: match[1],
                     end: match[1],
                 };
+            } else {
+                match = id.match(/p(\d+)/);
+                if (match) {
+                    paragraphs = {
+                        start: parseInt(match[1], 10),
+                        end: parseInt(match[1], 10),
+                    };
+                }
             }
         }
 
