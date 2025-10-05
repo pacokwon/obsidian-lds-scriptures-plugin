@@ -1,6 +1,6 @@
+import { format, parse } from "date-fns";
 import { GenConTalkData } from "src/types";
 import { fetchGenConTalk } from "src/utils/generalconference";
-import { format, parse } from "date-fns";
 
 export class GenConSuggestion {
     public text: string;
@@ -26,7 +26,6 @@ export class GenConSuggestion {
     };
 
     public getReplacement(): string {
-        //      let linktype = this.linkType;
         this.text = this.toText();
         let headerFront = `>[!gencon] [${this.content.title}](${this.url})`;
         const attribution = `>> [!genconcitation]\n>> ${this.content.author[0]}\n>> ${this.content.author[1]}\n>>${this.date}`;
@@ -34,19 +33,17 @@ export class GenConSuggestion {
     }
 
     private toPreviewText(talkData: GenConTalkData): string {
-        // this.previewText = talkData.title + "\n\n" +
-        //      talkData.content[0]
-
         let text = `${talkData.title} ${talkData.author[0]}`;
         return text;
     }
 
     private toText(): string {
-        let outstring: string = "";
+        let outstring = "";
 
         this.content.content.forEach((element) => {
             outstring = outstring + `> ${element}\n>\n `;
         });
+
         return outstring;
     }
 

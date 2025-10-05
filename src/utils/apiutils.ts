@@ -1,15 +1,19 @@
 // Some of the following code is adapted from @epeters3 in his repository https://github.com/epeters3/gospel-search
 
+type Query = {
+    name: string;
+} & ({ class: string } | { id: string });
+
 export function cheerioFind(
     $: cheerio.Root,
-    queries: any[],
+    queries: Query[],
 ): cheerio.Cheerio | null {
     for (const query of queries) {
-        const elements = $(query.name).filter((_, el) => {
-            return Object.keys(query).every(
-                (key) => key === "name" || $(el).attr(key) === query[key],
-            );
-        });
+        const elements = $(query.name).filter((_, el) =>
+            Object.entries(query).every(
+                ([key, value]) => key === "name" || $(el).attr(key) === value,
+            ),
+        );
         if (elements.length > 0) {
             return elements.first();
         }
