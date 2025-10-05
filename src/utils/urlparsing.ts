@@ -7,8 +7,8 @@ interface ParsedURL {
         id?: string;
     };
     paragraphs?: {
-        start: number;
-        end: number;
+        start: string | number;
+        end: string | number;
     };
 }
 
@@ -23,9 +23,33 @@ export function parseURL(url: string): ParsedURL {
     });
     
     let paragraphs;
+
     const id = queryParams.id;
-    if (typeof id === 'string') {
-        let match = id.match(/p(\d+)-p(\d+)/);
+
+    console.log(`URL: ${url}. ID: ${id}`);
+
+    if (typeof id === 'string'){
+        console.log(`trying string`);
+        let match = id.match(/(p_[a-zA-Z0-9_-]+)-(p_[a-zA-Z0-9_-]+)/);
+        if (match) {
+            paragraphs = {
+                start: match[1],
+                end: match[2]
+            };
+            console.log(`${paragraphs.start}, ${paragraphs.end}`)
+        } else {
+            match = id.match(/(p_[a-zA-Z0-9_-]+)/);
+            if (match) {
+                paragraphs = {
+                    start: match[1], 
+                    end: match[1]
+                };
+            }
+        }
+    
+    if (!paragraphs) {
+        console.log(`trying numerical`);
+        match = id.match(/p(\d+)-p(\d+)/);
         if (match) {
             paragraphs = {
                 start: parseInt(match[1], 10),
@@ -37,10 +61,34 @@ export function parseURL(url: string): ParsedURL {
                 paragraphs = {
                     start: parseInt(match[1], 10),
                     end: parseInt(match[1], 10)
-                };
-            }
-        }
+                            };
+                        }
+                }
     }
+    
+    
+    }
+
+
+    // if (typeof id === 'string') {
+    //     let match = id.match(/p(\d+)-p(\d+)/);
+    //     if (match) {
+    //         paragraphs = {
+    //             start: parseInt(match[1], 10),
+    //             end: parseInt(match[2], 10)
+    //         };
+    //     } else {
+    //         match = id.match(/p(\d+)/);
+    //         if (match) {
+    //             paragraphs = {
+    //                 start: parseInt(match[1], 10),
+    //                 end: parseInt(match[1], 10)
+    //                         };
+    //                     }
+    //             }
+    //                             }
+
+    
 
     return {
         protocol: parsedUrl.protocol,

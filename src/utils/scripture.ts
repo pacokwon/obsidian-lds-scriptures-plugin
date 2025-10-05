@@ -17,7 +17,7 @@ export async function fetchScripture(url:string, method: 'GET' | 'POST' | 'PATCH
     let lang = parsedData.queryParams.lang ? parsedData.queryParams.lang : 'eng';
 
     if (parsedData.pathParts[1] !== "scriptures"){
-        throw new Error('This can only refernce scripture verses.');
+        throw new Error('This can only reference scripture verses.');
     }
     let apiurl = buildAPIURL(lang,url)
 
