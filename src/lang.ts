@@ -284,4 +284,4 @@ export const AVAILABLE_LANGUAGES = [
     "yue",
 ] as const;
 
-export type AvailableLanguage = typeof AVAILABLE_LANGUAGES[number];
+export type AvailableLanguage = (typeof AVAILABLE_LANGUAGES)[number];

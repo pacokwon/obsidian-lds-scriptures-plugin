@@ -1,5 +1,3 @@
-
-
 export interface Verse {
     volume_title: string;
     volume_title_short: string;
@@ -35,22 +33,21 @@ export interface GenConTalkData {
     year: string;
     month: string;
     setting: string;
-  }
+}
 
-export interface ScriptureData{
-    book:string;
-    chapter:number;
-    verses:Map<string,string>;
-    in_language_book:string;
-
+export interface ScriptureData {
+    book: string;
+    chapter: number;
+    verses: Map<string, string>;
+    in_language_book: string;
 }
 
 export interface BookInfo {
     volume: string;
     n_ch: number;
     names: string[];
-  }
-  
+}
+
 export interface BookData {
     [key: string]: BookInfo;
-  }
+}
