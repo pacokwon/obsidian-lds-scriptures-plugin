@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 import { requestUrl } from "obsidian";
 import { ScriptureData } from "@/types";
-import { buildAPIURL, cheerioFind } from "./api";
+import { buildAPIURL } from "./api";
 import { PARAGRAPHS_IN_BODY_QUERY } from "./config";
 import { parseURL } from "./urlparsing";
 
@@ -10,7 +10,7 @@ export async function fetchScripture(
     method: "GET" | "POST" | "PATCH",
 ): Promise<ScriptureData> {
     let book = "";
-    let in_language_book = "";
+    let inLanguageBook = "";
     let chapter = 0;
     let verses: Map<string, string> = new Map();
 
@@ -37,14 +37,14 @@ export async function fetchScripture(
             book,
             chapter,
             verses,
-            in_language_book,
+            inLanguageBook,
         };
     }
 
     try {
         const $ = cheerio.load(response.json["content"]["body"]);
         [book, chapter] = response.json["meta"]["title"].split(" ");
-        in_language_book = response.json["meta"]["title"];
+        inLanguageBook = response.json["meta"]["title"];
 
         $(PARAGRAPHS_IN_BODY_QUERY.name).each((_, el) => {
             const id = $(el).attr("id");
@@ -61,6 +61,6 @@ export async function fetchScripture(
         book,
         chapter,
         verses,
-        in_language_book,
+        inLanguageBook,
     };
 }

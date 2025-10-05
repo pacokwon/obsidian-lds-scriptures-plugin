@@ -1,28 +1,28 @@
 export interface Verse {
-    volume_title: string;
-    volume_title_short: string;
-    book_title: string;
-    book_title_short: string;
-    chapter_number: number;
-    verse_number: number;
-    verse_title: string;
-    scripture_text: string;
+    volumeTitle: string;
+    volumeTitleShort: string;
+    bookTitle: string;
+    bookTitleShort: string;
+    chapterNumber: number;
+    verseNumber: number;
+    verseTitle: string;
+    scriptureText: string;
 }
 
 export interface Chapter {
-    volume_title: string;
-    volume_title_short: string;
-    book_title: string;
-    book_title_short: string;
-    chapter_number: number;
+    volumeTitle: string;
+    volumeTitleShort: string;
+    bookTitle: string;
+    bookTitleShort: string;
+    chapterNumber: number;
     verses: Verse[];
 }
 
 export interface Book {
-    volume_title: string;
-    volume_title_short: string;
-    book_title: string;
-    book_title_short: string;
+    volumeTitle: string;
+    volumeTitleShort: string;
+    bookTitle: string;
+    bookTitleShort: string;
     chapters: Chapter[];
 }
 
@@ -39,7 +39,7 @@ export interface ScriptureData {
     book: string;
     chapter: number;
     verses: Map<string, string>;
-    in_language_book: string;
+    inLanguageBook: string;
 }
 
 export interface BookInfo {

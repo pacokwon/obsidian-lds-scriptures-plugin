@@ -7,10 +7,10 @@ export class VerseSuggestion {
     // defining variables in the class.
     public text: string;
     public previewText: string;
-    public chapter_data: ScriptureData[];
-    private book_title_short: string;
-    private book_title_in_language: string;
-    private volume_title_short: string;
+    public chapterData: ScriptureData[];
+    private bookTitleShort: string;
+    private bookTitleInLanguage: string;
+    private volumeTitleShort: string;
     private verses: Verse[];
     private url: string;
 
@@ -18,62 +18,61 @@ export class VerseSuggestion {
         public pluginName: string,
         public book: string,
         public chapter: number,
-        public vers: number[],
+        public verse: number[],
         public lang: AvailableLanguage,
         public linkType: "wiki" | "markdown",
         public createChapterLink: boolean,
     ) {}
 
     public getReplacement(): string {
-        // const url = this.getUrl();
-        let linktype = this.linkType;
-        let range = this.formatNumberList(this.vers);
+        const linkType = this.linkType;
+        const range = this.formatNumberList(this.verse);
 
         if (this.createChapterLink) {
-            if (linktype == "wiki") {
+            if (linkType === "wiki") {
+                console.log("wIKI!");
                 // Wiki style link to chapter document and outside URL
-                // const headerFront = `[[${this.book_title_in_language} ${this.chapter}|${this.book_title_in_language} ${this.chapter}:${range}]]`;
-                const headerFront = `[[${this.book_title_in_language}|${this.book_title_in_language}:${range}]]`;
+                const headerFront = `[[${this.bookTitleInLanguage}|${this.bookTitleInLanguage}:${range}]]`;
                 const head = `> [!LDS] ${headerFront} \n [churchofjesuschrist.org](${this.url})`;
                 return head + "\n" + this.text + "\n";
-            } else if (linktype == "markdown") {
+            } else if (linkType === "markdown") {
                 // Markdown style link with spaces encoded as %20
                 const encodedBookChapter = encodeURIComponent(
-                    `${this.book_title_in_language}`,
+                    `${this.bookTitleInLanguage}`,
                 );
-                const headerFront = `[${this.book_title_in_language}:${range}](${encodedBookChapter})`;
+                const headerFront = `[${this.bookTitleInLanguage}:${range}](${encodedBookChapter})`;
                 const head = `> [!LDS] ${headerFront} \n [churchofjesuschrist.org](${this.url})`;
                 return head + "\n" + this.text + "\n";
             }
         }
 
         // Normal function
-        const headerFront = `${this.book_title_in_language}:`;
+        const headerFront = `${this.bookTitleInLanguage}:`;
         const head = `> [!LDS] [${headerFront}${range}](${this.url})`;
         return head + "\n" + this.text + "\n";
     }
 
     private getUrl(): string {
-        return `https://www.churchofjesuschrist.org/study/scriptures/${this.volume_title_short}/${this.book_title_short}/${this.chapter}?lang=${this.lang}`;
+        return `https://www.churchofjesuschrist.org/study/scriptures/${this.volumeTitleShort}/${this.bookTitleShort}/${this.chapter}?lang=${this.lang}`;
     }
 
     private getVerses() {
         this.verses = [];
 
-        for (const index in this.vers) {
-            let verse_text = this.chapter_data[0].verses.get(
-                `p${this.vers[index]}`,
+        for (const index in this.verse) {
+            let verseText = this.chapterData[0].verses.get(
+                `p${this.verse[index]}`,
             );
             let verse: Verse = {
-                volume_title: "", // Assuming you have these properties in your class
-                volume_title_short: this.volume_title_short, // Assuming you have these properties in your class
-                book_title: this.book, // Assuming you have these properties in your class
-                book_title_short: this.book_title_short, // Assuming you have these properties in your class
-                chapter_number: this.chapter, // Assuming you have these properties in your class
-                verse_number: this.vers[index],
-                verse_title: "", // Set as needed
-                scripture_text: verse_text
-                    ? verse_text.trim().replace(/^\d{1,3}\s*/, "")
+                volumeTitle: "", // Assuming you have these properties in your class
+                volumeTitleShort: this.volumeTitleShort, // Assuming you have these properties in your class
+                bookTitle: this.book, // Assuming you have these properties in your class
+                bookTitleShort: this.bookTitleShort, // Assuming you have these properties in your class
+                chapterNumber: this.chapter, // Assuming you have these properties in your class
+                verseNumber: this.verse[index],
+                verseTitle: "", // Set as needed
+                scriptureText: verseText
+                    ? verseText.trim().replace(/^\d{1,3}\s*/, "")
                     : "", // Handle possible undefined value
             };
             this.verses.push(verse);
@@ -83,8 +82,8 @@ export class VerseSuggestion {
     private toText(verses: Verse[]): string {
         return verses
             .map(
-                ({ verse_number, scripture_text }) =>
-                    `> ${verse_number} ${scripture_text}`,
+                ({ verseNumber, scriptureText }) =>
+                    `> ${verseNumber} ${scriptureText}`,
             )
             .join("\n");
     }
@@ -92,8 +91,8 @@ export class VerseSuggestion {
     private toPreviewText(verses: Verse[]): string {
         return verses
             .map(
-                ({ verse_number, scripture_text }) =>
-                    `${verse_number}. ${scripture_text}`,
+                ({ verseNumber, scriptureText }) =>
+                    `${verseNumber}. ${scriptureText}`,
             )
             .join("\n");
     }
@@ -109,14 +108,18 @@ export class VerseSuggestion {
     }
 
     public async loadVerse(): Promise<void> {
-        this.chapter_data = [];
-        [this.book_title_short, this.volume_title_short] =
-            this.getShortenedName(this.book);
+        this.chapterData = [];
+        [this.bookTitleShort, this.volumeTitleShort] = this.getShortenedName(
+            this.book,
+        );
         this.url = this.getUrl();
 
-        let scriptdata: ScriptureData = await fetchScripture(this.url, "GET");
-        this.book_title_in_language = scriptdata.in_language_book;
-        this.chapter_data.push(scriptdata);
+        let scriptureData: ScriptureData = await fetchScripture(
+            this.url,
+            "GET",
+        );
+        this.bookTitleInLanguage = scriptureData.inLanguageBook;
+        this.chapterData.push(scriptureData);
         this.getVerses();
         this.text = this.toText(this.verses);
         this.previewText = this.toPreviewText(this.verses);
@@ -126,6 +129,7 @@ export class VerseSuggestion {
         const outer = el.createDiv({ cls: "obr-suggester-container" });
         outer.createDiv({ cls: "obr-shortcode" }).setText(this.previewText);
     }
+
     public formatNumberList(numbers: number[]): string {
         if (numbers.length === 0) return "";
 
