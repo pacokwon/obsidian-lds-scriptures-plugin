@@ -15,8 +15,6 @@ const FULL_VERSE_REG = /:MC ([123]*[A-z ]{3,}) (\d{1,3}):(.*);/i;
 const GEN_CON_REG =
     /:MC https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9_-]+#[a-zA-Z0-9_-]+)?/;
 
-// const GEN_CON_REG = /\+1234/;
-
 export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     constructor(public plugin: LdsLibraryPlugin) {
         super(plugin.app);
