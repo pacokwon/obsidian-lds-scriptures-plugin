@@ -1,119 +1,127 @@
 /* CSS Variables */
 /* Common CSS Variables */
 :root {
-  --lds-callout-icon-quote: quote;
-  --lds-callout-font-size: 1em;
-  --lds-callout-line-height: 1.5em;
-  --lds-callout-title-font-size: 1.25em;
-  --lds-callout-title-line-height: 1.75em;
-  --lds-callout-padding: 10px 15px;
-  --lds-callout-border-radius: 5px;
-  --lds-callout-border-left-width: 2px;
+    --lds-callout-icon-quote: quote;
+    --lds-callout-font-size: 1em;
+    --lds-callout-line-height: 1.5em;
+    --lds-callout-title-font-size: 1.25em;
+    --lds-callout-title-line-height: 1.75em;
+    --lds-callout-padding: 10px 15px;
+    --lds-callout-border-radius: 5px;
+    --lds-callout-border-left-width: 2px;
 }
 
 /* Light Theme */
 .theme-light {
-  --lds-callout-color-primary: #007da5;
-  --lds-callout-color-bg: #ffffff;
-  --lds-callout-color-border: #ffffff;
-  --lds-callout-background-gradient: linear-gradient(to right, rgba(0, 125, 165, 0.1), rgba(0, 125, 165, 0.05));
+    --lds-callout-color-primary: #007da5;
+    --lds-callout-color-bg: #ffffff;
+    --lds-callout-color-border: #ffffff;
+    --lds-callout-background-gradient: linear-gradient(
+        to right,
+        rgba(0, 125, 165, 0.1),
+        rgba(0, 125, 165, 0.05)
+    );
 }
 
 /* Dark Theme */
 .theme-dark {
-  --lds-callout-color-primary: #00c7ff;
-  --lds-callout-color-bg: #333333;
-  --lds-callout-color-border: #444444;
-  --lds-callout-background-gradient: linear-gradient(to right, rgba(0, 199, 255, 0.1), rgba(0, 199, 255, 0.05));
+    --lds-callout-color-primary: #00c7ff;
+    --lds-callout-color-bg: #333333;
+    --lds-callout-color-border: #444444;
+    --lds-callout-background-gradient: linear-gradient(
+        to right,
+        rgba(0, 199, 255, 0.1),
+        rgba(0, 199, 255, 0.05)
+    );
 }
 
 /* Lds Callout */
-.callout[data-callout='lds'] {
-  --lds-callout-icon: var(--lds-callout-icon-quote);
-  --link-external-color: var(--lds-callout-color-primary);
-  border-color: var(--lds-callout-color-border) !important;
-  border-radius: var(--lds-callout-border-radius);
-  border-left-color: var(--lds-callout-color-primary) !important;
-  border-left-width: var(--lds-callout-border-left-width) !important;
-  background-color: var(--lds-callout-color-bg);
-  background-image: var(--lds-callout-background-gradient);
-  font-size: var(--lds-callout-font-size);
-  line-height: var(--lds-callout-line-height);
-  margin: auto;
-  margin-bottom: 10px;
-  padding: var(--lds-callout-padding);
+.callout[data-callout="lds"] {
+    --lds-callout-icon: var(--lds-callout-icon-quote);
+    --link-external-color: var(--lds-callout-color-primary);
+    border-color: var(--lds-callout-color-border) !important;
+    border-radius: var(--lds-callout-border-radius);
+    border-left-color: var(--lds-callout-color-primary) !important;
+    border-left-width: var(--lds-callout-border-left-width) !important;
+    background-color: var(--lds-callout-color-bg);
+    background-image: var(--lds-callout-background-gradient);
+    font-size: var(--lds-callout-font-size);
+    line-height: var(--lds-callout-line-height);
+    margin: auto;
+    margin-bottom: 10px;
+    padding: var(--lds-callout-padding);
 
-  & > .callout-title > .callout-title-inner {
-    color: var(--lds-callout-color-primary);
-    font-size: var(--lds-callout-title-font-size);
-    line-height: var(--lds-callout-title-line-height);
-  }
+    & > .callout-title > .callout-title-inner {
+        color: var(--lds-callout-color-primary);
+        font-size: var(--lds-callout-title-font-size);
+        line-height: var(--lds-callout-title-line-height);
+    }
 
-  & > .callout-title > .callout-icon {
-    color: #000000;
-    display: none;
-  }
+    & > .callout-title > .callout-icon {
+        color: #000000;
+        display: none;
+    }
 }
 
 .callout[data-callout="lds"] .callout-content p {
-  font-style: italic;
-  /* text-align: center; */
+    font-style: italic;
+    /* text-align: center; */
 }
 
 /* GenCon Callout */
-.callout[data-callout='gencon'] {
-  --lds-callout-icon: var(--lds-callout-icon-quote);
-  --link-external-color: var(--lds-callout-color-primary);
-  border-color: var(--lds-callout-color-border) !important;
-  border-radius: var(--lds-callout-border-radius);
-  border-left-color: var(--lds-callout-color-primary) !important;
-  border-left-width: var(--lds-callout-border-left-width) !important;
-  background-color: var(--lds-callout-color-bg);
-  background-image: var(--lds-callout-background-gradient);
-  font-size: var(--lds-callout-font-size);
-  line-height: var(--lds-callout-line-height);
-  margin: auto;
-  margin-bottom: 10px;
-  padding: var(--lds-callout-padding);
+.callout[data-callout="gencon"] {
+    --lds-callout-icon: var(--lds-callout-icon-quote);
+    --link-external-color: var(--lds-callout-color-primary);
+    border-color: var(--lds-callout-color-border) !important;
+    border-radius: var(--lds-callout-border-radius);
+    border-left-color: var(--lds-callout-color-primary) !important;
+    border-left-width: var(--lds-callout-border-left-width) !important;
+    background-color: var(--lds-callout-color-bg);
+    background-image: var(--lds-callout-background-gradient);
+    font-size: var(--lds-callout-font-size);
+    line-height: var(--lds-callout-line-height);
+    margin: auto;
+    margin-bottom: 10px;
+    padding: var(--lds-callout-padding);
 
-  & > .callout-title > .callout-title-inner {
-    color: var(--lds-callout-color-primary);
-    font-size: var(--lds-callout-title-font-size);
-    line-height: var(--lds-callout-title-line-height);
-  }
+    & > .callout-title > .callout-title-inner {
+        color: var(--lds-callout-color-primary);
+        font-size: var(--lds-callout-title-font-size);
+        line-height: var(--lds-callout-title-line-height);
+    }
 
-  & > .callout-title > .callout-icon {
-    color: #000000;
-    display: none;
-  }
+    & > .callout-title > .callout-icon {
+        color: #000000;
+        display: none;
+    }
 }
 
 .callout[data-callout="gencon"] .callout-content p {
-  font-style: italic;
-  /* text-align: center; */
+    font-style: italic;
+    /* text-align: center; */
 }
 
 /* GenCon Citation */
 .callout[data-callout="genconcitation"] {
-  border-color: transparent !important;
-  background-color: transparent !important;
-  text-align: right;
-  color: var(--lds-callout-color-primary);
-  font-size: var(--lds-callout-font-size);
-  line-height: var(--lds-callout-line-height);
-  margin: auto;
+    border-color: transparent !important;
+    background-color: transparent !important;
+    text-align: right;
+    color: var(--lds-callout-color-primary);
+    font-size: var(--lds-callout-font-size);
+    line-height: var(--lds-callout-line-height);
+    margin: auto;
 
-  & > .callout-title > .callout-icon {
-    display: none;
-  }
+    & > .callout-title > .callout-icon {
+        display: none;
+    }
 
-  & > .callout-title > .callout-title-inner {
-    display: none;
-  }
+    & > .callout-title > .callout-title-inner {
+        display: none;
+    }
 }
 
 cite {
-  color: var(--lds-callout-color-primary);
-  text-align: end;
-  display: block;
+    color: var(--lds-callout-color-primary);
+    text-align: end;
+    display: block;
 }

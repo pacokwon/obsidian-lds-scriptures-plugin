@@ -1,10 +1,10 @@
 import { GenConTalkData } from "src/types";
 import { fetchGenConTalk } from "src/utils/generalconference";
-import { format, parse } from 'date-fns';
+import { format, parse } from "date-fns";
 
 export class GenConSuggestion {
     public text: string;
-    public previewText: string;//this is what's loaded by the preview thing.
+    public previewText: string; //this is what's loaded by the preview thing.
     public content: GenConTalkData; //should this be an array of item? probably not.
     public date: string;
 
@@ -12,33 +12,33 @@ export class GenConSuggestion {
         public pluginName: string,
         public url: string,
         public linkType: "wiki" | "markdown",
-    ) { }
+    ) {}
 
     private async getParagraphs(): Promise<GenConTalkData> {
-        return await (fetchGenConTalk(this.url, "GET"));
+        return await fetchGenConTalk(this.url, "GET");
     }
 
     private convertDate = (dateString: string): string => {
         // Parse the date string
-        const parsedDate = parse(dateString, 'MM-yyyy', new Date());
+        const parsedDate = parse(dateString, "MM-yyyy", new Date());
         // Format the parsed date to the desired format
-        return format(parsedDate, 'MMMM yyyy');
+        return format(parsedDate, "MMMM yyyy");
     };
 
     public getReplacement(): string {
         //      let linktype = this.linkType;
         this.text = this.toText();
         let headerFront = `>[!gencon] [${this.content.title}](${this.url})`;
-        const attribution = (`>> [!genconcitation]\n>> ${this.content.author[0]}\n>> ${this.content.author[1]}\n>>${this.date}`)
-        return headerFront + "\n" + this.text + attribution + "\n"
+        const attribution = `>> [!genconcitation]\n>> ${this.content.author[0]}\n>> ${this.content.author[1]}\n>>${this.date}`;
+        return headerFront + "\n" + this.text + attribution + "\n";
     }
 
     private toPreviewText(talkData: GenConTalkData): string {
         // this.previewText = talkData.title + "\n\n" +
-        //      talkData.content[0]      
+        //      talkData.content[0]
 
-        let text = `${talkData.title} ${talkData.author[0]}`
-        return text
+        let text = `${talkData.title} ${talkData.author[0]}`;
+        return text;
     }
 
     private toText(): string {
@@ -46,19 +46,21 @@ export class GenConSuggestion {
 
         this.content.content.forEach((element) => {
             outstring = outstring + `> ${element}\n>\n `;
-        }
-        )
-        return outstring
+        });
+        return outstring;
     }
 
     public async loadTalk(): Promise<void> {
-        this.content = await (this.getParagraphs());
+        this.content = await this.getParagraphs();
         this.previewText = this.toPreviewText(this.content);
-        this.date = this.convertDate(`${this.content.month}-${this.content.year}`)
+        this.date = this.convertDate(
+            `${this.content.month}-${this.content.year}`,
+        );
     }
 
-    public render(el: HTMLElement): void { //run by the program, note i've defined it to use preview text...
-        const outer = el.createDiv({ cls: 'obr-sugggester-container' });
-        outer.createDiv({ cls: "obr-shortcode" }).setText(this.previewText)
+    public render(el: HTMLElement): void {
+        //run by the program, note i've defined it to use preview text...
+        const outer = el.createDiv({ cls: "obr-sugggester-container" });
+        outer.createDiv({ cls: "obr-shortcode" }).setText(this.previewText);
     }
 }

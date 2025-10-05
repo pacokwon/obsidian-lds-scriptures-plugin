@@ -53,15 +53,12 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         const { query } = context;
 
         const fullMatch = query.match(FULL_VERSE_REG);
-        
-        if (fullMatch === null) return [];
-        
 
+        if (fullMatch === null) return [];
 
         const book = fullMatch[1];
         const chapter = Number(fullMatch[2]);
-        const verses:number[] = this.parseVerses(fullMatch[3]);
-
+        const verses: number[] = this.parseVerses(fullMatch[3]);
 
         const suggestion = new VerseSuggestion(
             this.plugin.manifest.id,
@@ -94,7 +91,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     }
 
     expandRange(range: string): number[] {
-        const [s, e] = range.split('-');
+        const [s, e] = range.split("-");
 
         let start = Number(s.trim());
         let end = Number(e.trim());
@@ -102,29 +99,25 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         const result = [];
 
         for (let i = start; i <= end; i++) {
-          result.push(i);
-
+            result.push(i);
         }
         return result;
     }
 
-    parseVerses(input: string):number[] {
-        const items = input.split(',');
+    parseVerses(input: string): number[] {
+        const items = input.split(",");
         let result: number[] = [];
-      
-        for (const item of items) {
-          if (item.includes('-')) {
-            result = result.concat(this.expandRange(item));
 
-          } else {
-            result.push(Number(item));
-          }
+        for (const item of items) {
+            if (item.includes("-")) {
+                result = result.concat(this.expandRange(item));
+            } else {
+                result.push(Number(item));
+            }
         }
         const uniqueArray = Array.from(new Set(result));
         return uniqueArray;
-      }
-
-    
+    }
 }
 
 export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
@@ -164,10 +157,8 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
         const { language, linkType, createChapterLink } = this.plugin.settings;
 
         if (fullMatch === null) {
-
             return [];
         }
-
 
         const talk = fullMatch[0].replace(/^\:MC /, "");
 
