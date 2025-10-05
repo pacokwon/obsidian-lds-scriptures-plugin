@@ -1,5 +1,6 @@
 import { BookData } from "@/types";
 
+// NAME_QUERIES likely isn't needed anymore.
 export const NAME_QUERIES = [
     { name: "h1", id: "title1" },
     { name: "h1", id: "p1" },

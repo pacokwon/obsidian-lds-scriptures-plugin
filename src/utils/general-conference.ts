@@ -2,7 +2,7 @@ import * as cheerio from "cheerio";
 import { requestUrl } from "obsidian";
 import { GenConTalkData } from "@/types";
 import { buildAPIURL, cheerioFind } from "./api";
-import { AUTHOR_QUERIES, AUTHOR_TITLE, NAME_QUERIES } from "./config";
+import { AUTHOR_QUERIES, AUTHOR_TITLE } from "./config";
 import { parseURL } from "./urlparsing";
 
 export async function fetchGenConTalk(
@@ -22,7 +22,7 @@ export async function fetchGenConTalk(
 
     if (parsedData.pathParts[1] !== "general-conference") {
         throw new Error(
-            "This can only refernce talks from General Conference.",
+            "This can only reference talks from General Conference.",
         );
     }
 
@@ -46,9 +46,9 @@ export async function fetchGenConTalk(
 
     try {
         const $ = cheerio.load(response.json["content"]["body"]);
-        const nameElement = cheerioFind($, NAME_QUERIES);
-        title = nameElement ? nameElement.text().trim() : "Title not found";
-
+        title = response.json.meta.title
+            ? response.json.meta.title
+            : "Title Not Found."; // no need to search, the JSON holds the name.
         const authorElement = cheerioFind($, AUTHOR_QUERIES);
         let authorname = authorElement
             ? authorElement
@@ -66,14 +66,42 @@ export async function fetchGenConTalk(
         if (parsedData.paragraphs) {
             const { start, end } = parsedData.paragraphs;
             const paragraphEnd = end !== undefined ? end : start;
-
-            for (let i = start; i <= paragraphEnd; i++) {
-                const paragraph = $(`#p${i}`).text()?.trim();
-                if (paragraph) {
-                    content.push(paragraph);
-                } else {
-                    console.warn(`Paragraph #${i} not found.`);
+            if (
+                typeof start === "number" &&
+                Number.isInteger(start) &&
+                typeof paragraphEnd === "number" &&
+                Number.isInteger(paragraphEnd)
+            ) {
+                for (let i = start; i <= paragraphEnd; i++) {
+                    const paragraph = $(`#p${i}`).text()?.trim();
+                    if (paragraph) {
+                        content.push(paragraph);
+                    } else {
+                        console.warn(`Paragraph #${i} not found.`);
+                    }
                 }
+            } else {
+                const startId = typeof start === "string" ? start : `p${start}`;
+                const endId =
+                    typeof paragraphEnd === "string"
+                        ? paragraphEnd
+                        : `p${paragraphEnd}`;
+                let collecting = false;
+                $(".body-block")
+                    .find("p, h1, h2, h3, h4, h5, h6")
+                    .each((_, el) => {
+                        const $el = $(el);
+                        const elId = $el.attr("id");
+                        if (elId === startId) {
+                            collecting = true;
+                        }
+                        if (collecting && $el.text().trim()) {
+                            content.push($el.text().trim());
+                        }
+                        if (elId === endId) {
+                            collecting = false;
+                        }
+                    });
             }
         }
 

@@ -7,8 +7,8 @@ interface ParsedURL {
         id?: string;
     };
     paragraphs?: {
-        start: number;
-        end: number;
+        start: string | number;
+        end: string | number;
     };
 }
 
@@ -23,22 +23,36 @@ export function parseURL(url: string): ParsedURL {
     });
 
     let paragraphs;
+
     const id = queryParams.id;
+
     if (typeof id === "string") {
-        let match = id.match(/p(\d+)-p(\d+)/);
+        let match = id.match(/(p_[a-zA-Z0-9_-]+)-(p_[a-zA-Z0-9_-]+)/);
         if (match) {
             paragraphs = {
-                start: parseInt(match[1], 10),
-                end: parseInt(match[2], 10),
+                start: match[1],
+                end: match[2],
             };
         } else {
-            match = id.match(/p(\d+)/);
+            match = id.match(/(p_[a-zA-Z0-9_-]+)/);
             if (match) {
                 paragraphs = {
-                    start: parseInt(match[1], 10),
-                    end: parseInt(match[1], 10),
+                    start: match[1],
+                    end: match[1],
                 };
+            } else {
+                match = id.match(/p(\d+)/);
+                if (match) {
+                    paragraphs = {
+                        start: parseInt(match[1], 10),
+                        end: parseInt(match[1], 10),
+                    };
+                }
             }
+        }
+
+        if (!paragraphs) {
+            match = id.match(/p(\d+)-p(\d+)/);
         }
     }
 
