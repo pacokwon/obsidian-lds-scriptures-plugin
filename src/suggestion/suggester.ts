@@ -10,12 +10,10 @@ import LdsLibraryPlugin from "src/main";
 import { VerseSuggestion } from "./VerseSuggestion";
 import { GenConSuggestion } from "./GenConSuggestion";
 
-const VERSE_REG = /\:MC.*;/i;
-const FULL_VERSE_REG = /\:MC ([123]*[A-z ]{3,}) (\d{1,3}):(.*);/i;
-const GEN_CON_CITE_REG =
-    /\:MC https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,2}\/[\w-]+\?lang=\w+/;
+const VERSE_REG = /:MC.*;/i;
+const FULL_VERSE_REG = /:MC ([123]*[A-z ]{3,}) (\d{1,3}):(.*);/i;
 const GEN_CON_REG =
-    /\:MC https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9-]+#[a-zA-Z0-9-]+)?/;
+    /:MC https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9-]+#[a-zA-Z0-9-]+)?/;
 
 // const GEN_CON_REG = /\+1234/;
 
@@ -154,13 +152,13 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
     ): Promise<GenConSuggestion[]> {
         const { query } = context;
         const fullMatch = query.match(GEN_CON_REG);
-        const { language, linkType, createChapterLink } = this.plugin.settings;
+        const { linkType } = this.plugin.settings;
 
         if (fullMatch === null) {
             return [];
         }
 
-        const talk = fullMatch[0].replace(/^\:MC /, "");
+        const talk = fullMatch[0].replace(/^:MC /, "");
 
         const suggestion = new GenConSuggestion(
             this.plugin.manifest.id,
