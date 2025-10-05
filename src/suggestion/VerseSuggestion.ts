@@ -1,15 +1,13 @@
-import { AvailableLanguage } from "../lang";
-import { BookData, ScriptureData, Verse } from "../types";
-import { book_data } from "src/utils/config";
-import { fetchScripture } from "src/utils/scripture";
-// import {App} from "obsidian"
+import { AvailableLanguage } from "@/lang";
+import { ScriptureData, Verse } from "@/types";
+import { bookData } from "@/utils/config";
+import { fetchScripture } from "@/utils/scripture";
 
 export class VerseSuggestion {
     // defining variables in the class.
     public text: string;
     public previewText: string;
     public chapter_data: ScriptureData[];
-    private bookdata: BookData = book_data;
     private book_title_short: string;
     private book_title_in_language: string;
     private volume_title_short: string;
@@ -17,7 +15,6 @@ export class VerseSuggestion {
     private url: string;
 
     constructor(
-        //input variables.
         public pluginName: string,
         public book: string,
         public chapter: number,
@@ -102,9 +99,9 @@ export class VerseSuggestion {
     }
 
     private getShortenedName(bookTitle: string) {
-        for (const key in this.bookdata) {
-            if (this.bookdata[key].names.includes(bookTitle)) {
-                let volume = this.bookdata[key].volume;
+        for (const key in bookData) {
+            if (bookData[key].names.includes(bookTitle)) {
+                let volume = bookData[key].volume;
                 return [key, volume];
             }
         }

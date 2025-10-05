@@ -1,10 +1,10 @@
-import { App, Notice, PluginSettingTab, Setting } from "obsidian";
-import LdsLibraryPlugin from "../main";
+import { App, PluginSettingTab, Setting } from "obsidian";
+import LdsLibraryPlugin from "@/LdsLibraryPlugin";
 import {
     AVAILABLE_LANGUAGES,
-    LANGUAGE_MAPPING,
     AvailableLanguage,
-} from "../lang";
+    LANGUAGE_MAPPING,
+} from "@/lang";
 
 export class LdsLibrarySettingTab extends PluginSettingTab {
     constructor(

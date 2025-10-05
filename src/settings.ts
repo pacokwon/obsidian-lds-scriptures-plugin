@@ -1,4 +1,4 @@
-import { AvailableLanguage } from "./lang";
+import { AvailableLanguage } from "@/lang";
 
 export interface LdsLibrarySettings {
     language: AvailableLanguage;
