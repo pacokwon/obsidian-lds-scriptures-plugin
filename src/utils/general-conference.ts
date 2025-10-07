@@ -26,7 +26,7 @@ export async function fetchGenConTalk(
         );
     }
 
-    let talkurl = buildAPIURL(lang, url);
+    const talkurl = buildAPIURL(lang, url);
 
     const response = await requestUrl({
         url: talkurl,
@@ -50,14 +50,14 @@ export async function fetchGenConTalk(
             ? response.json.meta.title
             : "Title Not Found."; // no need to search, the JSON holds the name.
         const authorElement = cheerioFind($, AUTHOR_QUERIES);
-        let authorname = authorElement
+        const authorname = authorElement
             ? authorElement
                   .text()
                   .trim()
                   .replace(/^[B|b]y\s/, "")
             : "Author not found";
         const authorRoleElement = cheerioFind($, AUTHOR_TITLE);
-        let authorrole = authorRoleElement
+        const authorrole = authorRoleElement
             ? authorRoleElement.text().trim()
             : "Author role not found";
         author.push(authorname);

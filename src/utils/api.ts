@@ -26,6 +26,7 @@ export function extractURLPath(url: string): string | null {
         /https:\/\/www\.churchofjesuschrist\.org\/study(\/[\w-]+\/\d{4}\/\d{2}\/[\w-]+)/;
     const scriptureregex =
         /https:\/\/www\.churchofjesuschrist\.org\/study(\/[\w-]+\/[\w-]+\/[\w-]+\/[\w-]+)/;
+
     const match = url.match(genconregex)
         ? url.match(genconregex)
         : url.match(scriptureregex)
@@ -36,7 +37,7 @@ export function extractURLPath(url: string): string | null {
 }
 
 export function buildAPIURL(lang: string, url: string) {
-    let path = extractURLPath(url);
+    const path = extractURLPath(url);
 
     return (
         `https://www.churchofjesuschrist.org/study/api/v3/language-pages/type/content?lang=${lang}&uri=` +
