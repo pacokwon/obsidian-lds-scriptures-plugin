@@ -15,7 +15,6 @@ export class VerseSuggestion {
     private url: string;
 
     constructor(
-        public pluginName: string,
         public book: string,
         public chapter: number,
         public verse: number[],

@@ -57,7 +57,6 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         const verses = this.parseVerses(fullMatch[3]);
 
         const suggestion = new VerseSuggestion(
-            this.plugin.manifest.id,
             book,
             chapter,
             verses,
