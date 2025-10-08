@@ -13,7 +13,7 @@ import { VerseSuggestion } from "./VerseSuggestion";
 const VERSE_REG = /:MC.*;/i;
 const FULL_VERSE_REG = /:MC ([123]*[A-z ]{3,}) (\d{1,3}):(.*);/i;
 const GEN_CON_REG =
-    /:MC https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9_-]+#[a-zA-Z0-9_-]+)?/;
+    /:MC https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9_,-]+#[a-zA-Z0-9_-]+)?/;
 
 export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     constructor(public plugin: LdsLibraryPlugin) {
@@ -23,7 +23,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     onTrigger(
         cursor: EditorPosition,
         editor: Editor,
-        _file: TFile | null,
+        _: TFile | null,
     ): EditorSuggestTriggerInfo | null {
         const currentContent = editor
             .getLine(cursor.line)
@@ -45,7 +45,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     async getSuggestions(
         context: EditorSuggestContext,
     ): Promise<VerseSuggestion[]> {
-        const { language, linkType, createChapterLink } = this.plugin.settings;
+        const { language } = this.plugin.settings;
         const { query } = context;
 
         const fullMatch = query.match(FULL_VERSE_REG);
@@ -54,15 +54,15 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
 
         const book = fullMatch[1];
         const chapter = Number(fullMatch[2]);
+        const verseString = fullMatch[3];
         const verses = this.parseVerses(fullMatch[3]);
 
         const suggestion = new VerseSuggestion(
             book,
             chapter,
+            verseString,
             verses,
             language,
-            linkType,
-            createChapterLink,
         );
         await suggestion.loadVerse();
         return [suggestion];
@@ -74,7 +74,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
 
     selectSuggestion(
         suggestion: VerseSuggestion,
-        _evt: MouseEvent | KeyboardEvent,
+        _: MouseEvent | KeyboardEvent,
     ): void {
         if (!this.context) return;
 
@@ -149,7 +149,7 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
     ): Promise<GenConSuggestion[]> {
         const { query } = context;
         const fullMatch = query.match(GEN_CON_REG);
-        const { linkType } = this.plugin.settings;
+        console.log({ fullMatch, query });
 
         if (fullMatch === null) {
             return [];
@@ -157,11 +157,7 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
 
         const talk = fullMatch[0].replace(/^:MC /, "");
 
-        const suggestion = new GenConSuggestion(
-            this.plugin.manifest.id,
-            talk,
-            linkType,
-        );
+        const suggestion = new GenConSuggestion(talk);
         await suggestion.loadTalk();
 
         return [suggestion];

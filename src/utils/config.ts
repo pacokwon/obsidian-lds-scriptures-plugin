@@ -1,26 +1,5 @@
 import { BookData } from "@/types";
 
-// NAME_QUERIES likely isn't needed anymore.
-export const NAME_QUERIES = [
-    { name: "h1", id: "title1" },
-    { name: "h1", id: "p1" },
-    { name: "h1", id: "p4" },
-    { name: "h1", id: "title56" },
-];
-
-export const AUTHOR_QUERIES = [
-    { name: "p", id: "author1" },
-    { name: "p", id: "p1" },
-    { name: "p", class: "author-name" },
-];
-
-export const AUTHOR_TITLE = [
-    { name: "p", id: "author2" },
-    { name: "p", class: "author-role" },
-];
-
-export const PARAGRAPHS_IN_BODY_QUERY = { name: "p" };
-
 // from @epeters3
 export const bookData: BookData = {
     "1-ne": { volume: "bofm", n_ch: 22, names: ["1 Nephi", "1 Ne."] },

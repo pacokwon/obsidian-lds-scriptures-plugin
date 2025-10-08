@@ -1,66 +1,54 @@
 import * as cheerio from "cheerio";
 import { requestUrl } from "obsidian";
 import { ScriptureData } from "@/types";
-import { buildAPIURL } from "./api";
-import { PARAGRAPHS_IN_BODY_QUERY } from "./config";
-import { parseURL } from "./urlparsing";
+import { getResourceURL } from "./api";
+import { queryBetweenIds } from "./dom";
+import { ParagraphKind, parseURL, ResourceKind } from "./url";
 
-export async function fetchScripture(
-    url: string,
-    method: "GET" | "POST" | "PATCH",
-): Promise<ScriptureData> {
-    let book = "";
-    let inLanguageBook = "";
-    let chapter = 0;
-    let verses: Map<string, string> = new Map();
+export async function fetchScripture(_url: string): Promise<ScriptureData> {
+    const url = parseURL(_url);
+    if (url.kind !== ResourceKind.Scriptures)
+        throw new Error(
+            `The url ${url.fullPath} does not point to a scripture. Aborting.`,
+        );
 
-    let parsedData = parseURL(url);
-
-    let lang = parsedData.queryParams.lang
-        ? parsedData.queryParams.lang
-        : "eng";
-
-    if (parsedData.pathParts[1] !== "scriptures") {
-        throw new Error("This can only reference scripture verses.");
-    }
-    let apiurl = buildAPIURL(lang, url);
+    const resourceUrl = getResourceURL(url);
 
     // request to API
     const response = await requestUrl({
-        url: apiurl,
-        method: method,
+        url: resourceUrl,
+        method: "GET",
         headers: {},
     });
 
-    if (response.status === 401 || response.status === 402) {
-        return {
-            book,
-            chapter,
-            verses,
-            inLanguageBook,
-        };
-    }
+    if (response.status > 400)
+        throw new Error(
+            `Request to scripture: ${resourceUrl} failed with status code ${response.status}`,
+        );
 
-    try {
-        const $ = cheerio.load(response.json["content"]["body"]);
-        [book, chapter] = response.json["meta"]["title"].split(" ");
-        inLanguageBook = response.json["meta"]["title"];
+    const $ = cheerio.load(response.json.content.body);
+    const nativeBookTitle = response.json.meta.title;
+    const [book, chapter] = nativeBookTitle.split(" ");
 
-        $(PARAGRAPHS_IN_BODY_QUERY.name).each((_, el) => {
-            const id = $(el).attr("id");
-            if (id) {
-                // Only include elements that have an ID
-                verses.set(id, $(el).text().trim());
-            }
-        });
-    } catch (error) {
-        console.error("Error occured: ", error);
-    }
+    const verses = url.paragraphs.flatMap((p) => {
+        if (p.kind === ParagraphKind.Single) {
+            return [$(`#${p.id}`).text().trim()];
+        } else if (p.kind === ParagraphKind.Range) {
+            // since right here we're only dealing with scripture, we can
+            // take advantage of the fact that the id is p<n> where <n> is a number,
+            // but we just use queryBetweenIds, a more generic solution
+            return queryBetweenIds($, p.start, p.end).map((e) =>
+                e.text().trim(),
+            );
+        } else {
+            return [];
+        }
+    });
 
     return {
         book,
         chapter,
         verses,
-        inLanguageBook,
+        nativeBookTitle,
     };
 }

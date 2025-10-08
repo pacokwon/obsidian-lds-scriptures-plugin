@@ -5,18 +5,10 @@ import { fetchGenConTalk } from "@/utils/general-conference";
 export class GenConSuggestion {
     public text: string;
     public previewText: string; //this is what's loaded by the preview thing.
-    public content: GenConTalkData; //should this be an array of item? probably not.
+    public talkData: GenConTalkData; //should this be an array of item? probably not.
     public date: string;
 
-    constructor(
-        public pluginName: string,
-        public url: string,
-        public linkType: "wiki" | "markdown",
-    ) {}
-
-    private async getParagraphs(): Promise<GenConTalkData> {
-        return await fetchGenConTalk(this.url, "GET");
-    }
+    constructor(public url: string) {}
 
     private convertDate = (dateString: string): string => {
         // Parse the date string
@@ -27,31 +19,31 @@ export class GenConSuggestion {
 
     public getReplacement(): string {
         this.text = this.toText();
-        let headerFront = `>[!gencon] [${this.content.title}](${this.url})`;
-        const attribution = `>> [!genconcitation]\n>> ${this.content.author[0]}\n>> ${this.content.author[1]}\n>>${this.date}`;
+        let headerFront = `>[!gencon] [${this.talkData.title}](${this.url})`;
+        const attribution = `>> [!genconcitation]\n>> ${this.talkData.author.name}\n>> ${this.talkData.author.role}\n>>${this.date}`;
         return headerFront + "\n" + this.text + attribution + "\n";
     }
 
-    private toPreviewText(talkData: GenConTalkData): string {
-        let text = `${talkData.title} ${talkData.author[0]}`;
+    private toPreviewText(): string {
+        let text = `${this.talkData.title} ${this.talkData.author.name}`;
         return text;
     }
 
     private toText(): string {
         let outstring = "";
 
-        this.content.content.forEach((element) => {
-            outstring = outstring + `> ${element}\n>\n `;
+        this.talkData.content.forEach((element) => {
+            outstring = outstring + `> ${element}\n>\n`;
         });
 
         return outstring;
     }
 
     public async loadTalk(): Promise<void> {
-        this.content = await this.getParagraphs();
-        this.previewText = this.toPreviewText(this.content);
+        this.talkData = await fetchGenConTalk(this.url);
+        this.previewText = this.toPreviewText();
         this.date = this.convertDate(
-            `${this.content.month}-${this.content.year}`,
+            `${this.talkData.month}-${this.talkData.year}`,
         );
     }
 

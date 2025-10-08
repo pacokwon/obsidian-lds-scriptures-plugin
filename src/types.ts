@@ -1,12 +1,9 @@
 export interface Verse {
-    volumeTitle: string;
     volumeTitleShort: string;
-    bookTitle: string;
     bookTitleShort: string;
-    chapterNumber: number;
-    verseNumber: number;
-    verseTitle: string;
-    scriptureText: string;
+    chapter: number;
+    verse: number;
+    text: string;
 }
 
 export interface Chapter {
@@ -26,9 +23,14 @@ export interface Book {
     chapters: Chapter[];
 }
 
+export interface Author {
+    name: string;
+    role: string;
+}
+
 export interface GenConTalkData {
     title: string;
-    author: string[];
+    author: Author;
     content: string[];
     year: string;
     month: string;
@@ -38,8 +40,8 @@ export interface GenConTalkData {
 export interface ScriptureData {
     book: string;
     chapter: number;
-    verses: Map<string, string>;
-    inLanguageBook: string;
+    verses: string[];
+    nativeBookTitle: string;
 }
 
 export interface BookInfo {

@@ -1,122 +1,66 @@
 import * as cheerio from "cheerio";
 import { requestUrl } from "obsidian";
 import { GenConTalkData } from "@/types";
-import { buildAPIURL, cheerioFind } from "./api";
-import { AUTHOR_QUERIES, AUTHOR_TITLE } from "./config";
-import { parseURL } from "./urlparsing";
+import { getResourceURL } from "./api";
+import { findAuthor, queryBetweenIds } from "./dom";
+import { ParagraphKind, parseURL, ResourceKind } from "./url";
 
-export async function fetchGenConTalk(
-    url: string,
-    method: "GET" | "POST" | "PATCH",
-): Promise<GenConTalkData> {
-    let title = "";
-    let author: string[] = [];
-    let content: string[] = [];
-    let year = "";
-    let month = "";
+export async function fetchGenConTalk(_url: string): Promise<GenConTalkData> {
     let setting = "";
-    let parsedData = parseURL(url);
-    let lang = parsedData.queryParams.lang
-        ? parsedData.queryParams.lang
-        : "eng";
+    const url = parseURL(_url);
 
-    if (parsedData.pathParts[1] !== "general-conference") {
+    if (url.kind !== ResourceKind.ConferenceTalk)
         throw new Error(
-            "This can only reference talks from General Conference.",
+            `The url ${url.fullPath} does not point to a general conference talk. Aborting.`,
         );
-    }
 
-    const talkurl = buildAPIURL(lang, url);
+    const resourceUrl = getResourceURL(url);
 
     const response = await requestUrl({
-        url: talkurl,
-        method: method,
+        url: resourceUrl,
+        method: "GET",
         headers: {},
     });
-    if (response.status === 401 || response.status === 402) {
-        return {
-            title,
-            author,
-            content,
-            year,
-            month,
-            setting,
-        };
-    }
 
-    try {
-        const $ = cheerio.load(response.json["content"]["body"]);
-        title = response.json.meta.title
-            ? response.json.meta.title
-            : "Title Not Found."; // no need to search, the JSON holds the name.
-        const authorElement = cheerioFind($, AUTHOR_QUERIES);
-        const authorname = authorElement
-            ? authorElement
-                  .text()
-                  .trim()
-                  .replace(/^[B|b]y\s/, "")
-            : "Author not found";
-        const authorRoleElement = cheerioFind($, AUTHOR_TITLE);
-        const authorrole = authorRoleElement
-            ? authorRoleElement.text().trim()
-            : "Author role not found";
-        author.push(authorname);
-        author.push(authorrole);
+    if (response.status > 400)
+        throw new Error(
+            `Request to general conference talk: ${resourceUrl} failed with status code ${response.status}`,
+        );
 
-        if (parsedData.paragraphs) {
-            const { start, end } = parsedData.paragraphs;
-            const paragraphEnd = end !== undefined ? end : start;
-            if (
-                typeof start === "number" &&
-                Number.isInteger(start) &&
-                typeof paragraphEnd === "number" &&
-                Number.isInteger(paragraphEnd)
-            ) {
-                for (let i = start; i <= paragraphEnd; i++) {
-                    const paragraph = $(`#p${i}`).text()?.trim();
-                    if (paragraph) {
-                        content.push(paragraph);
-                    } else {
-                        console.warn(`Paragraph #${i} not found.`);
-                    }
-                }
-            } else {
-                const startId = typeof start === "string" ? start : `p${start}`;
-                const endId =
-                    typeof paragraphEnd === "string"
-                        ? paragraphEnd
-                        : `p${paragraphEnd}`;
-                let collecting = false;
-                $(".body-block")
-                    .find("p, h1, h2, h3, h4, h5, h6")
-                    .each((_, el) => {
-                        const $el = $(el);
-                        const elId = $el.attr("id");
-                        if (elId === startId) {
-                            collecting = true;
-                        }
-                        if (collecting && $el.text().trim()) {
-                            content.push($el.text().trim());
-                        }
-                        if (elId === endId) {
-                            collecting = false;
-                        }
-                    });
-            }
-        }
+    const $ = cheerio.load(response.json.content.body);
+    const title = response.json.meta.title ?? "Title Not Found.";
+    const author = findAuthor($);
 
-        year = parsedData.pathParts[2];
-        month = parsedData.pathParts[3];
-        setting = "General Conference";
+    const match = url.resourcePath.match(/^(\d+)\/(\d+)/);
+    if (match === null)
+        throw new Error(
+            `General Conference talk URL malformed. Could not extract year and month. ${url.fullPath}`,
+        );
 
-        if (!title || !content) {
-            throw new Error(
-                "Unable to extract the necessary data from the webpage.",
+    const [_, year, month] = match;
+
+    const content = url.paragraphs.flatMap((p) => {
+        if (p.kind === ParagraphKind.Single) {
+            return [$(`#${p.id}`).text().trim()];
+        } else if (p.kind === ParagraphKind.Range) {
+            // since right here we're only dealing with scripture, we can
+            // take advantage of the fact that the id is p<n> where <n> is a number,
+            // but we just use queryBetweenIds, a more generic solution
+            return queryBetweenIds($, p.start, p.end).map((e) =>
+                e.text().trim(),
             );
+        } else {
+            return [];
         }
-    } catch (error) {
-        console.error("Error fetching or parsing data:", error);
-    }
+    });
+
+    setting = "General Conference";
+
+    if (!title || !content)
+        throw new Error(
+            "Unable to extract the necessary data from the webpage.",
+        );
+
     return {
         title,
         author,

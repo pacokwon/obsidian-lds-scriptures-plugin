@@ -122,18 +122,18 @@ export const LANGUAGE_MAPPING: Record<AvailableLanguage, string> = {
     ara: "العربية",
     pes: "فارسی",
     amh: "አማርኛ",
-    nep: "नेपाली",
-    hin: "हिन्दी, हिंदी",
-    ben: "বাংলা",
-    tam: "தமிழ்",
-    tel: "తెలుగు",
-    kan: "ಕನ್ನಡ",
-    sin: "සිංහල",
+    nep: "नपल",
+    hin: "हन, हद",
+    ben: "বল",
+    tam: "தமழ",
+    tel: "తలగ",
+    kan: "ಕನನಡ",
+    sin: "සහල",
     tha: "ภาษาไทย",
     lao: "ພາສາລາວ",
-    ksw: "ကညီလံာ်ခီၣ်ထံ",
+    ksw: "ကညလာခၣထ",
     mya: "ဗမာစာ",
-    khm: "ភាសាខ្មែរ",
+    khm: "ភសខមរ",
     kor: "한국어",
     jpn: "日本語",
     zhs: "简体中文 - 普通话",
@@ -285,3 +285,7 @@ export const AVAILABLE_LANGUAGES = [
 ] as const;
 
 export type AvailableLanguage = (typeof AVAILABLE_LANGUAGES)[number];
+
+export function isAvailableLanguage(lang: string): lang is AvailableLanguage {
+    return (AVAILABLE_LANGUAGES as readonly string[]).includes(lang);
+}
