@@ -55,9 +55,6 @@ export function parseURL(fullPath: string): ParsedURL {
         : "eng";
 
     const id = url.searchParams.get("id");
-    console.log(url.searchParams);
-    console.log(JSON.stringify(url.searchParams));
-    console.log({ fullPath, id });
     if (id === "" || id === null)
         throw new Error(
             `URL ${url} does not have an id query param. A specific paragraph within the page must be referenced through an id.`,
@@ -77,8 +74,6 @@ export function parseURL(fullPath: string): ParsedURL {
                 };
             else throw new Error(`${ps} is not a valid range`);
         });
-
-    console.log({ paragraphs });
 
     return {
         fullPath,

@@ -149,7 +149,6 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
     ): Promise<GenConSuggestion[]> {
         const { query } = context;
         const fullMatch = query.match(GEN_CON_REG);
-        console.log({ fullMatch, query });
 
         if (fullMatch === null) {
             return [];
