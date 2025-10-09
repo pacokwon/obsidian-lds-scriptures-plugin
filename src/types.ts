@@ -28,7 +28,7 @@ export interface Author {
     role: string;
 }
 
-export interface GenConTalkData {
+export interface ConferenceTalkData {
     title: string;
     author: Author;
     content: string[];

@@ -1,11 +1,13 @@
 import * as cheerio from "cheerio";
 import { requestUrl } from "obsidian";
-import { GenConTalkData } from "@/types";
+import { ConferenceTalkData } from "@/types";
 import { getResourceURL } from "./api";
 import { findAuthor, queryBetweenIds } from "./dom";
 import { ParagraphKind, parseURL, ResourceKind } from "./url";
 
-export async function fetchGenConTalk(_url: string): Promise<GenConTalkData> {
+export async function fetchConferenceTalk(
+    _url: string,
+): Promise<ConferenceTalkData> {
     let setting = "";
     const url = parseURL(_url);
 

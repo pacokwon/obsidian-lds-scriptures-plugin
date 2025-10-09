@@ -7,7 +7,7 @@ import {
     TFile,
 } from "obsidian";
 import LdsLibraryPlugin from "@/LdsLibraryPlugin";
-import { GenConSuggestion } from "./GenConSuggestion";
+import { ConferenceSuggestion } from "./ConferenceSuggestion";
 import { VerseSuggestion } from "./VerseSuggestion";
 
 const FULL_VERSE_REG = /:([123]*[A-z ]{3,}) (\d{1,3}):(.*):/i;
@@ -112,7 +112,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     }
 }
 
-export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
+export class ConferenceSuggester extends EditorSuggest<ConferenceSuggestion> {
     constructor(public plugin: LdsLibraryPlugin) {
         super(plugin.app);
     }
@@ -143,7 +143,7 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
 
     async getSuggestions(
         context: EditorSuggestContext,
-    ): Promise<GenConSuggestion[]> {
+    ): Promise<ConferenceSuggestion[]> {
         const { query } = context;
         const fullMatch = query.match(GEN_CON_REG);
 
@@ -151,18 +151,18 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
 
         const talk = fullMatch[0].slice(1, -1);
 
-        const suggestion = new GenConSuggestion(talk);
+        const suggestion = new ConferenceSuggestion(talk);
         await suggestion.loadTalk();
 
         return [suggestion];
     }
 
-    renderSuggestion(suggestion: GenConSuggestion, el: HTMLElement): void {
+    renderSuggestion(suggestion: ConferenceSuggestion, el: HTMLElement): void {
         suggestion.render(el);
     }
 
     selectSuggestion(
-        suggestion: GenConSuggestion,
+        suggestion: ConferenceSuggestion,
         _evt: MouseEvent | KeyboardEvent,
     ): void {
         if (!this.context) return;

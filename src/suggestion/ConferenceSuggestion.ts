@@ -1,11 +1,11 @@
 import { format, parse } from "date-fns";
-import { GenConTalkData } from "@/types";
-import { fetchGenConTalk } from "@/utils/general-conference";
+import { ConferenceTalkData } from "@/types";
+import { fetchConferenceTalk } from "@/utils/general-conference";
 
-export class GenConSuggestion {
+export class ConferenceSuggestion {
     public text: string;
     public previewText: string; //this is what's loaded by the preview thing.
-    public talkData: GenConTalkData; //should this be an array of item? probably not.
+    public talkData: ConferenceTalkData; //should this be an array of item? probably not.
     public date: string;
 
     constructor(public url: string) {}
@@ -40,7 +40,7 @@ export class GenConSuggestion {
     }
 
     public async loadTalk(): Promise<void> {
-        this.talkData = await fetchGenConTalk(this.url);
+        this.talkData = await fetchConferenceTalk(this.url);
         this.previewText = this.toPreviewText();
         this.date = this.convertDate(
             `${this.talkData.month}-${this.talkData.year}`,

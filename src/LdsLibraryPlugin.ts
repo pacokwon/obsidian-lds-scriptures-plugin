@@ -1,6 +1,6 @@
 import { Plugin } from "obsidian";
 import { DEFAULT_SETTINGS, LdsLibrarySettings } from "@/settings";
-import { GenConSuggester, VerseSuggester } from "@/suggestion/suggester";
+import { ConferenceSuggester, VerseSuggester } from "@/suggestion/suggester";
 import { LdsLibrarySettingTab } from "@/ui/SettingTab";
 
 export default class LdsLibraryPlugin extends Plugin {
@@ -10,7 +10,7 @@ export default class LdsLibraryPlugin extends Plugin {
         await this.loadSettings();
         this.addSettingTab(new LdsLibrarySettingTab(this.app, this));
         this.registerEditorSuggest(new VerseSuggester(this));
-        this.registerEditorSuggest(new GenConSuggester(this));
+        this.registerEditorSuggest(new ConferenceSuggester(this));
     }
 
     async loadSettings() {
