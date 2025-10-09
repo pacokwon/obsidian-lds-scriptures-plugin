@@ -1,25 +1,18 @@
 import { AvailableLanguage } from "@/lang";
-import { ScriptureData, Verse } from "@/types";
 import { bookData } from "@/utils/config";
 import { fetchScripture } from "@/utils/scripture";
 
 export class VerseSuggestion {
     // defining variables in the class.
     public text: string;
-    public previewText: string;
-    public chapterData: ScriptureData[];
-    private bookTitleShort: string;
     private bookTitleInLanguage: string;
-    private volumeTitleShort: string;
     private verseIds: string;
-    private verses: Verse[];
     private url: string;
 
     constructor(
         public book: string,
         public chapter: number,
         public verseString: string,
-        public verse: number[],
         public lang: AvailableLanguage,
     ) {
         this.verseIds = verseString
@@ -34,44 +27,39 @@ export class VerseSuggestion {
     }
 
     public getReplacement(): string {
-        const range = this.formatNumberList(this.verse);
+        const range = this.verseString.replaceAll(",", ", ");
         const headerFront = `${this.bookTitleInLanguage}:`;
         const head = `> [!LDS] [${headerFront}${range}](${this.url})`;
         return head + "\n" + this.text + "\n";
     }
 
-    private getUrl(): string {
-        return `https://www.churchofjesuschrist.org/study/scriptures/${this.volumeTitleShort}/${this.bookTitleShort}/${this.chapter}?lang=${this.lang}&id=${this.verseIds}`;
-    }
-
-    private toText(): string {
-        return this.verses
-            .map(({ verse, text }) => `> ${verse} ${text}`)
-            .join("\n");
-    }
-
-    private toPreviewText(): string {
-        return this.verses
-            .map(({ verse, text }) => `${verse}. ${text}`)
-            .join("\n");
+    private getUrl(volumeTitleShort: string, bookTitleShort: string): string {
+        return `https://www.churchofjesuschrist.org/study/scriptures/${volumeTitleShort}/${bookTitleShort}/${this.chapter}?lang=${this.lang}&id=${this.verseIds}`;
     }
 
     private getShortenedName(bookTitle: string) {
-        for (const key in bookData) {
-            if (bookData[key].names.includes(bookTitle)) {
-                const volume = bookData[key].volume;
-                return [key, volume];
+        for (const [name, info] of Object.entries(bookData)) {
+            if (
+                info.names.some(
+                    (name) => name.toLowerCase() === bookTitle.toLowerCase(),
+                )
+            ) {
+                const volume = info.volume;
+                return [name, volume];
             }
         }
-        return [];
+        return ["", ""];
     }
 
     public async loadVerse(): Promise<void> {
-        this.chapterData = [];
-        [this.bookTitleShort, this.volumeTitleShort] = this.getShortenedName(
+        const [bookTitleShort, volumeTitleShort] = this.getShortenedName(
             this.book,
         );
-        this.url = this.getUrl();
+
+        if (bookTitleShort === "" || volumeTitleShort === "")
+            throw new Error(`Couldn't find book name ${this.book}`);
+
+        this.url = this.getUrl(volumeTitleShort, bookTitleShort);
 
         const scriptureData = await fetchScripture(this.url);
         this.bookTitleInLanguage = scriptureData.nativeBookTitle;
@@ -84,57 +72,21 @@ export class VerseSuggestion {
             const verse = Number(verseNumber);
 
             return {
-                volumeTitleShort: this.volumeTitleShort,
-                bookTitleShort: this.bookTitleShort,
+                volumeTitleShort,
+                bookTitleShort,
                 chapter: this.chapter,
                 verse,
                 text,
             };
         });
 
-        this.verses = verses;
-        this.text = this.toText();
-        this.previewText = this.toPreviewText();
+        this.text = verses
+            .map(({ verse, text }) => `> ${verse} ${text}`)
+            .join("\n");
     }
 
     public render(el: HTMLElement): void {
         const outer = el.createDiv({ cls: "obr-suggester-container" });
-        outer.createDiv({ cls: "obr-shortcode" }).setText(this.previewText);
-    }
-
-    public formatNumberList(numbers: number[]): string {
-        if (numbers.length === 0) return "";
-
-        // Ensure the numbers are sorted
-        numbers.sort((a, b) => a - b);
-
-        const result: string[] = [];
-        let rangeStart = numbers[0];
-        let rangeEnd = numbers[0];
-
-        for (let i = 1; i < numbers.length; i++) {
-            if (numbers[i] === rangeEnd + 1) {
-                // Continue the range
-                rangeEnd = numbers[i];
-            } else {
-                // End the current range and start a new one
-                if (rangeStart === rangeEnd) {
-                    result.push(rangeStart.toString());
-                } else {
-                    result.push(`${rangeStart}-${rangeEnd}`);
-                }
-                rangeStart = numbers[i];
-                rangeEnd = numbers[i];
-            }
-        }
-
-        // Add the last range
-        if (rangeStart === rangeEnd) {
-            result.push(rangeStart.toString());
-        } else {
-            result.push(`${rangeStart}-${rangeEnd}`);
-        }
-
-        return result.join(", ");
+        outer.createDiv({ cls: "obr-shortcode" }).setText(this.text);
     }
 }

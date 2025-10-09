@@ -10,10 +10,9 @@ import LdsLibraryPlugin from "@/LdsLibraryPlugin";
 import { GenConSuggestion } from "./GenConSuggestion";
 import { VerseSuggestion } from "./VerseSuggestion";
 
-const VERSE_REG = /:MC.*;/i;
-const FULL_VERSE_REG = /:MC ([123]*[A-z ]{3,}) (\d{1,3}):(.*);/i;
+const FULL_VERSE_REG = /:([123]*[A-z ]{3,}) (\d{1,3}):(.*):/i;
 const GEN_CON_REG =
-    /:MC https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9_,-]+#[a-zA-Z0-9_-]+)?/;
+    /:https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9_,-]+#[a-zA-Z0-9_-]+)?:/;
 
 export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     constructor(public plugin: LdsLibraryPlugin) {
@@ -28,7 +27,7 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         const currentContent = editor
             .getLine(cursor.line)
             .substring(0, cursor.ch);
-        const match = currentContent.match(VERSE_REG)?.[0] ?? "";
+        const match = currentContent.match(FULL_VERSE_REG)?.[0];
 
         if (!match) return null;
 
@@ -55,13 +54,11 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         const book = fullMatch[1];
         const chapter = Number(fullMatch[2]);
         const verseString = fullMatch[3];
-        const verses = this.parseVerses(fullMatch[3]);
 
         const suggestion = new VerseSuggestion(
             book,
             chapter,
             verseString,
-            verses,
             language,
         );
         await suggestion.loadVerse();
@@ -150,11 +147,9 @@ export class GenConSuggester extends EditorSuggest<GenConSuggestion> {
         const { query } = context;
         const fullMatch = query.match(GEN_CON_REG);
 
-        if (fullMatch === null) {
-            return [];
-        }
+        if (fullMatch === null) return [];
 
-        const talk = fullMatch[0].replace(/^:MC /, "");
+        const talk = fullMatch[0].slice(1, -1);
 
         const suggestion = new GenConSuggestion(talk);
         await suggestion.loadTalk();
