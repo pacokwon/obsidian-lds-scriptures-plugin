@@ -1,3 +1,5 @@
+import { AvailableLanguage } from "./lang";
+
 export interface Verse {
     volumeTitleShort: string;
     bookTitleShort: string;
@@ -35,6 +37,12 @@ export interface ConferenceTalkData {
     year: string;
     month: string;
     setting: string;
+}
+
+export interface ConferenceMetadata {
+    year: number;
+    month: 4 | 10;
+    language: AvailableLanguage;
 }
 
 export interface ScriptureData {

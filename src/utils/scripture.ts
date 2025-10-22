@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 import { requestUrl } from "obsidian";
 import { ScriptureData } from "@/types";
-import { getResourceURL } from "./api";
+import { makeResourceUrl } from "./api";
 import { queryBetweenIds } from "./dom";
 import { ParagraphKind, parseURL, ResourceKind } from "./url";
 
@@ -12,7 +12,7 @@ export async function fetchScripture(_url: string): Promise<ScriptureData> {
             `The url ${url.fullPath} does not point to a scripture. Aborting.`,
         );
 
-    const resourceUrl = getResourceURL(url);
+    const resourceUrl = makeResourceUrl(url);
 
     // request to API
     const response = await requestUrl({

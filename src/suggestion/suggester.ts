@@ -1,14 +1,25 @@
+import * as cheerio from "cheerio";
 import {
+    App,
     Editor,
     EditorPosition,
     EditorSuggest,
     EditorSuggestContext,
     EditorSuggestTriggerInfo,
+    FuzzySuggestModal,
+    requestUrl,
+    SuggestModal,
     TFile,
 } from "obsidian";
 import LdsLibraryPlugin from "@/LdsLibraryPlugin";
+import { AvailableLanguage } from "@/lang";
+import { ConferenceMetadata } from "@/types";
+import { getConferenceTalkListURL } from "@/utils/api";
 import { ConferenceSuggestion } from "./ConferenceSuggestion";
 import { VerseSuggestion } from "./VerseSuggestion";
+import { TalkSuggestion, TalkSuggestModal } from "@/ui/TalkSuggestModal";
+import { SingleSuggestion } from "./SingleSuggestion";
+import { TalkParagraphPicker } from "@/ui/TalkParagraphPicker";
 
 const FULL_VERSE_REG = /:([123]*[A-z ]{3,}) (\d{1,3}):(.*):/i;
 const GEN_CON_REG =
@@ -112,9 +123,18 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     }
 }
 
-export class ConferenceSuggester extends EditorSuggest<ConferenceSuggestion> {
+const CONF_REG = /:conf ([aA]pril|[oO]ctober) (\d{4}):/;
+type ConferenceInfo = {
+    year: number;
+    month: 4 | 10;
+};
+type ConferencePromptSuggestion = SingleSuggestion<ConferenceInfo>;
+export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestion> {
+    public app: App;
+
     constructor(public plugin: LdsLibraryPlugin) {
         super(plugin.app);
+        this.app = plugin.app;
     }
 
     onTrigger(
@@ -125,11 +145,9 @@ export class ConferenceSuggester extends EditorSuggest<ConferenceSuggestion> {
         const currentContent = editor
             .getLine(cursor.line)
             .substring(0, cursor.ch);
-        const match = currentContent.match(GEN_CON_REG)?.[0] ?? "";
+        const match = currentContent.match(CONF_REG)?.[0] ?? "";
 
-        if (!match) {
-            return null;
-        }
+        if (!match) return null;
 
         return {
             start: {
@@ -143,34 +161,72 @@ export class ConferenceSuggester extends EditorSuggest<ConferenceSuggestion> {
 
     async getSuggestions(
         context: EditorSuggestContext,
-    ): Promise<ConferenceSuggestion[]> {
+    ): Promise<ConferencePromptSuggestion[]> {
         const { query } = context;
-        const fullMatch = query.match(GEN_CON_REG);
+        const match = query.match(CONF_REG);
+        if (match === null) return [];
 
-        if (fullMatch === null) return [];
+        const month = match[1].toLowerCase() === "april" ? 4 : 10;
+        const year = Number(match[2]);
 
-        const talk = fullMatch[0].slice(1, -1);
-
-        const suggestion = new ConferenceSuggestion(talk);
-        await suggestion.loadTalk();
-
+        const suggestion = new SingleSuggestion<ConferenceInfo>(
+            { year, month },
+            "Open conference picker",
+        );
         return [suggestion];
     }
 
-    renderSuggestion(suggestion: ConferenceSuggestion, el: HTMLElement): void {
+    renderSuggestion(
+        suggestion: ConferencePromptSuggestion,
+        el: HTMLElement,
+    ): void {
         suggestion.render(el);
     }
 
-    selectSuggestion(
-        suggestion: ConferenceSuggestion,
+    async selectSuggestion(
+        suggestion: ConferencePromptSuggestion,
         _evt: MouseEvent | KeyboardEvent,
-    ): void {
+    ): Promise<void> {
         if (!this.context) return;
 
-        this.context.editor.replaceRange(
-            suggestion.getReplacement(),
-            this.context.start,
-            this.context.end,
-        );
+        const { year, month } = suggestion.data;
+        const language: AvailableLanguage = "eng";
+
+        const url = getConferenceTalkListURL(year, month, language);
+        const response = await requestUrl({ url, method: "GET" });
+        const $ = cheerio.load(response.json.content.body);
+
+        const talks: TalkSuggestion[] = $(
+            "nav > ul > li > ul > li[data-content-type='general-conference-talk'] > a",
+        )
+            .map((_, el) => {
+                const title = $(el).find("p.title").text();
+                const author = $(el).find("p.primaryMeta").text();
+                const _href = $(el).attr("href") ?? "";
+                const match = _href.match(/\/study(.*)\?.*/);
+                if (match === null)
+                    throw new Error(`${_href} is not a valid resource path`);
+                const href = match[1];
+                return { title, author, href };
+            })
+            .get();
+
+        new TalkSuggestModal(this.app, talks, (picked) => {
+            console.log(picked);
+            new TalkParagraphPicker(
+                this.app,
+                picked.href,
+                language,
+                (picked) => {
+                    console.log(picked);
+                },
+            ).open();
+        }).open();
+
+        // this.context.editor.replaceRange(
+        //     suggestion.getReplacement(),
+        //     this.context.start,
+        //     this.context.end,
+        // );
     }
 }

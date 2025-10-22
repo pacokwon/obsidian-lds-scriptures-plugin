@@ -38,7 +38,7 @@ export function parseURL(fullPath: string): ParsedURL {
     const url = new URL(fullPath);
 
     // matches against the url pathname
-    const re = /\/study\/(scriptures|general-conference)\/(.*)/;
+    const re = /\/study\/(scriptures|general-conference)(.*)/;
     const match = url.pathname.match(re);
     if (match === null) throw new Error(`Invalid URL ${fullPath}`);
 
