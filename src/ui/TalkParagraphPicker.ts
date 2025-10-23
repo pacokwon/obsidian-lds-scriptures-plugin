@@ -78,28 +78,23 @@ export class TalkParagraphPicker extends Modal {
         this.contentEl.append(tpl.content);
     }
 
-    makeSelection(): Selection {
+    makeSelection(): Selection | null {
         const ranges: Array<[string, string]> = [];
-
-        // stores all the ids in order. not all talks have their paragraphs ids
-        // match the order of the paragraph when sorted by id
-        // we use this list to make the content list
-        const ordered: Array<string> = [];
 
         // iterate through ids, see if any consecutive ids are in the set
         for (let i = 0; i < this.ids.length; i++) {
             if (!this.selected.has(this.ids[i])) continue;
 
-            ordered.push(this.ids[i]);
             let j = i + 1;
             while (j < this.ids.length && this.selected.has(this.ids[j])) {
-                ordered.push(this.ids[j]);
                 j++;
             }
             ranges.push([this.ids[i], this.ids[j - 1]]);
 
             i = j - 1;
         }
+
+        if (ranges.length === 0) return null;
 
         const ids = Array.from(this.selected.entries())
             .map(([id, _]) => `#${id}`)
@@ -125,14 +120,26 @@ export class TalkParagraphPicker extends Modal {
         const div = document.createElement("div");
         div.className = "footer";
 
+        const cancelButton = document.createElement("button");
+        cancelButton.textContent = "Cancel";
+        cancelButton.addEventListener("click", (_) => this.close());
+
         const button = document.createElement("button");
+        button.className = "create-link";
         button.textContent = "Create Link";
         button.addEventListener("click", (_) => {
             const selection = this.makeSelection();
+
+            if (selection === null) {
+                this.close();
+                return;
+            }
+
             this.onPick(selection);
             this.close();
         });
 
+        div.appendChild(cancelButton);
         div.appendChild(button);
 
         return div;
