@@ -172,4 +172,16 @@ div.modal-content.conference-talk-modal > header {
 div.modal-content.conference-talk-modal > div.footer {
     display: flex;
     justify-content: flex-end;
+    gap: 10px;
+
+    & > button:hover {
+        cursor: pointer;
+    }
+
+    & > button.create-link {
+        background-color: var(--interactive-accent);
+        color: var(--text-on-accent);
+    }
 }
+
+
