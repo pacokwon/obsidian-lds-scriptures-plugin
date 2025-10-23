@@ -1,7 +1,14 @@
 import { App, Modal, requestUrl } from "obsidian";
 import { AvailableLanguage } from "@/lang";
 import { expandResourceUrl } from "@/utils/api";
+import { findAuthor } from "@/utils/dom";
 
+type Selection = {
+    start: string;
+    range: string;
+    content: string[];
+    author: { name: string; role: string };
+};
 export class TalkParagraphPicker extends Modal {
     // set of ids of paragraphs that are selected
     private selected: Set<string>;
@@ -13,12 +20,13 @@ export class TalkParagraphPicker extends Modal {
         app: App,
         private resourcePath: string,
         private language: AvailableLanguage,
-        private onPick: (result: string) => void,
+        private onPick: (result: Selection) => void,
     ) {
         super(app);
         this.selected = new Set();
     }
 
+    // INFO: entrypoint to the modal
     async onOpen() {
         this.contentEl.addClass("conference-talk-modal");
         await this.populateParagraphElements();
@@ -70,15 +78,22 @@ export class TalkParagraphPicker extends Modal {
         this.contentEl.append(tpl.content);
     }
 
-    makeSelectionString() {
+    makeSelection(): Selection {
         const ranges: Array<[string, string]> = [];
+
+        // stores all the ids in order. not all talks have their paragraphs ids
+        // match the order of the paragraph when sorted by id
+        // we use this list to make the content list
+        const ordered: Array<string> = [];
 
         // iterate through ids, see if any consecutive ids are in the set
         for (let i = 0; i < this.ids.length; i++) {
             if (!this.selected.has(this.ids[i])) continue;
 
+            ordered.push(this.ids[i]);
             let j = i + 1;
             while (j < this.ids.length && this.selected.has(this.ids[j])) {
+                ordered.push(this.ids[j]);
                 j++;
             }
             ranges.push([this.ids[i], this.ids[j - 1]]);
@@ -86,7 +101,23 @@ export class TalkParagraphPicker extends Modal {
             i = j - 1;
         }
 
-        return ranges.map(([a, b]) => (a === b ? a : `${a}-${b}`)).join(",");
+        const ids = Array.from(this.selected.entries())
+            .map(([id, _]) => `#${id}`)
+            .join(",");
+        const idElements = this.contentEl.querySelectorAll(ids);
+        const content = Array.from(idElements).flatMap((el) =>
+            el.textContent !== null ? [el.textContent] : [],
+        );
+        const author = findAuthor(this.contentEl);
+
+        return {
+            start: ranges[0][0],
+            range: ranges
+                .map(([a, b]) => (a === b ? a : `${a}-${b}`))
+                .join(","),
+            content,
+            author,
+        };
     }
 
     makeButtonContainerDiv() {
@@ -97,9 +128,9 @@ export class TalkParagraphPicker extends Modal {
         const button = document.createElement("button");
         button.textContent = "Create Link";
         button.addEventListener("click", (_) => {
-            const selectionString = this.makeSelectionString();
+            const selection = this.makeSelection();
+            this.onPick(selection);
             this.close();
-            this.onPick(selectionString);
         });
 
         div.appendChild(button);

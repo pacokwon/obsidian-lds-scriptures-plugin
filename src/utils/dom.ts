@@ -1,13 +1,16 @@
 import { Author } from "@/types";
 
-export function findAuthor($: cheerio.Root): Author {
+export function findAuthor(root: ParentNode = document): Author {
+    const getText = (sel: string): string =>
+        (root.querySelector(sel)?.textContent ?? "").trim();
+
     // Try modern classes first
-    let name = $(".author-name").first().text().trim();
-    let role = $(".author-role").first().text().trim();
+    let name = getText(".author-name");
+    let role = getText(".author-role");
 
     // Structural fallback across eras
-    if (!name) name = $("h1 + p").first().text().trim();
-    if (!role) role = $("h1 + p + p").first().text().trim();
+    if (!name) name = getText("h1 + p");
+    if (!role) role = getText("h1 + p + p");
 
     return {
         name: name.replace(/^By\s+/i, "").trim(),

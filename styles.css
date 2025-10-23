@@ -134,6 +134,10 @@ div.modal-content.conference-talk-modal {
         padding-left: 5px;
         border-left: solid 2px var(--lds-callout-color-primary);
     }
+
+    & img {
+        width: 100%;
+    }
 }
 
 div.modal-content.conference-talk-modal > header {

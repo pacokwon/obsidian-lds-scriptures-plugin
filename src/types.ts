@@ -31,12 +31,12 @@ export interface Author {
 }
 
 export interface ConferenceTalkData {
+    url: string;
     title: string;
     author: Author;
     content: string[];
-    year: string;
-    month: string;
-    setting: string;
+    year: number;
+    month: 4 | 10;
 }
 
 export interface ConferenceMetadata {

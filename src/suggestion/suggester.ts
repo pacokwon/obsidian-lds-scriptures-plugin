@@ -14,16 +14,15 @@ import {
 import LdsLibraryPlugin from "@/LdsLibraryPlugin";
 import { AvailableLanguage } from "@/lang";
 import { ConferenceMetadata } from "@/types";
-import { getConferenceTalkListURL } from "@/utils/api";
+import { BASE_URL, getConferenceTalkListUrl } from "@/utils/api";
 import { ConferenceSuggestion } from "./ConferenceSuggestion";
 import { VerseSuggestion } from "./VerseSuggestion";
 import { TalkSuggestion, TalkSuggestModal } from "@/ui/TalkSuggestModal";
 import { SingleSuggestion } from "./SingleSuggestion";
 import { TalkParagraphPicker } from "@/ui/TalkParagraphPicker";
+import { toCalloutString } from "@/utils/general-conference";
 
 const FULL_VERSE_REG = /:([123]*[A-z ]{3,}) (\d{1,3}):(.*):/i;
-const GEN_CON_REG =
-    /:https:\/\/www\.churchofjesuschrist\.org\/study\/general-conference\/\d{1,4}\/\d{1,3}\/[\w-]+(\?lang=[a-zA-Z]+&id=[a-zA-Z0-9_,-]+#[a-zA-Z0-9_-]+)?:/;
 
 export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     constructor(public plugin: LdsLibraryPlugin) {
@@ -192,7 +191,7 @@ export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestio
         const { year, month } = suggestion.data;
         const language: AvailableLanguage = "eng";
 
-        const url = getConferenceTalkListURL(year, month, language);
+        const url = getConferenceTalkListUrl(year, month, language);
         const response = await requestUrl({ url, method: "GET" });
         const $ = cheerio.load(response.json.content.body);
 
@@ -211,21 +210,31 @@ export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestio
             })
             .get();
 
-        new TalkSuggestModal(this.app, talks, (picked) => {
+        // pull it out before putting it in a different scope
+        const { context } = this;
+        new TalkSuggestModal(this.app, talks, ({ title, author, href }) => {
             new TalkParagraphPicker(
                 this.app,
-                picked.href,
+                href,
                 language,
-                (picked) => {
-                    console.log(picked);
+                ({ start, range, content, author }) => {
+                    const url = `${BASE_URL}${href}?lang=${language}&id=${range}#${start}`;
+                    const callout = toCalloutString({
+                        url,
+                        title,
+                        author,
+                        content,
+                        year,
+                        month,
+                    });
+
+                    context.editor.replaceRange(
+                        callout,
+                        context.start,
+                        context.end,
+                    );
                 },
             ).open();
         }).open();
-
-        // this.context.editor.replaceRange(
-        //     suggestion.getReplacement(),
-        //     this.context.start,
-        //     this.context.end,
-        // );
     }
 }

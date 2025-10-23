@@ -29,6 +29,8 @@ export interface ParsedURL {
     // ex> bofm/1-ne/5 or 2020/10/13whiting
     resourcePath: string;
     language: AvailableLanguage;
+    // ex> p3-p5,p8
+    range: string;
     // ex> 3,5-6,10 -> [{ kind: Single, id: "p3" }, { kind: Range, start: "p5", end: "p6"}, { kind: Single, id: "p10" }]
     paragraphs: Paragraph[];
 }
@@ -80,6 +82,7 @@ export function parseURL(fullPath: string): ParsedURL {
         kind,
         resourcePath,
         language,
+        range: id,
         paragraphs,
     };
 }
