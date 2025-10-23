@@ -156,6 +156,7 @@ div.modal-content.conference-talk-modal > header {
     /* p element for calling */
     & > div.byline > p.author-role {
         font-style: italic;
+        margin-bottom: 10px;
     }
 
     /* talk summary */

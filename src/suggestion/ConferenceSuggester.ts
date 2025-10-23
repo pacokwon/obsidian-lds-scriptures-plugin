@@ -60,12 +60,16 @@ export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestio
         const match = query.match(CONF_REG);
         if (match === null) return [];
 
-        const month = match[1].toLowerCase() === "april" ? 4 : 10;
+        const month = match[1].toLowerCase().startsWith("apr") ? 4 : 10;
         const year = Number(match[2]);
+
+        const monthYearString = [month === 4 ? "April" : "October", year].join(
+            " ",
+        );
 
         const suggestion = new SingleSuggestion<ConferenceInfo>(
             { year, month },
-            "Open conference picker",
+            "Open conference picker for " + monthYearString,
         );
         return [suggestion];
     }
