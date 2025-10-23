@@ -11,6 +11,7 @@ import {
 } from "obsidian";
 import LdsLibraryPlugin from "@/LdsLibraryPlugin";
 import { AvailableLanguage } from "@/lang";
+import { SpinnerModal } from "@/ui/SpinnerModal";
 import { TalkParagraphPicker } from "@/ui/TalkParagraphPicker";
 import { TalkSuggestion, TalkSuggestModal } from "@/ui/TalkSuggestModal";
 import { BASE_URL, getConferenceTalkListUrl } from "@/utils/api";
@@ -87,37 +88,51 @@ export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestio
     ): Promise<void> {
         if (!this.context) return;
 
+        // context will become null once SpinnerModal is closed. snapshot variables to use in the future
+        const { editor, start, end } = this.context;
+
         const { year, month } = suggestion.data;
         const language: AvailableLanguage = "eng";
 
         const url = getConferenceTalkListUrl(year, month, language);
-        const response = await requestUrl({ url, method: "GET" });
-        const $ = cheerio.load(response.json.content.body);
+        const spinnerModal = new SpinnerModal(this.app);
+        spinnerModal.open();
 
-        const talks: TalkSuggestion[] = $(
-            "nav > ul > li > ul > li[data-content-type='general-conference-talk'] > a",
-        )
-            .map((_, el) => {
-                const title = $(el).find("p.title").text();
-                const author = $(el).find("p.primaryMeta").text();
-                const _href = $(el).attr("href") ?? "";
-                const match = _href.match(/\/study(.*)\?.*/);
-                if (match === null)
-                    throw new Error(`${_href} is not a valid resource path`);
-                const href = match[1];
-                return { title, author, href };
-            })
-            .get();
+        let talks: TalkSuggestion[];
+        try {
+            const response = await requestUrl({ url, method: "GET" });
+            const $ = cheerio.load(response.json.content.body);
 
-        // pull it out before putting it in a different scope
-        const { context } = this;
+            talks = $(
+                "nav > ul > li > ul > li[data-content-type='general-conference-talk'] > a",
+            )
+                .map((_, el) => {
+                    const title = $(el).find("p.title").text();
+                    const author = $(el).find("p.primaryMeta").text();
+                    const _href = $(el).attr("href") ?? "";
+                    const match = _href.match(/\/study(.*)\?.*/);
+                    if (match === null)
+                        throw new Error(
+                            `${_href} is not a valid resource path`,
+                        );
+                    const href = match[1];
+                    return { title, author, href };
+                })
+                .get();
+        } catch (e) {
+            console.error(e);
+            return;
+        } finally {
+            spinnerModal.close();
+        }
+
         new TalkSuggestModal(this.app, talks, ({ title, href }) => {
             new TalkParagraphPicker(
                 this.app,
                 href,
                 language,
-                ({ start, range, content, author }) => {
-                    const url = `${BASE_URL}${href}?lang=${language}&id=${range}#${start}`;
+                ({ start: startId, range, content, author }) => {
+                    const url = `${BASE_URL}${href}?lang=${language}&id=${range}#${startId}`;
                     const callout = toCalloutString({
                         url,
                         title,
@@ -127,11 +142,7 @@ export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestio
                         month,
                     });
 
-                    context.editor.replaceRange(
-                        callout,
-                        context.start,
-                        context.end,
-                    );
+                    editor.replaceRange(callout, start, end);
                 },
             ).open();
         }).open();

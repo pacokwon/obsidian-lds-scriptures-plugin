@@ -133,6 +133,10 @@ div.modal-content.conference-talk-modal {
         font-family: Georgia, "Times New Roman", Times, serif;
     }
 
+    & [data-aid] {
+        user-select: text;
+    }
+
     & [data-aid].selected {
         padding-left: 0.75rem;
         border-left: solid 2px var(--lds-callout-color-primary);
@@ -188,13 +192,29 @@ div.modal-content.conference-talk-modal > div.footer {
     }
 }
 
+div#spinner-modal {
+    box-shadow: none;
+    background-color: unset;
+    border: unset;
+
+    & > div.modal-close-button::before {
+        content: none;
+    }
+}
+
 .lds-library-spinner {
-    width: 20px; height: 20px;
+    width: 1.5rem;
+    height: 1.5rem;
     border: 3px solid var(--background-modifier-border);
     border-top-color: var(--interactive-accent);
     border-radius: 50%;
     animation: lds-library-spin 0.8s linear infinite;
     margin: 8px auto;
+}
+
+.lds-library-spinner.larger {
+    width: 3rem;
+    height: 3rem;
 }
 
 @keyframes lds-library-spin { to { transform: rotate(360deg); } }
