@@ -2,6 +2,7 @@ import { App, Modal, requestUrl } from "obsidian";
 import { AvailableLanguage } from "@/lang";
 import { expandResourceUrl } from "@/utils/api";
 import { findAuthor } from "@/utils/dom";
+import { withSpinner } from "./spinner";
 
 type Selection = {
     start: string;
@@ -34,7 +35,9 @@ export class TalkParagraphPicker extends Modal {
 
     async fetchTalkBody(): Promise<string> {
         const url = expandResourceUrl(this.resourcePath, this.language);
-        const response = await requestUrl({ url, method: "GET" });
+        const response = await withSpinner(this.contentEl, () =>
+            requestUrl({ url, method: "GET" }),
+        );
         return response.json.content.body;
     }
 

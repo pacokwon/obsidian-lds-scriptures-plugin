@@ -121,6 +121,9 @@
 
 /* for conference talk paragraph picker modal */
 div.modal-content.conference-talk-modal {
+    padding-left: 1rem;
+    padding-right: 1rem;
+
     & h1 {
         font-family: Georgia, "Times New Roman", Times, serif;
         font-size: xx-large;
@@ -131,7 +134,7 @@ div.modal-content.conference-talk-modal {
     }
 
     & [data-aid].selected {
-        padding-left: 5px;
+        padding-left: 0.75rem;
         border-left: solid 2px var(--lds-callout-color-primary);
     }
 
@@ -156,15 +159,15 @@ div.modal-content.conference-talk-modal > header {
     /* p element for calling */
     & > div.byline > p.author-role {
         font-style: italic;
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
     }
 
     /* talk summary */
     & > p.kicker {
         font-weight: 300;
         font-style: italic;
-        margin-top: 30px;
-        margin-bottom: 50px;
+        margin-top: 2rem;
+        margin-bottom: 4rem;
     }
 }
 
@@ -172,7 +175,8 @@ div.modal-content.conference-talk-modal > header {
 div.modal-content.conference-talk-modal > div.footer {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 1rem;
+    margin-top: 2rem;
 
     & > button:hover {
         cursor: pointer;
@@ -184,4 +188,13 @@ div.modal-content.conference-talk-modal > div.footer {
     }
 }
 
+.lds-library-spinner {
+    width: 20px; height: 20px;
+    border: 3px solid var(--background-modifier-border);
+    border-top-color: var(--interactive-accent);
+    border-radius: 50%;
+    animation: lds-library-spin 0.8s linear infinite;
+    margin: 8px auto;
+}
 
+@keyframes lds-library-spin { to { transform: rotate(360deg); } }
