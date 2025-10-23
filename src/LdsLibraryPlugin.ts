@@ -1,7 +1,8 @@
 import { Plugin } from "obsidian";
 import { DEFAULT_SETTINGS, LdsLibrarySettings } from "@/settings";
-import { ConferenceSuggester, VerseSuggester } from "@/suggestion/suggester";
+import { VerseSuggester } from "@/suggestion/VerseSuggester";
 import { LdsLibrarySettingTab } from "@/ui/SettingTab";
+import { ConferenceSuggester } from "./suggestion/ConferenceSuggester";
 
 export default class LdsLibraryPlugin extends Plugin {
     settings: LdsLibrarySettings;
