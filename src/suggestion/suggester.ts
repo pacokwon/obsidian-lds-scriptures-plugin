@@ -212,7 +212,6 @@ export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestio
             .get();
 
         new TalkSuggestModal(this.app, talks, (picked) => {
-            console.log(picked);
             new TalkParagraphPicker(
                 this.app,
                 picked.href,

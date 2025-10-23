@@ -119,45 +119,52 @@
     }
 }
 
-cite {
-    color: var(--lds-callout-color-primary);
-    text-align: end;
-    display: block;
-}
-
 /* for conference talk paragraph picker modal */
 div.modal-content.conference-talk-modal {
     & h1 {
-        font-family: "Times New Roman", Times, serif;
-    }
-
-    & h1 {
+        font-family: Georgia, "Times New Roman", Times, serif;
         font-size: xx-large;
     }
 
     & div.body-block {
-        font-family: "Times New Roman", Times, serif;
+        font-family: Georgia, "Times New Roman", Times, serif;
+    }
+
+    & [data-aid].selected {
+        padding-left: 5px;
+        border-left: solid 2px var(--lds-callout-color-primary);
     }
 }
 
 div.modal-content.conference-talk-modal > header {
+    /* fit video to modal */
     & > video#video2 {
         width: 100%;
     }
 
+    /* p element for author */
     & > div.byline > p {
         font-family: "Arial", "Helvetica", sans-serif;
         font-weight: bold;
         margin: 0;
     }
 
-    & > div.byline > p {
+    /* p element for calling */
+    & > div.byline > p.author-role {
         font-style: italic;
     }
 
+    /* talk summary */
     & > p.kicker {
+        font-weight: 300;
         font-style: italic;
         margin-top: 30px;
         margin-bottom: 50px;
     }
+}
+
+/* div with "Create Link" button */
+div.modal-content.conference-talk-modal > div.footer {
+    display: flex;
+    justify-content: flex-end;
 }
