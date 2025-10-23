@@ -5,11 +5,12 @@ import { fetchScripture } from "@/utils/scripture";
 export class VerseSuggestion {
     // defining variables in the class.
     public text: string;
+    public previewText: string;
     private bookTitleInLanguage: string;
     private verseIds: string;
     private url: string;
 
-    constructor(
+    private constructor(
         public book: string,
         public chapter: number,
         public verseString: string,
@@ -26,11 +27,31 @@ export class VerseSuggestion {
             .join(",");
     }
 
+    // factory function
+    static async create(
+        book: string,
+        chapter: number,
+        verseString: string,
+        lang: AvailableLanguage,
+    ) {
+        const suggestion = new VerseSuggestion(
+            book,
+            chapter,
+            verseString,
+            lang,
+        );
+
+        await suggestion.loadVerse();
+        return suggestion;
+    }
+
     public getReplacement(): string {
         const range = this.verseString.replaceAll(",", ", ");
-        const headerFront = `${this.bookTitleInLanguage}:`;
-        const head = `> [!ldslib] [${headerFront}${range}](${this.url})`;
-        return head + "\n" + this.text + "\n";
+        return [
+            `> [!ldslib] [${this.bookTitleInLanguage}:${range}](${this.url})`,
+            this.text,
+            "",
+        ].join("\n");
     }
 
     private getUrl(volumeTitleShort: string, bookTitleShort: string): string {
@@ -51,7 +72,7 @@ export class VerseSuggestion {
         return ["", ""];
     }
 
-    public async loadVerse(): Promise<void> {
+    private async loadVerse(): Promise<void> {
         const [bookTitleShort, volumeTitleShort] = this.getShortenedName(
             this.book,
         );
@@ -83,10 +104,14 @@ export class VerseSuggestion {
         this.text = verses
             .map(({ verse, text }) => `> ${verse} ${text}`)
             .join("\n");
+
+        this.previewText = verses
+            .map(({ verse, text }) => `${verse} ${text}`)
+            .join("\n");
     }
 
     public render(el: HTMLElement): void {
         const outer = el.createDiv({ cls: "obr-suggester-container" });
-        outer.createDiv({ cls: "obr-shortcode" }).setText(this.text);
+        outer.createDiv({ cls: "obr-shortcode" }).setText(this.previewText);
     }
 }

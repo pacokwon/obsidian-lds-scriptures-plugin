@@ -9,7 +9,8 @@ import {
 import LdsLibraryPlugin from "@/LdsLibraryPlugin";
 import { VerseSuggestion } from "./VerseSuggestion";
 
-const FULL_VERSE_REG = /:([123]*[A-z ]{3,}) (\d{1,3}):(.*):/i;
+const FULL_VERSE_REG =
+    /:([123]*[A-z ]{3,}) (\d{1,3}) (\d+(?:-\d+)?(?:,\d+(?:-\d+)?)*):/i;
 
 export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     constructor(public plugin: LdsLibraryPlugin) {
@@ -52,13 +53,12 @@ export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
         const chapter = Number(fullMatch[2]);
         const verseString = fullMatch[3];
 
-        const suggestion = new VerseSuggestion(
+        const suggestion = await VerseSuggestion.create(
             book,
             chapter,
             verseString,
             language,
         );
-        await suggestion.loadVerse();
         return [suggestion];
     }
 
