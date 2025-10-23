@@ -108,9 +108,16 @@ export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestio
             const response = await requestUrl({ url, method: "GET" });
             const $ = cheerio.load(response.json.content.body);
 
-            talks = $(
+            let talkListElements = $(
                 "nav > ul > li > ul > li[data-content-type='general-conference-talk'] > a",
-            )
+            );
+
+            // edge case: https://www.churchofjesuschrist.org/study/api/v3/language-pages/type/content?lang=eng&uri=/general-conference/2023/10 has this issue
+            // having data-content-type is nicer because we can filter out ones that are not talks, ex> Sunday Morning Session
+            if (talkListElements.length === 0)
+                talkListElements = $("nav > ul > li > ul > li > a");
+
+            talks = talkListElements
                 .map((_, el) => {
                     const title = $(el).find("p.title").text();
                     const author = $(el).find("p.primaryMeta").text();

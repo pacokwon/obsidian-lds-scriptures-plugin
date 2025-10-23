@@ -146,7 +146,7 @@ div.modal-content.conference-talk-modal > header {
 div.modal-content.conference-talk-modal > div.footer {
     display: flex;
     justify-content: flex-end;
-    gap: 1rem;
+    gap: 0.5rem;
     margin-top: 2rem;
 
     & > button:hover {
