@@ -10,7 +10,7 @@ import {
     TFile,
 } from "obsidian";
 import LdsLibraryPlugin from "@/LdsLibraryPlugin";
-import { AvailableLanguage } from "@/lang";
+import { AvailableLanguage, isAvailableLanguage } from "@/lang";
 import { SpinnerModal } from "@/ui/SpinnerModal";
 import { TalkParagraphPicker } from "@/ui/TalkParagraphPicker";
 import { TalkSuggestion, TalkSuggestModal } from "@/ui/TalkSuggestModal";
@@ -18,10 +18,12 @@ import { BASE_URL, getConferenceTalkListUrl } from "@/utils/api";
 import { toCalloutString } from "@/utils/general-conference";
 import { SingleSuggestion } from "./SingleSuggestion";
 
-const CONF_REG = /:conf ([aA]pril|[oO]ctober|[aA]pr|[oO]ct) (\d{4}):/;
+const CONF_REG =
+    /:(?:\[(\w{3})\]\s+)?([aA]pril|[oO]ctober|[aA]pr|[oO]ct) (\d{4}):/;
 type ConferenceInfo = {
     year: number;
     month: 4 | 10;
+    language: AvailableLanguage;
 };
 type ConferencePromptSuggestion = SingleSuggestion<ConferenceInfo>;
 export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestion> {
@@ -61,15 +63,19 @@ export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestio
         const match = query.match(CONF_REG);
         if (match === null) return [];
 
-        const month = match[1].toLowerCase().startsWith("apr") ? 4 : 10;
-        const year = Number(match[2]);
+        const language = match[1] ?? this.plugin.settings.language;
+        if (!isAvailableLanguage(language))
+            throw new Error(`${language} is not a valid language option`);
+
+        const month = match[2].toLowerCase().startsWith("apr") ? 4 : 10;
+        const year = Number(match[3]);
 
         const monthYearString = [month === 4 ? "April" : "October", year].join(
             " ",
         );
 
         const suggestion = new SingleSuggestion<ConferenceInfo>(
-            { year, month },
+            { year, month, language },
             "Open conference picker for " + monthYearString,
         );
         return [suggestion];
@@ -91,8 +97,7 @@ export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestio
         // context will become null once SpinnerModal is closed. snapshot variables to use in the future
         const { editor, start, end } = this.context;
 
-        const { year, month } = suggestion.data;
-        const language: AvailableLanguage = "eng";
+        const { year, month, language } = suggestion.data;
 
         const url = getConferenceTalkListUrl(year, month, language);
         const spinnerModal = new SpinnerModal(this.app);
