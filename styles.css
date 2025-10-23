@@ -36,7 +36,7 @@
 }
 
 /* Lds Callout */
-.callout[data-callout="lds"] {
+.callout[data-callout="ldslib"] {
     --lds-callout-icon: var(--lds-callout-icon-quote);
     --link-external-color: var(--lds-callout-color-primary);
     border-color: var(--lds-callout-color-border) !important;
@@ -63,45 +63,12 @@
     }
 }
 
-.callout[data-callout="lds"] .callout-content p {
-    font-style: italic;
-    /* text-align: center; */
-}
-
-/* GenCon Callout */
-.callout[data-callout="gencon"] {
-    --lds-callout-icon: var(--lds-callout-icon-quote);
-    --link-external-color: var(--lds-callout-color-primary);
-    border-color: var(--lds-callout-color-border) !important;
-    border-radius: var(--lds-callout-border-radius);
-    border-left-color: var(--lds-callout-color-primary) !important;
-    border-left-width: var(--lds-callout-border-left-width) !important;
-    background-color: var(--lds-callout-color-bg);
-    background-image: var(--lds-callout-background-gradient);
-    font-size: var(--lds-callout-font-size);
-    line-height: var(--lds-callout-line-height);
-    margin: auto;
-    margin-bottom: 10px;
-    padding: var(--lds-callout-padding);
-
-    & > .callout-title > .callout-title-inner {
-        color: var(--lds-callout-color-primary);
-        font-size: var(--lds-callout-title-font-size);
-        line-height: var(--lds-callout-title-line-height);
-    }
-
-    & > .callout-title > .callout-icon {
-        color: #000000;
-        display: none;
-    }
-}
-
-.callout[data-callout="gencon"] .callout-content p {
+.callout[data-callout="ldslib"] .callout-content p {
     font-style: italic;
 }
 
-/* GenCon Citation */
-.callout[data-callout="genconcitation"] {
+/* General Conference byline */
+.callout[data-callout="ldslib-byline"] {
     border-color: transparent !important;
     background-color: transparent !important;
     text-align: right;

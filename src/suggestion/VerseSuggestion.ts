@@ -29,7 +29,7 @@ export class VerseSuggestion {
     public getReplacement(): string {
         const range = this.verseString.replaceAll(",", ", ");
         const headerFront = `${this.bookTitleInLanguage}:`;
-        const head = `> [!LDS] [${headerFront}${range}](${this.url})`;
+        const head = `> [!ldslib] [${headerFront}${range}](${this.url})`;
         return head + "\n" + this.text + "\n";
     }
 
