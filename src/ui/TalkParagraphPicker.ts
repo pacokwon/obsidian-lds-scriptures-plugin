@@ -52,7 +52,6 @@ export class TalkParagraphPicker extends Modal {
         tpl.content.querySelector("footer")?.remove();
 
         const div = this.makeButtonContainerDiv();
-        tpl.content.appendChild(div);
 
         // paragraphs (actually contains other elements like h1, etc)
         const ps = tpl.content.querySelectorAll("[data-aid]");
@@ -79,6 +78,7 @@ export class TalkParagraphPicker extends Modal {
         });
 
         this.contentEl.append(tpl.content);
+        this.modalEl.appendChild(div);
     }
 
     makeSelection(): Selection | null {
@@ -121,15 +121,11 @@ export class TalkParagraphPicker extends Modal {
     makeButtonContainerDiv() {
         // div is the flexbox. it aligns the button to the right
         const div = document.createElement("div");
-        div.className = "footer";
-
-        const cancelButton = document.createElement("button");
-        cancelButton.textContent = "Cancel";
-        cancelButton.addEventListener("click", (_) => this.close());
+        div.className = "button-box";
 
         const button = document.createElement("button");
-        button.className = "create-link";
-        button.textContent = "Create Link";
+        button.className = "create-link mod-cta";
+        button.textContent = "Insert Link";
         button.addEventListener("click", (_) => {
             const selection = this.makeSelection();
 
@@ -142,7 +138,6 @@ export class TalkParagraphPicker extends Modal {
             this.close();
         });
 
-        div.appendChild(cancelButton);
         div.appendChild(button);
 
         return div;

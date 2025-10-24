@@ -86,10 +86,19 @@
     }
 }
 
+div.modal {
+    overflow: unset;
+
+    & > div.modal-content.conference-talk-modal {
+        overflow: auto;
+    }
+}
+
 /* for conference talk paragraph picker modal */
 div.modal-content.conference-talk-modal {
     padding-left: 1rem;
     padding-right: 1rem;
+    padding-bottom: 4rem;
 
     & h1 {
         font-family: Georgia, "Times New Roman", Times, serif;
@@ -143,20 +152,31 @@ div.modal-content.conference-talk-modal > header {
 }
 
 /* div with "Create Link" button */
-div.modal-content.conference-talk-modal > div.footer {
+div.button-box {
     display: flex;
     justify-content: flex-end;
     gap: 0.5rem;
     margin-top: 2rem;
 
-    & > button:hover {
-        cursor: pointer;
-    }
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    z-index: 10;
 
-    & > button.create-link {
-        background-color: var(--interactive-accent);
-        color: var(--text-on-accent);
-    }
+}
+
+button.create-link {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(1px);
+    background-color: color-mix(in srgb, var(--interactive-accent), transparent 15%);
+    border-radius: 1rem;
+
+    font-weight: 500;
+    font-family: "Arial", "Helvetica", sans-serif;
+}
+
+button.create-link:hover {
+    cursor: pointer;
 }
 
 div#spinner-modal {
@@ -184,4 +204,8 @@ div#spinner-modal {
     height: 3rem;
 }
 
-@keyframes lds-library-spin { to { transform: rotate(360deg); } }
+@keyframes lds-library-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
