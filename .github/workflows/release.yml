@@ -14,16 +14,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
           cache: 'yarn'
-      - name: Build
-        id: build
-        run: |
-          npm install
-          npm run build
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build plugin
+        run: yarn build
+
+      - name: List output files (debug)
+        run: ls -R
+
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
