@@ -19,7 +19,7 @@ import { toCalloutString } from "@/utils/general-conference";
 import { SingleSuggestion } from "./SingleSuggestion";
 
 const CONF_REG =
-    /:(?:\[(\w{3})\]\s+)?([aA]pril|[oO]ctober|[aA]pr|[oO]ct) (\d{4}):/;
+    /^:(?:\[(\w{3})\]\s+)?([aA]pril|[oO]ctober|[aA]pr|[oO]ct)\s+(\d{4}):$/;
 type ConferenceInfo = {
     year: number;
     month: 4 | 10;

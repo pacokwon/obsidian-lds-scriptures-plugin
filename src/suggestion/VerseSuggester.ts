@@ -11,7 +11,7 @@ import { isAvailableLanguage } from "@/lang";
 import { VerseSuggestion } from "./VerseSuggestion";
 
 const FULL_VERSE_REG =
-    /:(?:\[(\w{3})\]\s+)?([123]*[A-z ]{3,}) (\d{1,3}) (\d+(?:-\d+)?(?:,\d+(?:-\d+)?)*):/i;
+    /^:(?:\[(\w{3})\]\s+)?([123]*[A-z ]{3,}) (\d{1,3})(?:\s+|:)(\d+(?:-\d+)?(?:,\d+(?:-\d+)?)*):$/i;
 
 export class VerseSuggester extends EditorSuggest<VerseSuggestion> {
     constructor(public plugin: LdsLibraryPlugin) {
