@@ -48,7 +48,10 @@ export class LdsLibrarySettingTab extends PluginSettingTab {
             )
             .addDropdown((dropdown) => {
                 AVAILABLE_LANGUAGES.forEach((lang) => {
-                    dropdown.addOption(lang, LANGUAGE_MAPPING[lang]);
+                    dropdown.addOption(
+                        lang,
+                        `${LANGUAGE_MAPPING[lang]} (${lang})`,
+                    );
                 });
 
                 dropdown
