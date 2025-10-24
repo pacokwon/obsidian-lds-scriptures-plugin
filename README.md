@@ -2,8 +2,7 @@
 
 Easily insert your favorite scripture verses and selections from General Conference talks into Obsidian!
 
-
-[demo](https://github.com/user-attachments/assets/9ab9a081-f105-41c7-9464-8b8a90dac7e6)
+[demo](https://github.com/user-attachments/assets/013225d3-e7a1-4779-bf29-88dfd4fd498d)
 
 ---
 
