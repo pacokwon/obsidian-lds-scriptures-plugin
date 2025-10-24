@@ -76,7 +76,7 @@ export class ConferenceSuggester extends EditorSuggest<ConferencePromptSuggestio
 
         const suggestion = new SingleSuggestion<ConferenceInfo>(
             { year, month, language },
-            "Open conference picker for " + monthYearString,
+            "Open Conference Picker for " + monthYearString,
         );
         return [suggestion];
     }
