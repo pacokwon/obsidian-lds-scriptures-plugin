@@ -14,10 +14,38 @@ export class LdsLibrarySettingTab extends PluginSettingTab {
         super(app, plugin);
     }
 
-    setupLanguageOption(containerEl: HTMLElement) {
+    display() {
+        const { containerEl } = this;
+        containerEl.empty();
+
+        const colorSection = containerEl.createEl("div", {
+            cls: "setting-item setting-item-heading",
+        });
+
+        const colorSectionInfo = colorSection.createEl("div", {
+            cls: "setting-item-info",
+        });
+
+        colorSectionInfo.createEl("div", {
+            text: "Language",
+            cls: "setting-item-name",
+        });
+
+        const colorDesc = colorSectionInfo.createEl("div", {
+            cls: "setting-item-description",
+        });
+
+        colorDesc.appendChild(
+            colorDesc.createEl("span", {
+                text: "Preferred scripture language",
+            }),
+        );
+
         new Setting(containerEl)
             .setName("Scripture language")
-            .setDesc("Preferred scripture language")
+            .setDesc(
+                "Note that you can also insert references in other languages by specifying it in the syntax. More info on GitHub!",
+            )
             .addDropdown((dropdown) => {
                 AVAILABLE_LANGUAGES.forEach((lang) => {
                     dropdown.addOption(lang, LANGUAGE_MAPPING[lang]);
@@ -30,56 +58,21 @@ export class LdsLibrarySettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings();
                     });
             });
-    }
-
-    setupLinkOption(containerEl: HTMLElement) {
-        //Adding additional settings which can automatically create back links so you can see which of your documents
-        // and how many reference which chapters in the scriptures.
-        new Setting(containerEl)
-            .setName("Chapter linking")
-            .setDesc(
-                "When adding a scripture reference, create a link to an document named <Book> <Chapter>.",
-            )
-            .addToggle((toggle) =>
-                toggle
-                    .setValue(this.plugin.settings.createChapterLink)
-                    .onChange(async (value) => {
-                        this.plugin.settings.createChapterLink = value;
-                        await this.plugin.saveSettings();
-                    }),
-            );
-        new Setting(containerEl)
-            .setName("Link type")
-            .setDesc("Choose the type of link to create.")
-            .addDropdown((dropdown) =>
-                dropdown
-                    // .addOption('default', 'Default')
-                    .addOption("wiki", "Wiki Link")
-                    .addOption("markdown", "Markdown Link")
-                    .setValue(this.plugin.settings.linkType)
-                    .onChange(async (value) => {
-                        this.plugin.settings.linkType = value as
-                            | "wiki"
-                            | "markdown";
-                        await this.plugin.saveSettings();
-                    }),
-            );
-    }
-
-    display() {
-        const { containerEl } = this;
-        containerEl.empty();
-
-        // containerEl.createEl("h2", { text: "Settings" });
-        this.setupLanguageOption(containerEl);
-        this.setupLinkOption(containerEl);
 
         containerEl.createEl("h2", { text: "About" });
-        containerEl.createSpan({}, (span) => {
-            span.createEl("a", {
-                href: "https://github.com/ingiestein/obsidian-lds-scriptures-plugin",
-                text: "Github",
-            });
-        });
+        new Setting(containerEl)
+            .setName("GitHub Repository")
+            .setDesc("View the source code and report issues.")
+            .addButton((btn) =>
+                btn
+                    .setButtonText("Open in GitHub")
+                    .setCta() // gives it the blue "action" style
+                    .onClick(() => {
+                        window.open(
+                            "https://github.com/pacokwon/obsidian-lds-library-plugin",
+                            "_blank",
+                        );
+                    }),
+            );
     }
 }
