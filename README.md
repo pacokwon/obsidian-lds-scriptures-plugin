@@ -6,93 +6,19 @@ Easily insert your favorite scripture verses and selections from General Confere
 
 ## Table of Contents
 
+- [Quickstart](#quickstart)
 - [Features](#features) 
     - [Multiple Scripture Support](#multiple-scripture-support)
         - [How to Reference Verses](#how-to-reference-verses)
     - [General Conference Support](#general-conference-support)
         - [How to Quote General Conference](#how-to-quote-general-conference)
     - [Multiple Language Support](#multiple-language-support)
-- [Quickstart](#quickstart)
-- [Book Names](#book-names)
-- [Neovim Plugin](#neovim-plugin)
+        - [Default Language](#default-language)
+        - [One-time Language Syntax](#one-time-language-syntax)
 - [Development](#development)
 - [Versioning](#versioning)
 
 ---
-
-# Features
-
-## Multiple Scripture Support
-
-The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-topics/standard-works?lang=eng), or the volumes of scripture officially accepted by the Church of Jesus Christ of Latter-day Saints are available.
-
-- Holy Bible (King James Version)
-- Book of Mormon
-- Doctrine and Covenants
-- Pearl of Great Price
-
-### How To Reference Verses
-
-Insert a callout to a verse using this syntax: `:MC <Book Name> <Chapter Number>:<Verse Numbers>;`
-
-You can referece any range, selection, or series of verses from a given chapter using the above syntax. Obsidian won't recognize your desired reference until you add the ';' at the end.
-
-Only English book titles are recognized. For example `:MC 1 Nephi 1:1;` is recognized, but `:MC 1 Нефи 1:1;` isn't.
-
-Example:
-
-![verse-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/MC%201%20Nephi11.png)
-
-Inserted Callout Example:
-
-![verse-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/1%20Nephi11.png)
-
-## General Conference Support
-
-You can also pull in full paragraphs from General Conference talks. General Conference support essentially scrapes the talk's webpage for the talk title, the author information, and then the paragraphs selected. This is highly dependent on programmers keeping consistent IDs for the different HTML elements. Even between the last few conferences there were differences. I believe I was able to account for the differences between the different years, thanks in large part to others in the LDS GitHub community. I cannot remember whose code had solved this problem, but I'm grateful. Please let me know if there is a talk or conference where it doesn't work.
-
-### How To Quote General Conference
-
-This works best while using Google Chrome. When at the Church website, you can highlight the paragraphs of a talk you want to include in your note:
-
-![gen-con-highlight](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Conference%20Highlight%201.png)
-
-There will appear near your cursor a link button. Once pressed the button array will change and a "Copy URL" option will appear.
-
-![gen-con-link](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Conference%20Highlight%202.png)
-
-Once that URL is copied, paste the link into Obsidian with the syntax: `:MC <LINKED URL>`
-
-This will automatically bring the highlighted paragraph(s) into your document. Note that the command for General Conference Talks do NOT end in ';'.
-
-For example if you were taking a quote from President Holland's April 2024 talk, you could use the following:
-
-![holland-suggestion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/MC%20Conference.png)
-
-This would include the 4th paragraph of his talk in your note, formatted with the talk title, the quoted text, and the speaker.
-
-![holland-quote](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Conference.png)
-
-Language support for conference talks comes directly from the language the talk quote was selected from, or you can manually change the "lang=eng" section of the URL to the corresponding value for your desired language. The language is not affected by the language selected under the plug-in settings.
-
-![holland-bul-suggestion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/MC%20Bulgarian%20Conference.png)
-
-![holland-bul-quote](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%20Conference.png)
-
-## Multiple Language Support
-
-As all verses and conference quotations are dynamically drawn from the official churchofjesuschrist.org website, any language supported on their website is supported with this plug-in.
-
-You must first change the desired language in the settings panel for the plug-in:
-
-![language-choice](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/settings.png)
-
-For example, if Bulgarian is selected:
-
-![bulgarian-completion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%20MC%201%20Nephi11.png)
-
-![bulgarian-insertion](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/c41c4a178780728fea74e39847fa780191070db0/assets/images/Bulgarian%201%20Nephi11.png)
-
 # Quickstart
 
 ## Requirements
@@ -114,13 +40,71 @@ The plugin can also be manually installed by:
 3. Reload Obsidian and navigate to the `Community Plugins` tab to see that installation is successful.
 4. Ensure the plugin is then enabled.
 
-# Book Names
+# Features
 
-The list of book names used in this plugin can be referenced on [this page](https://github.com/ingiestein/obsidian-lds-scriptures-plugin/blob/2988ddffcfb99dee5828656cef5d55e435b3a526/docs/BOOKS.md).
+## Multiple Scripture Support
 
-# Neovim Plugin
+The [standard works](https://www.churchofjesuschrist.org/study/manual/gospel-topics/standard-works?lang=eng), or the volumes of scripture officially accepted by the Church of Jesus Christ of Latter-day Saints are available.
 
-If you like to use Neovim and want similar functionality check out [LDSLibrary.nvim](https://github.com/ingiestein/LDSLibrary.nvim), and [obsidian.nvim](https://github.com/epwalsh/obsidian.nvim).
+- Holy Bible (King James Version)
+- Book of Mormon
+- Doctrine and Covenants
+- Pearl of Great Price
+
+### How To Reference Verses
+
+Insert a callout to a verse using either `:<Book Name> <Chapter Number>:<Verse Numbers>:` or `:<Book Name> <Chapter Number> <Verse Numbers>:`.
+
+You can referece any range, selection, or series of verses from a given chapter using the above syntax.
+
+Obsidian won’t recognize your desired reference until you add a : at the end. Each reference must be on its own line.
+
+Only English book titles are recognized. For example `:1 Nephi 1 1:` is recognized, but `:1 Нефи 1:1:` isn't.
+
+Refer to [BOOKS.md](https://github.com/pacokwon/obsidian-lds-library-plugin/blob/main/docs/BOOKS.md) for the complete list of book names used and recognized in this plugin.
+
+Example:
+
+![Verse Completion](https://github.com/user-attachments/assets/6ed6cc2a-132b-48d1-bceb-7ed87a6dd45c)
+
+Inserted Callout Example:
+
+![Verse Callout](https://github.com/user-attachments/assets/b74f0d9d-c07e-41bd-8219-be6a6f373787)
+
+## General Conference Support
+
+### How To Quote General Conference
+
+Get started with inserting a General Conference quote using `:<Month Name> <Year Number>:`, which will open a Conference Picker prompt.
+
+![Conference Talk Picker Prompt](https://github.com/user-attachments/assets/26873f4a-3e4f-4675-9dd1-36d913c9f84f)
+
+After accepting the suggestion, one can search for and choose a talk from that conference.
+
+![Conference Talk Picker](https://github.com/user-attachments/assets/aead481d-19c7-4042-941e-33e6e4044307)
+
+Choose the paragraphs you would like to quote by clicking on them individually, and press `Create Link` to insert the quote in a callout.
+
+|![Paragraph Picker](https://github.com/user-attachments/assets/5f031cc8-d375-4304-acb0-2b3c019974b5)|![Create Link](https://github.com/user-attachments/assets/6e069204-fb44-488b-b67a-cfe9aa558694)|![Conference Talk Callout](https://github.com/user-attachments/assets/7ef642d9-da81-4cca-b7f3-11a7c95aa30d)|
+|--|--|--|
+
+## Multiple Language Support
+
+### Default Language
+The default language used for scriptures and conference talks can be set in the Settings tab of the plugin.
+
+![Settings](https://github.com/user-attachments/assets/b25e58b8-39ef-44ab-9966-0e0590262881)
+
+### One-time Language Syntax
+For both verses and conference quotes, optionally specify the language for the reference by appending `[<lang>]` at the front. If the language isn't specified, the default language will be used.
+
+|![Language Verse](https://github.com/user-attachments/assets/7a2d0977-13d5-485c-8cc3-a6ad0711f4dd)|![Language Verse Callout](https://github.com/user-attachments/assets/180ce3bf-5b72-4466-ab65-3274a3212770)|
+|-|-|
+
+|![Language Conference](https://github.com/user-attachments/assets/71ad49ee-e935-4bc7-b661-011f679e94fb)|![Language Conference Callout](https://github.com/user-attachments/assets/bc9538bf-cffc-43a7-b3d2-675dafd4f173)|
+|-|-|
+
+`<lang>` is 3 letter shortcode for each individual languages used by the Church website. You can refer to these shortcodes in the Settings tab of the plugin.
 
 # Development
 
